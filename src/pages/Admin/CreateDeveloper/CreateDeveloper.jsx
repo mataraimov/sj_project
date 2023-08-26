@@ -29,46 +29,55 @@ const CreateDeveloper = () => {
       autoComplete="off"
       className={d.form}
     >
-      <Form.Item
-        name="email"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your password!',
-          },
-        ]}
-        className={d.input}
+      <div className={d.form_input}>
+        <span className={d.form_span}>Email:</span>
+        <Form.Item
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your password!',
+            },
+          ]}
+          className={d.input}
 
-      >
-        <Input />
-      </Form.Item>
+        >
+          <Input />
+        </Form.Item>
+      </div>
 
-      <Form.Item
-        name="name"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your password!',
-          },
-        ]}
-        className={d.input}
+      <div className={d.form_input}>
+        <span className={d.form_span}>Имя:</span>
+        <Form.Item
+          name="name"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your password!',
+            },
+          ]}
+          className={d.input}
 
-      >
-        <Input />
-      </Form.Item>
+        >
+          <Input />
+        </Form.Item>
+      </div>
 
-      <Form.Item
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your password!',
-          },
-        ]}
-        className={d.input}
-      >
-        <Input.Password />
-      </Form.Item>
+      <div className={d.form_input}>
+        <span className={d.form_span}>Пароль:</span>
+        <Form.Item
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your password!',
+            },
+          ]}
+          className={d.input}
+        >
+          <Input.Password />
+        </Form.Item>
+      </div>
 
       <Form.Item>
         <Button type="primary" htmlType="submit">

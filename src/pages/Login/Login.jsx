@@ -10,10 +10,13 @@ const Login = () => {
             const postResponse = await axios.post('http://127.0.0.1:8000/api/users/login/', values);
             console.log('Login Successful:', postResponse.data);
             localStorage.setItem('access_token', postResponse.data.access);
+            localStorage.setItem('is_admin', postResponse.data.is_admin);
+            localStorage.setItem('is_dev', postResponse.data.is_dev);
+            localStorage.setItem('is_inv', postResponse.data.is_inv);
             window.location.reload();
         } catch (postError) {
             console.error('Login Failed with POST:', postError);
-    
+
             try {
                 const putResponse = await axios.put('http://127.0.0.1:8000/api/users/user_update/', values);
                 console.log('Update Successful:', putResponse.data);
@@ -22,7 +25,7 @@ const Login = () => {
             }
         }
     };
-    
+
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };

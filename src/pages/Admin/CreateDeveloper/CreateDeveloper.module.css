@@ -5,9 +5,21 @@
     margin-inline: auto;
     align-items: center;
     height: 75vh;
+    gap: 15px;
 }
 
 .input {
-    min-width: 280px;
+    min-width: 320px;
+    margin: 0px;
+}
 
+.form_input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.form_span {
+    width: 50px;
 }
