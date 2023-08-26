@@ -5,7 +5,9 @@ import CreateDeveloper from './pages/Admin/CreateDeveloper/CreateDeveloper';
 import CreateInvestor from './pages/Admin/CreateInvestor/CreateInvestor';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
+import DeveloperDetails from './pages/UsersList/DeveloperDetails/DeveloperDetail';
 import DeveloperList from './pages/UsersList/DeveloperList/DeveloperList';
+import InvestorDetails from './pages/UsersList/InvestorDetails/InvestorDetails';
 import InvestorList from './pages/UsersList/InvestorList/InvestorList';
 
 function App() {
@@ -16,18 +18,76 @@ function App() {
       <Routes>
         {access_token ? (
           <>
-            <Route path='/' element={<LayoutWrapper><Home /></LayoutWrapper>} />
-            <Route path='/admin' element={<LayoutWrapper><Admin /></LayoutWrapper>} />
-            <Route path='/admin/create-investor' element={<LayoutWrapper><CreateInvestor /></LayoutWrapper>} />
-            <Route path='/admin/create-developer' element={<LayoutWrapper><CreateDeveloper /></LayoutWrapper>} />
-            <Route path='/developer-list' element={<LayoutWrapper><DeveloperList /></LayoutWrapper>} />
-            <Route path='/investor-list' element={<LayoutWrapper><InvestorList /></LayoutWrapper>} />
-            <Route path='*' element={<Navigate to="/" />} />
+            <Route
+              path="/"
+              element={
+                <LayoutWrapper>
+                  <Home />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <LayoutWrapper>
+                  <Admin />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/admin/create-investor"
+              element={
+                <LayoutWrapper>
+                  <CreateInvestor />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/admin/create-developer"
+              element={
+                <LayoutWrapper>
+                  <CreateDeveloper />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/developer-list"
+              element={
+                <LayoutWrapper>
+                  <DeveloperList />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/investor-list"
+              element={
+                <LayoutWrapper>
+                  <InvestorList />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/developer/:id"
+              element={
+                <LayoutWrapper>
+                  <DeveloperDetails />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/investor/:id"
+              element={
+                <LayoutWrapper>
+                  <InvestorDetails />
+                </LayoutWrapper>
+              }
+            />
+            <Route path="*" element={<Navigate to="/" />} />
           </>
         ) : (
           <>
-            <Route path='/login' element={<Login />} />
-            <Route path='*' element={<Navigate to="/login" />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<Navigate to="/login" />} />
           </>
         )}
       </Routes>
