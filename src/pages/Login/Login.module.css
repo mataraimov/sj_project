@@ -1,0 +1,13 @@
+.form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-inline: auto;
+    align-items: center;
+    height: 100vh;
+}
+
+.input {
+    min-width: 280px;
+
+}
