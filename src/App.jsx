@@ -10,6 +10,7 @@ import DeveloperList from "./pages/UsersList/DeveloperList/DeveloperList";
 import InvestorDetails from "./pages/UsersList/InvestorDetails/InvestorDetails";
 import InvestorList from "./pages/UsersList/InvestorList/InvestorList";
 import Projects from "./pages/Projects/Projects";
+import ProjectsDetails from "./pages/Projects/ProjectsDetails";
 
 function App() {
   const access_token = localStorage.getItem("access_token");
@@ -40,6 +41,14 @@ function App() {
               element={
                 <LayoutWrapper>
                   <Projects />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/projects/id"
+              element={
+                <LayoutWrapper>
+                  <ProjectsDetails />
                 </LayoutWrapper>
               }
             />

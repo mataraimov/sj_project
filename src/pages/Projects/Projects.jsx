@@ -7,6 +7,7 @@ import { BsClockHistory } from "react-icons/bs";
 import { GiMoneyStack, GiTakeMyMoney } from "react-icons/gi";
 import { BiStopCircle } from "react-icons/bi";
 import TextArea from "antd/es/input/TextArea";
+import { Link } from "react-router-dom";
 
 function Projects() {
   const [addProject, setAddProject] = useState(false);
@@ -119,7 +120,7 @@ const columns = [
     key: "action",
     render: (_, record) => (
       <Space size="middle">
-        <a>Подробнее {record.name}</a>
+        <Link to="/projects/id">Подробнее {record.name}</Link>
         <a>Удалить</a>
       </Space>
     ),
