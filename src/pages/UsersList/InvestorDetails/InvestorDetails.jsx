@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import {
@@ -7,7 +7,6 @@ import {
   Button,
   Modal,
   Form,
-  Input,
   DatePicker,
   InputNumber,
   Space,
@@ -16,21 +15,73 @@ import {
   Switch,
 } from 'antd';
 import { EditOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 const InvestorDetails = () => {
   const { id } = useParams();
-  const [investorData, setInvestorData] = useState({});
+
   const [investmentData, setInvestmentData] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [totalInvestments, setTotalInvestments] = useState(0);
+  const [totalPaid, setTotalPaid] = useState(0);
   const [form] = Form.useForm();
   const [editingId, setEditingId] = useState(null);
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+  };
+
+  const fetchInvestorData = async () => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/api/inv/detail_attachments/${id}/`, {
+        headers,
+      });
+
+      setInvestmentData(
+        response.data.data.map((item) => ({
+          ...item,
+          totalInvestments: response.data.total_investments,
+          totalPaid: response.data.total_paid,
+        })),
+      );
+      setTotalInvestments(response.data.total_investments);
+      setTotalPaid(response.data.total_paid);
+    } catch (error) {
+      console.error('Error fetching investor data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchInvestorData();
+  }, []);
 
   const columns = [
-    { title: 'Invested Amount', dataIndex: 'investedAmount', key: 'investedAmount' },
-    { title: 'Investment Date', dataIndex: 'investmentDate', key: 'investmentDate', render: (text) => moment(text).format('YYYY-MM-DD') },
-    { title: 'Payment Date', dataIndex: 'paymentDate', key: 'paymentDate', render: (text) => moment(text).format('YYYY-MM-DD') },
-    { title: 'Profit Percentage', dataIndex: 'profitPercentage', key: 'profitPercentage' },
-    { title: 'Total Amount', dataIndex: 'totalAmount', key: 'totalAmount' },
+    {
+      title: 'Invested Amount',
+      dataIndex: 'attachments',
+      key: 'attachments',
+    },
+    {
+      title: 'Investment Date',
+      dataIndex: 'date_start',
+      key: 'date_start',
+      render: (text) => moment(text).format('YYYY-MM-DD'),
+    },
+    {
+      title: 'Payment Date',
+      dataIndex: 'date_end',
+      key: 'date_end',
+      render: (text) => moment(text).format('YYYY-MM-DD'),
+    },
+    {
+      title: 'Profit Percentage',
+      dataIndex: 'profit_procent',
+      key: 'profit_procent',
+    },
+    {
+      title: 'Total Amount',
+      dataIndex: 'amount_result',
+      key: 'amount_result',
+    },
     {
       title: 'Status',
       dataIndex: 'status',
@@ -58,42 +109,73 @@ const InvestorDetails = () => {
   ];
 
   const editInvestment = (id) => {
+    const editedInvestment = investmentData.find((item) => item.id === id);
+    form.setFieldsValue({
+      investedAmount: editedInvestment.attachments,
+      investmentDate: moment(editedInvestment.date_start),
+      paymentDate: moment(editedInvestment.date_end),
+      profitPercentage: editedInvestment.profit_procent,
+      totalAmount: editedInvestment.amount_result,
+      status: editedInvestment.status,
+    });
     setEditingId(id);
-    form.setFieldsValue(investmentData.find((item) => item.id === id));
     showModal();
   };
 
   const handleOk = () => {
-    form.validateFields().then((values) => {
-      if (editingId) {
-        const updatedInvestmentData = investmentData.map((item) =>
-          item.id === editingId ? { ...item, ...values } : item,
-        );
-        setInvestmentData(updatedInvestmentData);
-      } else {
-        const newInvestment = { ...values, id: investmentData.length + 1 };
-        setInvestmentData([...investmentData, newInvestment]);
+    form.validateFields().then(async (values) => {
+      try {
+        const requestData = {
+          inv: id,
+          attachments: values.investedAmount,
+          date_start: values.investmentDate.format('YYYY-MM-DD'),
+          date_end: values.paymentDate.format('YYYY-MM-DD'),
+          profit_procent: values.profitPercentage,
+          status: values.status,
+        };
+
+        if (editingId) {
+          // Update existing investment
+          await axios.put(
+            `http://127.0.0.1:8000/api/inv/update_attachments/${editingId}/`,
+            requestData,
+            { headers },
+          );
+        } else {
+          // Create new investment
+          await axios.post('http://127.0.0.1:8000/api/inv/add_attachment/', requestData, {
+            headers,
+          });
+        }
+
+        setModalVisible(false);
+        form.resetFields();
+        setEditingId(null);
+        fetchInvestorData(); // Refresh data after update
+      } catch (error) {
+        console.error('Error:', error);
       }
-      setModalVisible(false);
-      form.resetFields();
-      setEditingId(null);
     });
   };
 
-  const showDeleteConfirm = (record) => {
+  const showDeleteConfirm = async (record) => {
     Modal.confirm({
       title: 'Confirm Deletion',
       content: 'Are you sure you want to delete this investment?',
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
-      onOk: () => handleDelete(record.id),
+      onOk: async () => {
+        try {
+          await axios.delete(`http://127.0.0.1:8000/api/inv/delete_attachments/${record.id}/`, {
+            headers,
+          });
+          fetchInvestorData(); // Refresh data after delete
+        } catch (error) {
+          console.error('Error deleting investment:', error);
+        }
+      },
     });
-  };
-
-  const handleDelete = (id) => {
-    const updatedInvestmentData = investmentData.filter((item) => item.id !== id);
-    setInvestmentData(updatedInvestmentData);
   };
 
   const showModal = () => {
@@ -109,14 +191,17 @@ const InvestorDetails = () => {
   return (
     <div>
       <Descriptions title="Investor Details">
-        <Descriptions.Item label="Name">{investorData.name}</Descriptions.Item>
-        <Descriptions.Item label="Email">{investorData.email}</Descriptions.Item>
+        <Descriptions.Item label="Total Investments">{totalInvestments}</Descriptions.Item>
+        <Descriptions.Item label="Total Paid">{totalPaid}</Descriptions.Item>
       </Descriptions>
       <Button
         type="primary"
         icon={<PlusOutlined />}
         style={{ marginBottom: 16, float: 'right' }}
-        onClick={showModal}
+        onClick={() => {
+          setEditingId(null);
+          showModal();
+        }}
       >
         Add Investment
       </Button>
@@ -138,9 +223,6 @@ const InvestorDetails = () => {
             <DatePicker />
           </Form.Item>
           <Form.Item name="profitPercentage" label="Profit Percentage">
-            <InputNumber />
-          </Form.Item>
-          <Form.Item name="totalAmount" label="Total Amount">
             <InputNumber />
           </Form.Item>
           <Form.Item name="status" label="Status" valuePropName="checked">
