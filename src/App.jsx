@@ -1,17 +1,18 @@
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-import LayoutWrapper from './components/layout/Layout/Layout';
-import Admin from './pages/Admin/Admin';
-import CreateDeveloper from './pages/Admin/CreateDeveloper/CreateDeveloper';
-import CreateInvestor from './pages/Admin/CreateInvestor/CreateInvestor';
-import Home from './pages/Home/Home';
-import Login from './pages/Login/Login';
-import DeveloperDetails from './pages/UsersList/DeveloperDetails/DeveloperDetail';
-import DeveloperList from './pages/UsersList/DeveloperList/DeveloperList';
-import InvestorDetails from './pages/UsersList/InvestorDetails/InvestorDetails';
-import InvestorList from './pages/UsersList/InvestorList/InvestorList';
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import LayoutWrapper from "./components/layout/Layout/Layout";
+import Admin from "./pages/Admin/Admin";
+import CreateDeveloper from "./pages/Admin/CreateDeveloper/CreateDeveloper";
+import CreateInvestor from "./pages/Admin/CreateInvestor/CreateInvestor";
+import Home from "./pages/Home/Home";
+import Login from "./pages/Login/Login";
+import DeveloperDetails from "./pages/UsersList/DeveloperDetails/DeveloperDetail";
+import DeveloperList from "./pages/UsersList/DeveloperList/DeveloperList";
+import InvestorDetails from "./pages/UsersList/InvestorDetails/InvestorDetails";
+import InvestorList from "./pages/UsersList/InvestorList/InvestorList";
+import Projects from "./pages/Projects/Projects";
 
 function App() {
-  const access_token = localStorage.getItem('access_token');
+  const access_token = localStorage.getItem("access_token");
 
   return (
     <BrowserRouter>
@@ -31,6 +32,14 @@ function App() {
               element={
                 <LayoutWrapper>
                   <Admin />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/projects"
+              element={
+                <LayoutWrapper>
+                  <Projects />
                 </LayoutWrapper>
               }
             />
