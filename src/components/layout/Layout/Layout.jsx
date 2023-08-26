@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Layout, theme } from 'antd';
-import HeaderComponent from '../Header/Header'; // Импортируем созданный компонент
-import SiderBarComponent from '../Sidebar/Sidebar'; // Импортируем созданный компонент
+import HeaderComponent from '../Header/Header'; 
+import SiderBarComponent from '../Sidebar/Sidebar'; 
 
 const { Content } = Layout;
 
