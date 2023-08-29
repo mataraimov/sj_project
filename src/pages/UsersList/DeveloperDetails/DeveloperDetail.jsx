@@ -51,6 +51,7 @@ const DeveloperDetails = () => {
     try {
       const response = await axios.get(
         `http://127.0.0.1:8000/api/dev/dev_salaries/${developerId}/`,
+        { headers },
       );
       setPaymentData(response.data);
     } catch (error) {
