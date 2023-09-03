@@ -11,12 +11,13 @@ const Login = () => {
 
       // Сохраняем данные пользователя в локальном хранилище
       localStorage.setItem('access_token', response.data.access);
+      localStorage.setItem('refresh_token', response.data.refresh);
       localStorage.setItem('is_admin', response.data.role === '1');
       localStorage.setItem('is_dev', response.data.role === '2');
       localStorage.setItem('is_inv', response.data.role === '3');
 
       // Перезагружаем страницу
-      window.location.reload();
+      // window.location.reload();
     } catch (error) {
       console.error('Login Failed with POST:', error);
     }

@@ -1,35 +1,87 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, DatePicker, Select } from 'antd';
 import axios from 'axios';
 import i from './CreateInvestor.module.css';
-import 'moment/locale/ru';
+// import 'moment/locale/';
+import { refreshAccessToken } from '../../../components/utils/refreshToken';
+
 const { Option } = Select;
 
 const CreatePatient = () => {
-  const headers = {
-    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+  const [anamnesisLife, setAnamnesisLife] = useState({
+    education: null,
+    martial_status: null,
+    place_work: '',
+    criminal_record: '',
+    previous_illnesses: '',
+    medications: '',
+    allergic_history: '',
+    date_of_birth: null,
+  });
+  const [educationOptions, setEducationOptions] = useState([]);
+  const [familyOptions, setFamilyOptions] = useState([]);
+  const fetchEducationOptions = async () => {
+    try {
+      const response = await axios.get('http://139.59.132.105/api/v1/status/education_list/');
+      const educationOptions = Object.entries(response.data).map(([key, value]) => ({
+        id: +key + 1,
+        name: value[Object.keys(value)[0]],
+      }));
+      // Обновите состояние с вариантами образования
+      setEducationOptions(educationOptions);
+    } catch (error) {
+      console.error('Error fetching education options:', error);
+    }
+  };
+  const fetchFamilyOptions = async () => {
+    try {
+      const response = await axios.get('http://139.59.132.105/api/v1/status/family_list/');
+      const familyOptions = Object.entries(response.data).map(([key, value]) => ({
+        id: +key + 1,
+        name: value[Object.keys(value)[0]],
+      }));
+
+      setFamilyOptions(familyOptions);
+    } catch (error) {
+      console.error('Error fetching family options:', error);
+    }
   };
 
-  const onFinish = async (values) => {
-    // Создайте объект anamnesis_life с необходимыми данными
-    const anamnesis_life = {
-      // Добавьте здесь необходимые поля и значения
-    };
+  useEffect(() => {
+    fetchEducationOptions();
+    fetchFamilyOptions();
+  }, []);
 
+  const onFinish = async (values) => {
     try {
+      await refreshAccessToken();
+      const headers = await {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      };
+      values.date_of_birth = anamnesisLife.date_of_birth;
       const response = await axios.post(
         'http://139.59.132.105/api/v1/patients/',
         {
           ...values,
-          anamnesis_life: anamnesis_life, // Передайте объект anamnesis_life как словарь
+          anamnesis_life: anamnesisLife,
         },
         { headers },
       );
-
       console.log('Success:', response.data);
     } catch (error) {
+      console.log({
+        ...values,
+        anamnesis_life: anamnesisLife,
+      });
       console.error('Error:', error);
     }
+  };
+
+  const handleAnamnesisLifeChange = (field, value) => {
+    setAnamnesisLife({
+      ...anamnesisLife,
+      [field]: value,
+    });
   };
 
   return (
@@ -93,7 +145,14 @@ const CreatePatient = () => {
           ]}
           className={i.input}
         >
-          <DatePicker format="YYYY-MM-DD" />
+          <DatePicker
+            format="YYYY-MM-DD"
+            onChange={(date, dateString) => {
+              if (typeof dateString === 'string') {
+                handleAnamnesisLifeChange('date_of_birth', dateString);
+              }
+            }}
+          />
         </Form.Item>
       </div>
 
@@ -112,95 +171,98 @@ const CreatePatient = () => {
       </div>
 
       <div className={i.form_input}>
-        <span className={i.form_span}>Анамнез заболевания:</span>
-        <Form.Item name="anamnesis_life" className={i.input}>
-          <Input />
+        <span className={i.form_span}>Образование:</span>
+        <Form.Item name="education" className={i.input}>
+          <Select
+            value={anamnesisLife.education}
+            onChange={(value) => handleAnamnesisLifeChange('education', value)}
+          >
+            {educationOptions.map((option) => (
+              <Option key={option.id} value={option.id}>
+                {option.name}
+              </Option>
+            ))}
+          </Select>
         </Form.Item>
       </div>
 
       <div className={i.form_input}>
-        <span className={i.form_span}>Состояние:</span>
-        <Form.Item name="conditions" className={i.input}>
-          <Input />
+        <span className={i.form_span}>Семейное положение:</span>
+        <Form.Item name="martial_status" className={i.input}>
+          <Select
+            value={anamnesisLife.martial_status}
+            onChange={(value) => handleAnamnesisLifeChange('martial_status', value)}
+          >
+            {familyOptions.map((option) => (
+              <Option key={option.id} value={option.id}>
+                {option.name}
+              </Option>
+            ))}
+          </Select>
         </Form.Item>
       </div>
 
       <div className={i.form_input}>
-        <span className={i.form_span}>Цена:</span>
-        <Form.Item name="price" className={i.input}>
-          <Input />
-        </Form.Item>
-      </div>
-
-      <div className={i.form_input}>
-        <span className={i.form_span}>Сопровождающие:</span>
-        <Form.Item name="escorts" className={i.input}>
-          <Input />
-        </Form.Item>
-      </div>
-
-      <div className={i.form_input}>
-        <span className={i.form_span}>Жалобы:</span>
-        <Form.Item name="complaints" className={i.input}>
-          <Input />
-        </Form.Item>
-      </div>
-
-      <div className={i.form_input}>
-        <span className={i.form_span}>Дата поступления:</span>
+        <span className={i.form_span}>Место работы:</span>
         <Form.Item
-          name="date_of_admission"
-          rules={[
-            {
-              required: true,
-              message: 'Please select date of admission!',
-            },
-          ]}
+          name="place_work"
           className={i.input}
+          value={anamnesisLife.place_work}
+          onChange={(e) => handleAnamnesisLifeChange('place_work', e.target.value)}
         >
-          <DatePicker format="YYYY-MM-DD HH:mm:ss" showTime />
+          <Input />
         </Form.Item>
       </div>
 
       <div className={i.form_input}>
-        <span className={i.form_span}>Дата выписки:</span>
+        <span className={i.form_span}>Судимости:</span>
         <Form.Item
-          name="date_of_discharge"
-          rules={[
-            {
-              required: true,
-              message: 'Please select date of discharge!',
-            },
-          ]}
+          name="criminal_record"
           className={i.input}
+          value={anamnesisLife.criminal_record}
+          onChange={(e) => handleAnamnesisLifeChange('criminal_record', e.target.value)}
         >
-          <DatePicker format="YYYY-MM-DD HH:mm:ss" showTime />
-        </Form.Item>
-      </div>
-
-      <div className={i.form_input}>
-        <span className={i.form_span}>Отделение:</span>
-        <Form.Item name="departament" className={i.input}>
           <Input />
         </Form.Item>
       </div>
 
       <div className={i.form_input}>
-        <span className={i.form_span}>Количество дней:</span>
-        <Form.Item name="number_of_days" className={i.input}>
+        <span className={i.form_span}>Прошлые заболевания:</span>
+        <Form.Item
+          name="previous_illnesses"
+          className={i.input}
+          value={anamnesisLife.previous_illnesses}
+          onChange={(e) => handleAnamnesisLifeChange('previous_illnesses', e.target.value)}
+        >
           <Input />
         </Form.Item>
       </div>
 
       <div className={i.form_input}>
-        <span className={i.form_span}>Группа крови:</span>
-        <Form.Item name="blood_type" className={i.input}>
+        <span className={i.form_span}>Принимаемые медикаменты:</span>
+        <Form.Item
+          name="medications"
+          className={i.input}
+          value={anamnesisLife.medications}
+          onChange={(e) => handleAnamnesisLifeChange('medications', e.target.value)}
+        >
+          <Input />
+        </Form.Item>
+      </div>
+
+      <div className={i.form_input}>
+        <span className={i.form_span}>Аллергический анамнез:</span>
+        <Form.Item
+          name="allergic_history"
+          className={i.input}
+          value={anamnesisLife.allergic_history}
+          onChange={(e) => handleAnamnesisLifeChange('allergic_history', e.target.value)}
+        >
           <Input />
         </Form.Item>
       </div>
 
       {/* Добавьте другие поля, если необходимо */}
-
       <Form.Item>
         <Button type="primary" htmlType="submit">
           Создать
