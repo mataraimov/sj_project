@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, DatePicker, Select } from 'antd';
 import axios from 'axios';
-import i from './CreateInvestor.module.css';
+import i from './CreatePatient.module.css';
 // import 'moment/locale/';
 import { refreshAccessToken } from '../../../components/utils/refreshToken';
+import CustomNotification from '../../../components/utils/Toasts/CustomNotification';
 
 const { Option } = Select;
 
@@ -18,6 +19,9 @@ const CreatePatient = () => {
     allergic_history: '',
     date_of_birth: null,
   });
+  const [showSuccessNotification, setShowSuccessNotification] = useState(true);
+  const [showErrorNotification, setShowErrorNotification] = useState(true);
+
   const [educationOptions, setEducationOptions] = useState([]);
   const [familyOptions, setFamilyOptions] = useState([]);
   const fetchEducationOptions = async () => {
@@ -68,15 +72,19 @@ const CreatePatient = () => {
         { headers },
       );
       console.log('Success:', response.data);
+      setShowSuccessNotification(true);
     } catch (error) {
-      console.log({
-        ...values,
-        anamnesis_life: anamnesisLife,
-      });
+      setShowErrorNotification(true);
       console.error('Error:', error);
     }
   };
+  const handleCloseSuccessNotification = () => {
+    setShowSuccessNotification(false);
+  };
 
+  const handleCloseErrorNotification = () => {
+    setShowErrorNotification(false);
+  };
   const handleAnamnesisLifeChange = (field, value) => {
     setAnamnesisLife({
       ...anamnesisLife,
@@ -94,6 +102,21 @@ const CreatePatient = () => {
       autoComplete="off"
       className={i.form}
     >
+      {showSuccessNotification && (
+        <CustomNotification
+          message="Регистрация прошла успешно!"
+          type="success"
+          onClose={handleCloseSuccessNotification}
+        />
+      )}
+
+      {showErrorNotification && (
+        <CustomNotification
+          message="Ошибка регистрации. Попробуйте еще раз."
+          type="error"
+          onClose={handleCloseErrorNotification}
+        />
+      )}
       <div className={i.form_input}>
         <span className={i.form_span}>Имя:</span>
         <Form.Item

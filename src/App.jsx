@@ -1,24 +1,25 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import LayoutWrapper from './components/layout/Layout/Layout';
 import Admin from './pages/Admin/Admin';
-import CreateInvestor from './pages/Admin/CreateInvestor/CreateInvestor';
+import CreatePatient from './pages/Admin/CreatePatient/CreatePatient';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import DeveloperDetails from './pages/UsersList/DeveloperDetails/DeveloperDetail';
 import DeveloperList from './pages/UsersList/DeveloperList/DeveloperList';
 import InvestorDetails from './pages/UsersList/InvestorDetails/InvestorDetails';
-import InvestorList from './pages/UsersList/InvestorList/InvestorList';
 import Projects from './pages/Projects/Projects';
 import ProjectsDetails from './pages/Projects/ProjectsDetails';
-import CreateUser from './pages/Admin/CreateDeveloper/CreateDeveloper';
+import CreateUser from './pages/Admin/CreateUser/CreateUser';
+import { useAuth } from './components/utils/context';
+import PatientList from './pages/UsersList/PatientList/PatientList';
 
 function App() {
-  const access_token = localStorage.getItem('access_token');
+  const { isAuth } = useAuth();
 
   return (
     <BrowserRouter>
       <Routes>
-        {access_token ? (
+        {isAuth ? (
           <>
             <Route
               path="/"
@@ -53,15 +54,15 @@ function App() {
               }
             />
             <Route
-              path="/admin/create-investor"
+              path="/admin/create-patient"
               element={
                 <LayoutWrapper>
-                  <CreateInvestor />
+                  <CreatePatient />
                 </LayoutWrapper>
               }
             />
             <Route
-              path="/admin/create-developer"
+              path="/admin/create-doctor"
               element={
                 <LayoutWrapper>
                   <CreateUser />
@@ -80,7 +81,7 @@ function App() {
               path="/investor-list"
               element={
                 <LayoutWrapper>
-                  <InvestorList />
+                  <PatientList />
                 </LayoutWrapper>
               }
             />

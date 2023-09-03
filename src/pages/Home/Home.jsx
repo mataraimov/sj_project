@@ -1,9 +1,13 @@
-import React from 'react'
+import React from 'react';
+import PatientList from '../UsersList/PatientList/PatientList';
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <div>
+      <h1>Пациенты</h1>
+      <PatientList />
+    </div>
+  );
+};
 
-export default Home
+export default Home;

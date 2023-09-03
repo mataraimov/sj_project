@@ -23,7 +23,7 @@ const SiderBarComponent = ({ collapsed }) => {
     items.push(
       getItem('Админ', 'sub1', '', <UserOutlined />, [
         getItem('Дашборд', '2', '/admin'),
-        getItem('Инвесторы', '3', '/investor-list'),
+        getItem('Пациенты', '3', '/investor-list'),
         getItem('Разработчики', '4', '/developer-list'),
         getItem('Проекты', '5', '/projects'),
       ]),

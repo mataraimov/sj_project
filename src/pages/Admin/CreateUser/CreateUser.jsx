@@ -1,15 +1,18 @@
 import React from 'react';
 import { Button, Form, Input, Select } from 'antd';
 import axios from 'axios';
-import d from './CreateDeveloper.module.css';
+import d from './CreateUser.module.css';
 import { Option } from 'antd/es/mentions';
 import { refreshAccessToken } from '../../../components/utils/refreshToken';
+import { useNavigate } from 'react-router-dom';
 
 const CreateUser = () => {
+  const navigate = useNavigate();
   const onFinish = async (values) => {
     try {
       await refreshAccessToken();
       const response = await axios.post('http://139.59.132.105/api/v1/register/', values);
+      navigate('/admin');
       console.log('Success:', response.data);
     } catch (error) {
       console.error('Error:', error);

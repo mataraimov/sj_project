@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Space, Table, Modal, Input, Form } from 'antd';
+import { Space, Table, Modal, Form, Input } from 'antd';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
-const InvestorList = () => {
+const PatientList = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  const [editForm] = Form.useForm();
-  const headers = {
-    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-  };
 
   useEffect(() => {
     fetchData();
@@ -18,9 +13,8 @@ const InvestorList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/users/inv_list/', { headers });
-      const filteredData = response.data.filter((user) => user.id !== 1);
-      setData(filteredData);
+      const response = await axios.get('http://139.59.132.105/api/v1/patients/');
+      setData(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -29,13 +23,23 @@ const InvestorList = () => {
   const handleUpdate = async (id, updatedData) => {
     setLoading(true);
     try {
-      await axios.put(`http://127.0.0.1:8000/api/users/user_update/${id}/`, updatedData, {
-        headers,
-      });
+      await axios.put(`http://139.59.132.105/api/v1/patients/${id}/`, updatedData);
       await fetchData();
       setEditingId(null);
     } catch (error) {
-      console.error('Error updating user:', error);
+      console.error('Error updating patient:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    setLoading(true);
+    try {
+      await axios.delete(`http://139.59.132.105/api/v1/patients/${id}/`);
+      await fetchData();
+    } catch (error) {
+      console.error('Error deleting patient:', error);
     } finally {
       setLoading(false);
     }
@@ -48,9 +52,26 @@ const InvestorList = () => {
       key: 'name',
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Surname',
+      dataIndex: 'surname',
+      key: 'surname',
+    },
+    {
+      title: 'Patronymic',
+      dataIndex: 'patronymic',
+      key: 'patronymic',
+    },
+    {
+      title: 'Avatar',
+      dataIndex: 'avatar',
+      key: 'avatar',
+      render: (avatar) => <img src={avatar} alt="Avatar" style={{ width: '50px' }} />,
+    },
+    {
+      title: 'In Hospital',
+      dataIndex: 'in_hospital',
+      key: 'in_hospital',
+      render: (inHospital) => (inHospital ? 'Yes' : 'No'),
     },
     {
       title: 'Action',
@@ -64,7 +85,7 @@ const InvestorList = () => {
             </>
           ) : (
             <>
-              <Link to={`/investor/${record.id}`}>Details</Link>
+              <a onClick={() => setEditingId(record.id)}>Edit</a>
               <a onClick={() => showDeleteConfirm(record)}>Delete</a>
             </>
           )}
@@ -76,7 +97,7 @@ const InvestorList = () => {
   const showDeleteConfirm = (record) => {
     Modal.confirm({
       title: 'Confirm Deletion',
-      content: 'Are you sure you want to delete this user?',
+      content: 'Are you sure you want to delete this patient?',
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
@@ -84,17 +105,7 @@ const InvestorList = () => {
     });
   };
 
-  const handleDelete = async (id) => {
-    setLoading(true);
-    try {
-      await axios.delete(`http://127.0.0.1:8000/api/users/user_delete/${id}/`, { headers });
-      await fetchData();
-    } catch (error) {
-      console.error('Error deleting user:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const editForm = Form.useForm();
 
   return (
     <>
@@ -102,7 +113,7 @@ const InvestorList = () => {
 
       <Modal
         visible={editingId !== null}
-        title="Edit User"
+        title="Edit Patient"
         okText="Save"
         cancelText="Cancel"
         onCancel={() => setEditingId(null)}
@@ -111,16 +122,22 @@ const InvestorList = () => {
         <Form
           form={editForm}
           onFinish={(values) => handleUpdate(editingId, values)}
-          initialValues={data.find((user) => user.id === editingId)}
+          initialValues={data.find((patient) => patient.id === editingId)}
         >
           <Form.Item label="Name" name="name">
             <Input />
           </Form.Item>
-          <Form.Item label="Email" name="email">
+          <Form.Item label="Surname" name="surname">
             <Input />
           </Form.Item>
-          <Form.Item label="Password" name="password">
-            <Input.Password />
+          <Form.Item label="Patronymic" name="patronymic">
+            <Input />
+          </Form.Item>
+          <Form.Item label="Avatar" name="avatar">
+            <Input />
+          </Form.Item>
+          <Form.Item label="In Hospital" name="in_hospital" valuePropName="checked">
+            <input type="checkbox" />
           </Form.Item>
         </Form>
       </Modal>
@@ -128,4 +145,4 @@ const InvestorList = () => {
   );
 };
 
-export default InvestorList;
+export default PatientList;

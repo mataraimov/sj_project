@@ -2,22 +2,23 @@ import React from 'react';
 import { Button, Form, Input } from 'antd';
 import l from './Login.module.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../components/utils/context';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { setIsAuth } = useAuth();
   const onFinish = async (values) => {
     try {
       const response = await axios.post('http://139.59.132.105/api/v1/login/', values);
       console.log('Login Successful:', response.data);
-
-      // Сохраняем данные пользователя в локальном хранилище
       localStorage.setItem('access_token', response.data.access);
       localStorage.setItem('refresh_token', response.data.refresh);
       localStorage.setItem('is_admin', response.data.role === '1');
       localStorage.setItem('is_dev', response.data.role === '2');
       localStorage.setItem('is_inv', response.data.role === '3');
-
-      // Перезагружаем страницу
-      // window.location.reload();
+      setIsAuth(true);
+      navigate('/');
     } catch (error) {
       console.error('Login Failed with POST:', error);
     }
