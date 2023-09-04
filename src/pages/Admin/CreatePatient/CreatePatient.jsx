@@ -180,20 +180,6 @@ const CreatePatient = () => {
       </div>
 
       <div className={i.form_input}>
-        <span className={i.form_span}>Аватар:</span>
-        <Form.Item name="avatar" className={i.input}>
-          <Input />
-        </Form.Item>
-      </div>
-
-      <div className={i.form_input}>
-        <span className={i.form_span}>Находится в больнице:</span>
-        <Form.Item name="in_hospital" valuePropName="checked" className={i.input}>
-          <Input type="checkbox" />
-        </Form.Item>
-      </div>
-
-      <div className={i.form_input}>
         <span className={i.form_span}>Образование:</span>
         <Form.Item name="education" className={i.input}>
           <Select
