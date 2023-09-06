@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Space, Table, Modal, Form, Input } from 'antd';
 import axios from 'axios';
+import { refreshAccessToken } from '../../../components/utils/refreshToken';
+import { Link } from 'react-router-dom';
 
 const PatientList = () => {
   const [data, setData] = useState([]);
@@ -13,7 +15,11 @@ const PatientList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://139.59.132.105/api/v1/patients/');
+      await refreshAccessToken();
+      const headers = await {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      };
+      const response = await axios.get('http://139.59.132.105/api/v1/patients/', { headers });
       setData(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -85,7 +91,7 @@ const PatientList = () => {
             </>
           ) : (
             <>
-              <a onClick={() => setEditingId(record.id)}>Edit</a>
+              <Link to={`/patient/${record.id}`}>Details</Link>
               <a onClick={() => showDeleteConfirm(record)}>Delete</a>
             </>
           )}

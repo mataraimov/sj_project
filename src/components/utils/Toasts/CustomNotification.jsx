@@ -13,11 +13,13 @@ const CustomNotification = ({ message, type, onClose }) => {
     return () => clearTimeout(timer);
   }, [onClose]);
 
-  return visible ? (
-    <div className={`custom-notification ${type}`}>
+  const notificationClass = `custom-notification ${type} ${visible ? 'show' : ''}`;
+
+  return (
+    <div className={notificationClass}>
       <p>{message}</p>
     </div>
-  ) : null;
+  );
 };
 
 export default CustomNotification;

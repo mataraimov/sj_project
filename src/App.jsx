@@ -86,7 +86,7 @@ function App() {
               }
             />
             <Route
-              path="/developer/:id"
+              path="/patient/:id"
               element={
                 <LayoutWrapper>
                   <DeveloperDetails />

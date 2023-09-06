@@ -2,155 +2,91 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import 'moment/locale/ru';
-import {
-  Descriptions,
-  Table,
-  Button,
-  Modal,
-  Form,
-  DatePicker,
-  InputNumber,
-  Space,
-  Tooltip,
-} from 'antd';
-import { EditOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Descriptions, Button, Modal, Form, DatePicker, Input, Select, InputNumber } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
 
-const DeveloperDetails = () => {
+const { Option } = Select;
+
+const PatientDetails = () => {
   const { id } = useParams();
-  const [developerData, setDeveloperData] = useState({});
-  const [paymentData, setPaymentData] = useState([]);
+  const [patientData, setPatientData] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [form] = Form.useForm();
-  const [editingId, setEditingId] = useState(null);
+
+  const [educationOptions, setEducationOptions] = useState([]);
+  const [familyOptions, setFamilyOptions] = useState([]);
+  const fetchEducationOptions = async () => {
+    try {
+      const response = await axios.get('http://139.59.132.105/api/v1/status/education_list/');
+      const educationOptions = Object.entries(response.data).map(([key, value]) => ({
+        id: +key + 1,
+        name: value[Object.keys(value)[0]],
+      }));
+      // Обновите состояние с вариантами образования
+      setEducationOptions(educationOptions);
+    } catch (error) {
+      console.error('Error fetching education options:', error);
+    }
+  };
+  const fetchFamilyOptions = async () => {
+    try {
+      const response = await axios.get('http://139.59.132.105/api/v1/status/family_list/');
+      const familyOptions = Object.entries(response.data).map(([key, value]) => ({
+        id: +key + 1,
+        name: value[Object.keys(value)[0]],
+      }));
+
+      setFamilyOptions(familyOptions);
+    } catch (error) {
+      console.error('Error fetching family options:', error);
+    }
+  };
 
   useEffect(() => {
-    fetchDeveloperData();
+    fetchEducationOptions();
+    fetchFamilyOptions();
+  }, []);
+  useEffect(() => {
+    fetchPatientData();
+    moment.locale('ru'); // Установите локаль 'ru'
   }, []);
 
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('access_token')}`,
   };
 
-  const fetchDeveloperData = async () => {
+  const fetchPatientData = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/dev/dev_detail/${id}/`, {
+      const response = await axios.get(`http://139.59.132.105/api/v1/patients/${id}/`, {
         headers,
       });
-      setDeveloperData(response.data[0]);
-
-      if (response.data[0].dev) {
-        await fetchPaymentData(response.data[0].id);
-      }
+      setPatientData(response.data);
     } catch (error) {
-      console.error('Error fetching developer data:', error);
-    }
-  };
-
-  const fetchPaymentData = async (developerId) => {
-    try {
-      const response = await axios.get(
-        `http://127.0.0.1:8000/api/dev/dev_salaries/${developerId}/`,
-        { headers },
-      );
-      setPaymentData(response.data);
-    } catch (error) {
-      console.error('Error fetching payment data:', error);
-    }
-  };
-
-  const editPayment = (id) => {
-    const editedPayment = paymentData.find((item) => item.id === id);
-    if (editedPayment) {
-      const { work_start, work_end, salary_amount } = editedPayment;
-
-      form.setFieldsValue({
-        work_start: moment(work_start, 'YYYY-MM-DD'),
-        work_end: moment(work_end, 'YYYY-MM-DD'),
-        salary_amount: salary_amount,
-      });
-
-      setEditingId(id);
-      showModal();
-    } else {
-      console.error(`Payment with id ${id} not found.`);
+      console.error('Error fetching patient data:', error);
     }
   };
 
   const handleOk = () => {
     form.validateFields().then((values) => {
-      const formattedValues = {
-        ...values,
-        work_start: moment(values.work_start).format('YYYY-MM-DD'),
-        work_end: moment(values.work_end).format('YYYY-MM-DD'),
-      };
-
-      if (editingId) {
-        const updatedPaymentData = paymentData.map((item) =>
-          item.id === editingId ? { ...item, ...formattedValues } : item,
-        );
-        setPaymentData(updatedPaymentData);
-      } else {
-        const newPayment = { ...formattedValues, id: paymentData.length + 1 };
-        setPaymentData([...paymentData, newPayment]);
-      }
-      setModalVisible(false);
-      form.resetFields();
-      setEditingId(null);
-    });
-  };
-
-  const handleAddPayment = () => {
-    form.validateFields().then((values) => {
-      const formattedValues = {
-        ...values,
-        work_start: moment(values.work_start).format('YYYY-MM-DD'),
-        work_end: moment(values.work_end).format('YYYY-MM-DD'),
-      };
       axios
-        .post(
-          'http://127.0.0.1:8000/api/dev/salary_create/',
+        .patch(
+          `http://139.59.132.105/api/v1/patients/${id}/`,
           {
-            dev: developerData.id,
-            ...formattedValues,
+            ...values,
+            date_of_birth: moment(values.date_of_birth).format('YYYY-MM-DD'),
           },
-          { headers: headers },
+          { headers },
         )
         .then((response) => {
-          const newPayment = { ...response.data, id: paymentData.length + 1 };
-          setPaymentData([...paymentData, newPayment]);
+          setPatientData(response.data);
           setModalVisible(false);
           form.resetFields();
         })
         .catch((error) => {
-          console.error('Error adding payment:', error);
+          console.error('Error updating patient data:', error);
         });
     });
-  };
-
-  const showDeleteConfirm = (record) => {
-    Modal.confirm({
-      title: 'Confirm Deletion',
-      content: 'Are you sure you want to delete this payment?',
-      okText: 'Yes',
-      okType: 'danger',
-      cancelText: 'No',
-      onOk: () => handleDelete(record.id),
-    });
-  };
-
-  const handleDelete = (id) => {
-    axios
-      .delete(`http://127.0.0.1:8000/api/dev/salary_delete/${id}/`, {
-        headers,
-      })
-      .then(() => {
-        const updatedPaymentData = paymentData.filter((item) => item.id !== id);
-        setPaymentData(updatedPaymentData);
-      })
-      .catch((error) => {
-        console.error('Error deleting payment:', error);
-      });
   };
 
   const showModal = () => {
@@ -160,88 +96,107 @@ const DeveloperDetails = () => {
   const handleCancel = () => {
     setModalVisible(false);
     form.resetFields();
-    setEditingId(null);
   };
-
-  const columns = [
-    {
-      title: 'Start Date',
-      dataIndex: 'work_start',
-      key: 'work_start',
-      render: (text) => moment(text, 'YYYY-MM-DD').format('LL'),
-    },
-    {
-      title: 'End Date',
-      dataIndex: 'work_end',
-      key: 'work_end',
-      render: (text) => moment(text, 'YYYY-MM-DD').format('LL'),
-    },
-    {
-      title: 'Summa',
-      dataIndex: 'salary_amount',
-      key: 'salary_amount',
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (text, record) => (
-        <Space size="middle">
-          <Tooltip title="Edit">
-            <a onClick={() => editPayment(record.id)}>
-              <EditOutlined />
-            </a>
-          </Tooltip>
-          <Tooltip title="Delete">
-            <a onClick={() => showDeleteConfirm(record)}>
-              <DeleteOutlined style={{ color: 'black' }} />
-            </a>
-          </Tooltip>
-        </Space>
-      ),
-    },
-  ];
 
   return (
     <div>
-      <Descriptions title="Developer Details">
-        <Descriptions.Item label="Role">{developerData?.dev_role}</Descriptions.Item>
-        <Descriptions.Item label="Phone Number">
-          {developerData?.dev_phone_number}
+      <Descriptions title="Детали пациента">
+        <Descriptions.Item label="Имя">{patientData?.name}</Descriptions.Item>
+        <Descriptions.Item label="Фамилия">{patientData?.surname}</Descriptions.Item>
+        <Descriptions.Item label="Отчество">{patientData?.patronymic}</Descriptions.Item>
+        <Descriptions.Item label="Дата рождения">
+          {moment(patientData?.date_of_birth).format('YYYY-MM-DD')}
         </Descriptions.Item>
-        <Descriptions.Item label="Level">{developerData?.dev_level}</Descriptions.Item>
-        <Descriptions.Item label="Start">
-          {moment(developerData?.dev_work_start).format('YYYY-MM-DD')}
+        <Descriptions.Item label="Образование">
+          {patientData?.anamnesis?.education}
         </Descriptions.Item>
+        <Descriptions.Item label="Семейное положение">
+          {patientData?.anamnesis?.martial_status}
+        </Descriptions.Item>
+        <Descriptions.Item label="Место работы">
+          {patientData?.anamnesis?.place_work}
+        </Descriptions.Item>
+        <Descriptions.Item label="Судимости">
+          {patientData?.anamnesis?.criminal_record}
+        </Descriptions.Item>
+        <Descriptions.Item label="Прошлые заболевания">
+          {patientData?.anamnesis?.previous_illnesses}
+        </Descriptions.Item>
+        <Descriptions.Item label="Принимаемые медикаменты">
+          {patientData?.anamnesis?.medications}
+        </Descriptions.Item>
+        <Descriptions.Item label="Аллергический анамнез">
+          {patientData?.anamnesis?.allergic_history}
+        </Descriptions.Item>
+        {/* Добавьте другие поля для отображения информации о пациенте */}
       </Descriptions>
       <Button
         type="primary"
-        icon={<PlusOutlined />}
+        icon={<EditOutlined />}
         style={{ marginBottom: 16, float: 'right' }}
         onClick={showModal}
       >
-        Add payment
+        Редактировать
       </Button>
-      <Table columns={columns} dataSource={paymentData} />
+      {/* Добавьте другие компоненты для отображения данных о посещениях пациента */}
       <Modal
-        title={editingId ? 'Edit Payment' : 'Add Payment'}
+        title="Редактировать информацию о пациенте"
         visible={modalVisible}
-        onOk={editingId ? handleOk : handleAddPayment}
+        onOk={handleOk}
         onCancel={handleCancel}
       >
-        <Form form={form}>
-          <Form.Item name="work_start" label="Start Date">
-            <DatePicker />
+        <Form form={form} initialValues={patientData}>
+          <Form.Item name="name" label="Имя">
+            <Input />
           </Form.Item>
-          <Form.Item name="work_end" label="End Date">
-            <DatePicker />
+          <Form.Item name="surname" label="Фамилия">
+            <Input />
           </Form.Item>
-          <Form.Item name="salary_amount" label="Summa">
-            <InputNumber />
+          <Form.Item name="patronymic" label="Отчество">
+            <Input />
           </Form.Item>
+          {/* <Form.Item name="date_of_birth" label="Дата рождения">
+            <DatePicker format="YYYY-MM-DD" />
+          </Form.Item> */}
+          <Form.Item name={['anamnesis', 'education']} label="Образование">
+            <Select>
+              {educationOptions.map((option) => (
+                <Option key={option.id} value={option.id}>
+                  {option.name}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item name={['anamnesis', 'martial_status']} label="Семейное положение">
+            <Select>
+              {familyOptions.map((option) => (
+                <Option key={option.id} value={option.id}>
+                  {option.name}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name={['anamnesis', 'place_work']} label="Место работы">
+            <Input />
+          </Form.Item>
+          <Form.Item name={['anamnesis', 'criminal_record']} label="Судимости">
+            <Input />
+          </Form.Item>
+          <Form.Item name={['anamnesis', 'previous_illnesses']} label="Прошлые заболевания">
+            <Input />
+          </Form.Item>
+          <Form.Item name={['anamnesis', 'medications']} label="Принимаемые медикаменты">
+            <Input />
+          </Form.Item>
+          <Form.Item name={['anamnesis', 'allergic_history']} label="Аллергический анамнез">
+            <Input />
+          </Form.Item>
+          {/* Добавьте другие поля для редактирования информации о пациенте */}
         </Form>
       </Modal>
     </div>
   );
 };
 
-export default DeveloperDetails;
+export default PatientDetails;

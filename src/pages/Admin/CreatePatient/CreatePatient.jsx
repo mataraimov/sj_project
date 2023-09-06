@@ -19,8 +19,8 @@ const CreatePatient = () => {
     allergic_history: '',
     date_of_birth: null,
   });
-  const [showSuccessNotification, setShowSuccessNotification] = useState(true);
-  const [showErrorNotification, setShowErrorNotification] = useState(true);
+  const [showSuccessNotification, setShowSuccessNotification] = useState(false);
+  const [showErrorNotification, setShowErrorNotification] = useState(false);
 
   const [educationOptions, setEducationOptions] = useState([]);
   const [familyOptions, setFamilyOptions] = useState([]);
