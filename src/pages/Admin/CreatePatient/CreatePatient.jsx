@@ -5,6 +5,7 @@ import i from './CreatePatient.module.css';
 // import 'moment/locale/';
 import { refreshAccessToken } from '../../../components/utils/refreshToken';
 import CustomNotification from '../../../components/utils/Toasts/CustomNotification';
+import { API_URL } from '../../../components/utils/config';
 
 const { Option } = Select;
 
@@ -26,7 +27,7 @@ const CreatePatient = () => {
   const [familyOptions, setFamilyOptions] = useState([]);
   const fetchEducationOptions = async () => {
     try {
-      const response = await axios.get('http://139.59.132.105/api/v1/status/education_list/');
+      const response = await axios.get(`${API_URL}/api/v1/status/education_list/`);
       const educationOptions = Object.entries(response.data).map(([key, value]) => ({
         id: +key + 1,
         name: value[Object.keys(value)[0]],
@@ -39,7 +40,7 @@ const CreatePatient = () => {
   };
   const fetchFamilyOptions = async () => {
     try {
-      const response = await axios.get('http://139.59.132.105/api/v1/status/family_list/');
+      const response = await axios.get(`${API_URL}/api/v1/status/family_list/`);
       const familyOptions = Object.entries(response.data).map(([key, value]) => ({
         id: +key + 1,
         name: value[Object.keys(value)[0]],
@@ -64,7 +65,7 @@ const CreatePatient = () => {
       };
       values.date_of_birth = anamnesisLife.date_of_birth;
       const response = await axios.post(
-        'http://139.59.132.105/api/v1/patients/',
+        `${API_URL}/api/v1/patients/`,
         {
           ...values,
           anamnesis_life: anamnesisLife,

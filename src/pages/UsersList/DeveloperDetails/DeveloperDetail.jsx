@@ -5,6 +5,7 @@ import 'moment/locale/ru';
 import { Descriptions, Button, Modal, Form, DatePicker, Input, Select, InputNumber } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
+import { API_URL } from '../../../components/utils/config';
 
 const { Option } = Select;
 
@@ -18,7 +19,7 @@ const PatientDetails = () => {
   const [familyOptions, setFamilyOptions] = useState([]);
   const fetchEducationOptions = async () => {
     try {
-      const response = await axios.get('http://139.59.132.105/api/v1/status/education_list/');
+      const response = await axios.get(`${API_URL}/api/v1/status/education_list/`);
       const educationOptions = Object.entries(response.data).map(([key, value]) => ({
         id: +key + 1,
         name: value[Object.keys(value)[0]],
@@ -31,7 +32,7 @@ const PatientDetails = () => {
   };
   const fetchFamilyOptions = async () => {
     try {
-      const response = await axios.get('http://139.59.132.105/api/v1/status/family_list/');
+      const response = await axios.get(`${API_URL}/api/v1/status/family_list/`);
       const familyOptions = Object.entries(response.data).map(([key, value]) => ({
         id: +key + 1,
         name: value[Object.keys(value)[0]],
@@ -58,7 +59,7 @@ const PatientDetails = () => {
 
   const fetchPatientData = async () => {
     try {
-      const response = await axios.get(`http://139.59.132.105/api/v1/patients/${id}/`, {
+      const response = await axios.get(`${API_URL}/api/v1/patients/${id}/`, {
         headers,
       });
       setPatientData(response.data);
@@ -71,7 +72,7 @@ const PatientDetails = () => {
     form.validateFields().then((values) => {
       axios
         .patch(
-          `http://139.59.132.105/api/v1/patients/${id}/`,
+          `${API_URL}/api/v1/patients/${id}/`,
           {
             ...values,
             date_of_birth: moment(values.date_of_birth).format('YYYY-MM-DD'),

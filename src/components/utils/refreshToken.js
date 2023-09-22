@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { API_URL } from './config';
 
 export const refreshAccessToken = async () => {
   const refreshToken = localStorage.getItem('refresh_token');
@@ -9,7 +10,7 @@ export const refreshAccessToken = async () => {
   }
 
   try {
-    const response = await axios.post('http://139.59.132.105/api/v1/token/refresh/', {
+    const response = await axios.post(`${API_URL}/api/v1/token/refresh/`, {
       refresh: refreshToken,
     });
 

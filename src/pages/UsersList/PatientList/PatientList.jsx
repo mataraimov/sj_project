@@ -3,6 +3,7 @@ import { Space, Table, Modal, Form, Input } from 'antd';
 import axios from 'axios';
 import { refreshAccessToken } from '../../../components/utils/refreshToken';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../../../components/utils/config';
 
 const PatientList = () => {
   const [data, setData] = useState([]);
@@ -19,7 +20,7 @@ const PatientList = () => {
       const headers = await {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       };
-      const response = await axios.get('http://139.59.132.105/api/v1/patients/', { headers });
+      const response = await axios.get(`${API_URL}/api/v1/patients/`, { headers });
       setData(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -29,7 +30,7 @@ const PatientList = () => {
   const handleUpdate = async (id, updatedData) => {
     setLoading(true);
     try {
-      await axios.put(`http://139.59.132.105/api/v1/patients/${id}/`, updatedData);
+      await axios.put(`${API_URL}/api/v1/patients/${id}/`, updatedData);
       await fetchData();
       setEditingId(null);
     } catch (error) {
@@ -42,7 +43,7 @@ const PatientList = () => {
   const handleDelete = async (id) => {
     setLoading(true);
     try {
-      await axios.delete(`http://139.59.132.105/api/v1/patients/${id}/`);
+      await axios.delete(`${API_URL}/api/v1/patients/${id}/`);
       await fetchData();
     } catch (error) {
       console.error('Error deleting patient:', error);

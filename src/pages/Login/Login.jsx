@@ -4,13 +4,14 @@ import l from './Login.module.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../components/utils/context';
+import { API_URL } from '../../components/utils/config';
 
 const Login = () => {
   const navigate = useNavigate();
   const { setIsAuth } = useAuth();
   const onFinish = async (values) => {
     try {
-      const response = await axios.post('http://139.59.132.105/api/v1/login/', values);
+      const response = await axios.post(`${API_URL}/api/v1/login/`, values);
       console.log('Login Successful:', response.data);
       localStorage.setItem('access_token', response.data.access);
       localStorage.setItem('refresh_token', response.data.refresh);
@@ -18,7 +19,7 @@ const Login = () => {
       localStorage.setItem('is_dev', response.data.role === '2');
       localStorage.setItem('is_inv', response.data.role === '3');
       setIsAuth(true);
-      navigate('/');
+      // navigate('/');
     } catch (error) {
       console.error('Login Failed with POST:', error);
     }

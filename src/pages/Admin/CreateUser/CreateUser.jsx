@@ -6,6 +6,7 @@ import { Option } from 'antd/es/mentions';
 import { refreshAccessToken } from '../../../components/utils/refreshToken';
 import { useNavigate } from 'react-router-dom';
 import CustomNotification from '../../../components/utils/Toasts/CustomNotification';
+import { API_URL } from '../../../components/utils/config';
 
 const CreateUser = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const CreateUser = () => {
   const onFinish = async (values) => {
     try {
       await refreshAccessToken();
-      const response = await axios.post('http://139.59.132.105/api/v1/register/', values);
+      const response = await axios.post(`${API_URL}/api/v1/register/`, values);
       setShowSuccessNotification(true);
     } catch (error) {
       console.error('Error:', error);
