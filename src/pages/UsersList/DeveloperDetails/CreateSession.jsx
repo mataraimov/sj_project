@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { Modal, Form, DatePicker, Input, Select, InputNumber, message } from 'antd';
 import moment from 'moment';
@@ -36,14 +36,15 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
         'wheezing_list',
       ];
 
-      const statusOptions = {};
+      const options = {};
 
       for (const statusType of statusList) {
         const response = await axios.get(`${API_URL}/api/v1/status/${statusType}/`);
-        statusOptions[statusType] = response.data;
         console.log(response.data);
+        options[statusType] = response.data;
       }
-      setStatusOptions(statusOptions);
+
+      setStatusOptions(options);
     } catch (error) {
       console.error('Error fetching status options:', error);
     }
@@ -63,7 +64,7 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
       values.somatic.state_conjunctiva = 1;
       values.anamnesis.type_tolerance = [values.anamnesis.type_tolerance];
       values.anamnesis.type_intoxication = [values.anamnesis.type_intoxication];
-      values.anamnesis.type_palimpsests = [values.anamnesis.type_palimpsests];
+
       await refreshAccessToken();
       await axios.post(`${API_URL}/api/v1/records/${patientId}/record/`, values, {
         headers: {
@@ -71,11 +72,11 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
       });
+
       message.success('Сессия успешно создана');
       form.resetFields();
       fetchData();
       onCancel();
-      console.log('f');
     } catch (error) {
       console.error('Error creating session:', error);
       message.error('Ошибка при создании сессии');

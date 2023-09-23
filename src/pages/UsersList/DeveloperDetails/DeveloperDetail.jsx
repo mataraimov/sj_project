@@ -14,7 +14,7 @@ import {
   Table,
 } from 'antd';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { API_URL } from '../../../components/utils/config';
 import CreateSessionModal from './CreateSession';
 const { confirm } = Modal;
@@ -22,6 +22,7 @@ const { Option } = Select;
 
 const PatientDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [patientData, setPatientData] = useState({});
   const [recordsData, setRecordsData] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -109,7 +110,7 @@ const PatientDetails = () => {
     },
   ];
   const showDetails = (record) => {
-    // Обработка действия "Детали" для конкретной сессии
+    navigate(`/records/${id}`, { state: { recordData: record } });
   };
 
   const showConfirm = (record) => {

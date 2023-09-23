@@ -13,6 +13,7 @@ import CreateUser from './pages/Admin/CreateUser/CreateUser';
 import { useAuth } from './components/utils/context';
 import PatientList from './pages/UsersList/PatientList/PatientList';
 import Doctor from './pages/Doctor/Doctor';
+import RecordsDetail from './pages/UsersList/DeveloperDetails/RecordsDetail';
 
 function App() {
   const { isAuth } = useAuth();
@@ -102,6 +103,15 @@ function App() {
                 </LayoutWrapper>
               }
             />
+            <Route
+              path="/records/:id"
+              element={
+                <LayoutWrapper>
+                  <RecordsDetail />
+                </LayoutWrapper>
+              }
+            />
+
             <Route
               path="/investor/:id"
               element={
