@@ -12,12 +12,14 @@ const CreateUser = () => {
   const navigate = useNavigate();
   const [showSuccessNotification, setShowSuccessNotification] = useState(false);
   const [showErrorNotification, setShowErrorNotification] = useState(false);
+  const [form] = Form.useForm();
 
   const onFinish = async (values) => {
     try {
       await refreshAccessToken();
       const response = await axios.post(`${API_URL}/api/v1/register/`, values);
       setShowSuccessNotification(true);
+      form.resetFields();
     } catch (error) {
       console.error('Error:', error);
       setShowErrorNotification(true);
@@ -52,6 +54,7 @@ const CreateUser = () => {
 
       <Form
         name="basic"
+        form={form}
         style={{
           maxWidth: 600,
         }}

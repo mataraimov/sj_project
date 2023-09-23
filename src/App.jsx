@@ -12,6 +12,7 @@ import ProjectsDetails from './pages/Projects/ProjectsDetails';
 import CreateUser from './pages/Admin/CreateUser/CreateUser';
 import { useAuth } from './components/utils/context';
 import PatientList from './pages/UsersList/PatientList/PatientList';
+import Doctor from './pages/Doctor/Doctor';
 
 function App() {
   const { isAuth } = useAuth();
@@ -34,6 +35,14 @@ function App() {
               element={
                 <LayoutWrapper>
                   <Admin />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/doctor"
+              element={
+                <LayoutWrapper>
+                  <Doctor />
                 </LayoutWrapper>
               }
             />

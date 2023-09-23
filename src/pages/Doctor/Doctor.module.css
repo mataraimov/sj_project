@@ -1,0 +1,12 @@
+.admin {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  height: 75vh;
+}
+
+.admin button {
+  width: 300px;
+}

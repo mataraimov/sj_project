@@ -22,6 +22,7 @@ const CreatePatient = () => {
   });
   const [showSuccessNotification, setShowSuccessNotification] = useState(false);
   const [showErrorNotification, setShowErrorNotification] = useState(false);
+  const [form] = Form.useForm();
 
   const [educationOptions, setEducationOptions] = useState([]);
   const [familyOptions, setFamilyOptions] = useState([]);
@@ -74,6 +75,7 @@ const CreatePatient = () => {
       );
       console.log('Success:', response.data);
       setShowSuccessNotification(true);
+      form.resetFields();
     } catch (error) {
       setShowErrorNotification(true);
       console.error('Error:', error);
@@ -95,6 +97,7 @@ const CreatePatient = () => {
 
   return (
     <Form
+      form={form}
       name="basic"
       style={{
         maxWidth: 600,
