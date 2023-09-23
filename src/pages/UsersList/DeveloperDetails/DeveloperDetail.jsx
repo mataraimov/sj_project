@@ -2,17 +2,30 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import 'moment/locale/ru';
-import { Descriptions, Button, Modal, Form, DatePicker, Input, Select, InputNumber } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import {
+  Descriptions,
+  Button,
+  Modal,
+  Form,
+  DatePicker,
+  Input,
+  Select,
+  InputNumber,
+  Table,
+} from 'antd';
+import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
 import { API_URL } from '../../../components/utils/config';
-
+import CreateSessionModal from './CreateSession';
+const { confirm } = Modal;
 const { Option } = Select;
 
 const PatientDetails = () => {
   const { id } = useParams();
   const [patientData, setPatientData] = useState({});
+  const [recordsData, setRecordsData] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [session, setSessionVisible] = useState(false);
   const [form] = Form.useForm();
 
   const [educationOptions, setEducationOptions] = useState([]);
@@ -50,19 +63,81 @@ const PatientDetails = () => {
   }, []);
   useEffect(() => {
     fetchPatientData();
+    fetchRecordsData();
     moment.locale('ru'); // Установите локаль 'ru'
   }, []);
 
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('access_token')}`,
   };
+  const columns = [
+    {
+      title: 'Дата начала',
+      dataIndex: 'date_start',
+      key: 'date_start',
+      render: (text) => moment(text).format('YYYY-MM-DD'),
+    },
+    {
+      title: 'Дата окончания',
+      dataIndex: 'date_end',
+      key: 'date_end',
+      render: (text) => moment(text).format('YYYY-MM-DD'),
+    },
+    {
+      title: 'Цена',
+      dataIndex: 'price',
+      key: 'price',
+    },
+    {
+      title: 'Условия',
+      dataIndex: 'conditions',
+      key: 'conditions',
+    },
+    {
+      title: 'Действия',
+      key: 'action',
+      render: (text, record) => (
+        <span>
+          <Button type="primary" onClick={() => showDetails(record)}>
+            Детали
+          </Button>
+          <Button type="danger" onClick={() => showConfirm(record)}>
+            Удалить
+          </Button>
+        </span>
+      ),
+    },
+  ];
+  const showDetails = (record) => {
+    // Обработка действия "Детали" для конкретной сессии
+  };
 
+  const showConfirm = (record) => {
+    confirm({
+      title: 'Вы уверены, что хотите удалить эту сессию?',
+      onOk() {
+        // Обработка действия "Удалить" для конкретной сессии
+      },
+    });
+  };
   const fetchPatientData = async () => {
     try {
       const response = await axios.get(`${API_URL}/api/v1/patients/${id}/`, {
         headers,
       });
+      console.log(response.data);
       setPatientData(response.data);
+    } catch (error) {
+      console.error('Error fetching patient data:', error);
+    }
+  };
+  const fetchRecordsData = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/v1/records/${id}/`, {
+        headers,
+      });
+      console.log(response.data);
+      setRecordsData(response.data);
     } catch (error) {
       console.error('Error fetching patient data:', error);
     }
@@ -93,9 +168,13 @@ const PatientDetails = () => {
   const showModal = () => {
     setModalVisible(true);
   };
+  const showSessionModal = () => {
+    setSessionVisible(true);
+  };
 
   const handleCancel = () => {
     setModalVisible(false);
+    setSessionVisible(false);
     form.resetFields();
   };
 
@@ -134,11 +213,26 @@ const PatientDetails = () => {
       <Button
         type="primary"
         icon={<EditOutlined />}
-        style={{ marginBottom: 16, float: 'right' }}
+        style={{ marginBottom: 16, float: 'left' }}
         onClick={showModal}
       >
         Редактировать
       </Button>
+      <Button
+        type="primary"
+        icon={<PlusOutlined />}
+        style={{ marginBottom: 16, float: 'right' }}
+        onClick={showModal}
+      >
+        Добавить сессию
+      </Button>
+      <Table columns={columns} dataSource={recordsData} />
+      <CreateSessionModal
+        visible={modalVisible} // Передаем видимость модалки
+        onCancel={handleCancel} // Передаем функцию закрытия модалки
+        patientId={id} // Передаем ID пациента
+        fetchData={fetchRecordsData} // Передаем функцию для обновления данных
+      />
       {/* Добавьте другие компоненты для отображения данных о посещениях пациента */}
       <Modal
         title="Редактировать информацию о пациенте"
