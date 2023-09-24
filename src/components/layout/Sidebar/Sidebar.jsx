@@ -19,8 +19,8 @@ const SiderBarComponent = ({ collapsed, userRole }) => {
     items.push(
       getItem('Админ', 'sub1', '', <UserOutlined />, [
         getItem('Дашборд', '2', '/admin'),
-        getItem('Пациенты', '3', '/investor-list'),
-        getItem('Докторы', '4', '/developer-list'),
+        getItem('Пациенты', '3', '/patient-list'),
+        getItem('Докторы', '4', '/doctor-list'),
         getItem('Доходы', '5', '/projects'),
       ]),
     );
@@ -28,7 +28,7 @@ const SiderBarComponent = ({ collapsed, userRole }) => {
     items.push(
       getItem(`${userRole}`, 'sub1', '', <UserOutlined />, [
         getItem('Дашборд', '2', '/doctor'),
-        getItem('Пациенты', '3', '/investor-list'),
+        getItem('Пациенты', '3', '/patient-list'),
       ]),
     );
   }

@@ -4,16 +4,18 @@ import Admin from './pages/Admin/Admin';
 import CreatePatient from './pages/Admin/CreatePatient/CreatePatient';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
-import DeveloperDetails from './pages/UsersList/DeveloperDetails/DeveloperDetail';
-import DeveloperList from './pages/UsersList/DeveloperList/DeveloperList';
+
 import InvestorDetails from './pages/UsersList/InvestorDetails/InvestorDetails';
 import Projects from './pages/Projects/Projects';
 import ProjectsDetails from './pages/Projects/ProjectsDetails';
 import CreateUser from './pages/Admin/CreateUser/CreateUser';
 import { useAuth } from './components/utils/context';
+
 import PatientList from './pages/UsersList/PatientList/PatientList';
-import Doctor from './pages/Doctor/Doctor';
-import RecordsDetail from './pages/UsersList/DeveloperDetails/RecordsDetail';
+import PatientDetails from './pages/UsersList/PatientDetails';
+import RecordsDetail from './pages/UsersList/PatientDetails/RecordsDetail';
+import Doctors from './pages/UsersList/DoctorList';
+import Doctor from './pages/Doctor';
 
 function App() {
   const { authData } = useAuth();
@@ -81,15 +83,7 @@ function App() {
               }
             />
             <Route
-              path="/developer-list"
-              element={
-                <LayoutWrapper>
-                  <DeveloperList />
-                </LayoutWrapper>
-              }
-            />
-            <Route
-              path="/investor-list"
+              path="/patient-list"
               element={
                 <LayoutWrapper>
                   <PatientList />
@@ -97,10 +91,18 @@ function App() {
               }
             />
             <Route
+              path="/doctor-list"
+              element={
+                <LayoutWrapper>
+                  <Doctors />
+                </LayoutWrapper>
+              }
+            />
+            <Route
               path="/patient/:id"
               element={
                 <LayoutWrapper>
-                  <DeveloperDetails />
+                  <PatientDetails />
                 </LayoutWrapper>
               }
             />

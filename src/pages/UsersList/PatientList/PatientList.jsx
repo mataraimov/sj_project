@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Space, Table, Modal, Form, Input } from 'antd';
 import axios from 'axios';
 import { refreshAccessToken } from '../../../components/utils/refreshToken';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../../../components/utils/config';
 
 const PatientList = () => {

@@ -1,31 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 import { Descriptions, Tag, Divider } from 'antd';
-import { API_URL } from '../../../components/utils/config';
 import moment from 'moment';
-import { refreshAccessToken } from '../../../components/utils/refreshToken';
 
-const RecordsDetail = (props) => {
+const RecordsDetail = () => {
   const location = useLocation();
   const { recordData } = location.state;
-  // useEffect(() => {
-  //   const fetchRecordData = async () => {
-  //     try {
-  //       await refreshAccessToken();
-  //       const headers = await {
-  //         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-  //       };
-  //       const response = await axios.get(`${API_URL}/api/v1/records/${id}/`, { headers });
-  //       console.log(response.data);
-  //       setRecordData(response.data[0]);
-  //     } catch (error) {
-  //       console.error('Error fetching record data:', error);
-  //     }
-  //   };
-  //   fetchRecordData();
-  // }, [id]);
-
   return (
     <div>
       <h1>Детали записи</h1>

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Space, Table } from 'antd';
+import { Table } from 'antd';
 
 import axios from 'axios';
 import { API_URL } from '../../../components/utils/config';
 import { refreshAccessToken } from '../../../components/utils/refreshToken';
 
-const DeveloperList = () => {
+const Doctors = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -54,4 +54,4 @@ const DeveloperList = () => {
   return <Table columns={columns} dataSource={data} loading={loading} rowKey="phone" />;
 };
 
-export default DeveloperList;
+export default Doctors;

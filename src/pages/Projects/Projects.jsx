@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Tag } from 'antd';
+import { Table } from 'antd';
 import axios from 'axios';
 import { API_URL } from '../../components/utils/config';
 import { refreshAccessToken } from '../../components/utils/refreshToken';

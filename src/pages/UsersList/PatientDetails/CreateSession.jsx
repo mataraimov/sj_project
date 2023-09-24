@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Modal, Form, DatePicker, Input, Select, InputNumber, message } from 'antd';
 import moment from 'moment';
@@ -61,6 +61,7 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
         values.anamnesis.receiving_something_time,
       ).format('YYYY-MM-DD');
       values.anamnesis.category = [values.anamnesis.category];
+      values.anamnesis.type_palimpsests = [values.anamnesis.type_palimpsests];
       values.somatic.state_conjunctiva = 1;
       values.anamnesis.type_tolerance = [values.anamnesis.type_tolerance];
       values.anamnesis.type_intoxication = [values.anamnesis.type_intoxication];
