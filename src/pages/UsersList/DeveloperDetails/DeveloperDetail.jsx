@@ -2,19 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import 'moment/locale/ru';
-import {
-  Descriptions,
-  Button,
-  Modal,
-  Form,
-  DatePicker,
-  Input,
-  Select,
-  InputNumber,
-  Table,
-} from 'antd';
+import { Descriptions, Button, Modal, Form, Input, Select, Table } from 'antd';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { API_URL } from '../../../components/utils/config';
 import CreateSessionModal from './CreateSession';
 const { confirm } = Modal;
@@ -23,14 +13,16 @@ const { Option } = Select;
 const PatientDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [patientData, setPatientData] = useState({});
   const [recordsData, setRecordsData] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [session, setSessionVisible] = useState(false);
   const [form] = Form.useForm();
-
   const [educationOptions, setEducationOptions] = useState([]);
   const [familyOptions, setFamilyOptions] = useState([]);
+  const [role, setrole] = useState('');
+  const location = useLocation();
+  const [patientData, setPatientData] = useState(location.state?.patientData || {});
+
   const fetchEducationOptions = async () => {
     try {
       const response = await axios.get(`${API_URL}/api/v1/status/education_list/`);
@@ -38,7 +30,6 @@ const PatientDetails = () => {
         id: +key + 1,
         name: value[Object.keys(value)[0]],
       }));
-      // Обновите состояние с вариантами образования
       setEducationOptions(educationOptions);
     } catch (error) {
       console.error('Error fetching education options:', error);
@@ -61,11 +52,10 @@ const PatientDetails = () => {
   useEffect(() => {
     fetchEducationOptions();
     fetchFamilyOptions();
-  }, []);
+  }, [modalVisible]);
   useEffect(() => {
-    fetchPatientData();
     fetchRecordsData();
-    moment.locale('ru'); // Установите локаль 'ru'
+    // moment.locale('ru');
   }, []);
 
   const headers = {
@@ -121,23 +111,12 @@ const PatientDetails = () => {
       },
     });
   };
-  const fetchPatientData = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/api/v1/patients/${id}/`, {
-        headers,
-      });
-      console.log(response.data);
-      setPatientData(response.data);
-    } catch (error) {
-      console.error('Error fetching patient data:', error);
-    }
-  };
+
   const fetchRecordsData = async () => {
     try {
       const response = await axios.get(`${API_URL}/api/v1/records/${id}/`, {
         headers,
       });
-      console.log(response.data);
       setRecordsData(response.data);
     } catch (error) {
       console.error('Error fetching patient data:', error);
@@ -161,6 +140,10 @@ const PatientDetails = () => {
           form.resetFields();
         })
         .catch((error) => {
+          console.log({
+            ...values,
+            date_of_birth: moment(values.date_of_birth).format('YYYY-MM-DD'),
+          });
           console.error('Error updating patient data:', error);
         });
     });
@@ -189,25 +172,25 @@ const PatientDetails = () => {
           {moment(patientData?.date_of_birth).format('YYYY-MM-DD')}
         </Descriptions.Item>
         <Descriptions.Item label="Образование">
-          {patientData?.anamnesis?.education}
+          {patientData?.anamnesis_life?.education}
         </Descriptions.Item>
         <Descriptions.Item label="Семейное положение">
-          {patientData?.anamnesis?.martial_status}
+          {patientData?.anamnesis_life?.martial_status}
         </Descriptions.Item>
         <Descriptions.Item label="Место работы">
-          {patientData?.anamnesis?.place_work}
+          {patientData?.anamnesis_life?.place_work}
         </Descriptions.Item>
         <Descriptions.Item label="Судимости">
-          {patientData?.anamnesis?.criminal_record}
+          {patientData?.anamnesis_life?.criminal_record}
         </Descriptions.Item>
         <Descriptions.Item label="Прошлые заболевания">
-          {patientData?.anamnesis?.previous_illnesses}
+          {patientData?.anamnesis_life?.previous_illnesses}
         </Descriptions.Item>
         <Descriptions.Item label="Принимаемые медикаменты">
-          {patientData?.anamnesis?.medications}
+          {patientData?.anamnesis_life?.medications}
         </Descriptions.Item>
         <Descriptions.Item label="Аллергический анамнез">
-          {patientData?.anamnesis?.allergic_history}
+          {patientData?.anamnesis_life?.allergic_history}
         </Descriptions.Item>
         {/* Добавьте другие поля для отображения информации о пациенте */}
       </Descriptions>
@@ -223,74 +206,78 @@ const PatientDetails = () => {
         type="primary"
         icon={<PlusOutlined />}
         style={{ marginBottom: 16, float: 'right' }}
-        onClick={showModal}
+        onClick={showSessionModal}
       >
         Добавить сессию
       </Button>
-      <Table columns={columns} dataSource={recordsData} />
-      <CreateSessionModal
-        visible={modalVisible} // Передаем видимость модалки
-        onCancel={handleCancel} // Передаем функцию закрытия модалки
-        patientId={id} // Передаем ID пациента
-        fetchData={fetchRecordsData} // Передаем функцию для обновления данных
-      />
+      <Table columns={columns} dataSource={recordsData} rowKey={(record, index) => index} />
+      {session && (
+        <CreateSessionModal
+          visible={session} // Передаем видимость модалки
+          onCancel={handleCancel} // Передаем функцию закрытия модалки
+          patientId={id} // Передаем ID пациента
+          fetchData={fetchRecordsData} // Передаем функцию для обновления данных
+        />
+      )}
       {/* Добавьте другие компоненты для отображения данных о посещениях пациента */}
-      <Modal
-        title="Редактировать информацию о пациенте"
-        visible={modalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <Form form={form} initialValues={patientData}>
-          <Form.Item name="name" label="Имя">
-            <Input />
-          </Form.Item>
-          <Form.Item name="surname" label="Фамилия">
-            <Input />
-          </Form.Item>
-          <Form.Item name="patronymic" label="Отчество">
-            <Input />
-          </Form.Item>
-          {/* <Form.Item name="date_of_birth" label="Дата рождения">
+      {modalVisible && (
+        <Modal
+          title="Редактировать информацию о пациенте"
+          visible={modalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
+          <Form form={form} initialValues={patientData}>
+            <Form.Item name="name" label="Имя">
+              <Input />
+            </Form.Item>
+            <Form.Item name="surname" label="Фамилия">
+              <Input />
+            </Form.Item>
+            <Form.Item name="patronymic" label="Отчество">
+              <Input />
+            </Form.Item>
+            {/* <Form.Item name="date_of_birth" label="Дата рождения">
             <DatePicker format="YYYY-MM-DD" />
           </Form.Item> */}
-          <Form.Item name={['anamnesis', 'education']} label="Образование">
-            <Select>
-              {educationOptions.map((option) => (
-                <Option key={option.id} value={option.id}>
-                  {option.name}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
+            <Form.Item name={['anamnesis_life', 'education']} label="Образование">
+              <Select>
+                {educationOptions.map((option) => (
+                  <Option key={option.id} value={option.id}>
+                    {option.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
 
-          <Form.Item name={['anamnesis', 'martial_status']} label="Семейное положение">
-            <Select>
-              {familyOptions.map((option) => (
-                <Option key={option.id} value={option.id}>
-                  {option.name}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item name={['anamnesis', 'place_work']} label="Место работы">
-            <Input />
-          </Form.Item>
-          <Form.Item name={['anamnesis', 'criminal_record']} label="Судимости">
-            <Input />
-          </Form.Item>
-          <Form.Item name={['anamnesis', 'previous_illnesses']} label="Прошлые заболевания">
-            <Input />
-          </Form.Item>
-          <Form.Item name={['anamnesis', 'medications']} label="Принимаемые медикаменты">
-            <Input />
-          </Form.Item>
-          <Form.Item name={['anamnesis', 'allergic_history']} label="Аллергический анамнез">
-            <Input />
-          </Form.Item>
-          {/* Добавьте другие поля для редактирования информации о пациенте */}
-        </Form>
-      </Modal>
+            <Form.Item name={['anamnesis_life', 'martial_status']} label="Семейное положение">
+              <Select>
+                {familyOptions.map((option) => (
+                  <Option key={option.id} value={option.id}>
+                    {option.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item name={['anamnesis_life', 'place_work']} label="Место работы">
+              <Input />
+            </Form.Item>
+            <Form.Item name={['anamnesis_life', 'criminal_record']} label="Судимости">
+              <Input />
+            </Form.Item>
+            <Form.Item name={['anamnesis_life', 'previous_illnesses']} label="Прошлые заболевания">
+              <Input />
+            </Form.Item>
+            <Form.Item name={['anamnesis_life', 'medications']} label="Принимаемые медикаменты">
+              <Input />
+            </Form.Item>
+            <Form.Item name={['anamnesis_life', 'allergic_history']} label="Аллергический анамнез">
+              <Input />
+            </Form.Item>
+            {/* Добавьте другие поля для редактирования информации о пациенте */}
+          </Form>
+        </Modal>
+      )}
     </div>
   );
 };

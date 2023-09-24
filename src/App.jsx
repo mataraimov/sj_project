@@ -16,7 +16,8 @@ import Doctor from './pages/Doctor/Doctor';
 import RecordsDetail from './pages/UsersList/DeveloperDetails/RecordsDetail';
 
 function App() {
-  const { isAuth } = useAuth();
+  const { authData } = useAuth();
+  const { isAuth } = authData;
 
   return (
     <BrowserRouter>

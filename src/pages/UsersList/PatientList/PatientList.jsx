@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Space, Table, Modal, Form, Input } from 'antd';
 import axios from 'axios';
 import { refreshAccessToken } from '../../../components/utils/refreshToken';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { API_URL } from '../../../components/utils/config';
 
 const PatientList = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     fetchData();
   }, []);
@@ -92,7 +92,7 @@ const PatientList = () => {
             </>
           ) : (
             <>
-              <Link to={`/patient/${record.id}`}>Details</Link>
+              <a onClick={() => showDetails(record)}>Details</a>
               <a onClick={() => showDeleteConfirm(record)}>Delete</a>
             </>
           )}
@@ -100,7 +100,9 @@ const PatientList = () => {
       ),
     },
   ];
-
+  const showDetails = (record) => {
+    navigate(`/patient/${record.id}`, { state: { patientData: record } });
+  };
   const showDeleteConfirm = (record) => {
     Modal.confirm({
       title: 'Confirm Deletion',
@@ -116,7 +118,7 @@ const PatientList = () => {
 
   return (
     <>
-      <Table columns={columns} dataSource={data} loading={loading} />
+      <Table columns={columns} dataSource={data} loading={loading} rowKey="id" />
 
       <Modal
         visible={editingId !== null}
