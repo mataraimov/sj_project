@@ -40,6 +40,7 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
 
       for (const statusType of statusList) {
         const response = await axios.get(`${API_URL}/api/v1/status/${statusType}/`);
+        console.log(statusType);
         console.log(response.data);
         options[statusType] = response.data;
       }
@@ -62,7 +63,7 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
       ).format('YYYY-MM-DD');
       values.anamnesis.category = [values.anamnesis.category];
       values.anamnesis.type_palimpsests = [values.anamnesis.type_palimpsests];
-      values.somatic.state_conjunctiva = 1;
+      // values.somatic.state_conjunctiva = 1;
       values.anamnesis.type_tolerance = [values.anamnesis.type_tolerance];
       values.anamnesis.type_intoxication = [values.anamnesis.type_intoxication];
 
@@ -103,7 +104,7 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
             {statusOptions['arrives_list'] &&
               statusOptions['arrives_list'].map((option, i) => (
                 <Option key={i} value={option.id}>
-                  {Object.values(option)[0]}
+                  {option.title}
                 </Option>
               ))}
           </Select>
@@ -221,7 +222,7 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
             {statusOptions['category_list'] &&
               statusOptions['category_list'].map((option, index) => (
                 <Option key={index} value={option.id}>
-                  {Object.values(option)[0]}
+                  {option.title}
                 </Option>
               ))}
           </Select>
@@ -231,7 +232,7 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
             {statusOptions['tolerance_list'] &&
               statusOptions['tolerance_list'].map((option, index) => (
                 <Option key={index} value={option.id}>
-                  {Object.values(option)[0]}
+                  {option.title}
                 </Option>
               ))}
           </Select>
@@ -241,7 +242,7 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
             {statusOptions['intoxication_list'] &&
               statusOptions['intoxication_list'].map((option, index) => (
                 <Option key={index} value={option.id}>
-                  {Object.values(option)[0]}
+                  {option.title}
                 </Option>
               ))}
           </Select>
@@ -251,32 +252,67 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
             {statusOptions['palimpsests_list'] &&
               statusOptions['palimpsests_list'].map((option, index) => (
                 <Option key={index} value={option.id}>
-                  {Object.values(option)[0]}
+                  {option.title}
                 </Option>
               ))}
           </Select>
         </Form.Item>
         <Form.Item name={['somatic', 'condition']} label="Состояние">
-          <Input />
+          <Select placeholder="состояние">
+            {statusOptions['conditions_list'] &&
+              statusOptions['conditions_list'].map((option, index) => (
+                <Option key={index} value={option.id}>
+                  {option.title}
+                </Option>
+              ))}
+          </Select>
         </Form.Item>
         <Form.Item name={['somatic', 'category']} label="Категория">
-          <Input />
+          <Select placeholder="состояние">
+            {statusOptions['category_list'] &&
+              statusOptions['category_list'].map((option, index) => (
+                <Option key={index} value={option.id}>
+                  {option.title}
+                </Option>
+              ))}
+          </Select>
         </Form.Item>
         <Form.Item name={['somatic', 'skin_type']} label="Тип кожи">
-          <Input />
+          <Select placeholder="Тип кожи">
+            {statusOptions['skin_list'] &&
+              statusOptions['skin_list'].map((option, index) => (
+                <Option key={index} value={option.id}>
+                  {option.title}
+                </Option>
+              ))}
+          </Select>
         </Form.Item>
         <Form.Item name={['somatic', 'availability']} label="Доступность">
-          <Input />
+          <Select placeholder="Доступность">
+            {statusOptions['availability_list'] &&
+              statusOptions['availability_list'].map((option, index) => (
+                <Option key={index} value={option.id}>
+                  {option.title}
+                </Option>
+              ))}
+          </Select>
         </Form.Item>
         <Form.Item name={['somatic', 'traces']} label="Следы">
-          <Input />
+          <Select placeholder="Следы">
+            {statusOptions['traces_list'] &&
+              statusOptions['traces_list'].map((option, index) => (
+                <Option key={index} value={option.id}>
+                  {option.title}
+                </Option>
+              ))}
+          </Select>
         </Form.Item>
         <Form.Item name={['somatic', 'state_conjunctiva']} label="Состояние конъюнктивы">
           <Select placeholder="Выберите состояние конъюнктивы">
             {statusOptions['conjunctiva_list'] &&
               statusOptions['conjunctiva_list'].map((option, index) => (
                 <Option key={index} value={option.id}>
-                  {Object.values(option)[0]}
+                  {option.title}
                 </Option>
               ))}
           </Select>
@@ -285,7 +321,14 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
           <Input />
         </Form.Item>
         <Form.Item name={['somatic', 'wheezing']} label="Свист">
-          <Input />
+          <Select placeholder="Свист">
+            {statusOptions['wheezing_list'] &&
+              statusOptions['wheezing_list'].map((option, index) => (
+                <Option key={index} value={option.id}>
+                  {option.title}
+                </Option>
+              ))}
+          </Select>
         </Form.Item>
         <Form.Item name={['somatic', 'bh']} label="BH">
           <Input />
@@ -294,7 +337,14 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
           <Input />
         </Form.Item>
         <Form.Item name={['somatic', 'heart_tones']} label="Сердечные тоны">
-          <Input />
+          <Select placeholder="Сердечные тоны">
+            {statusOptions['heart_list'] &&
+              statusOptions['heart_list'].map((option, index) => (
+                <Option key={index} value={option.id}>
+                  {option.title}
+                </Option>
+              ))}
+          </Select>
         </Form.Item>
         <Form.Item name={['somatic', 'ad']} label="АД">
           <Input />
@@ -303,7 +353,14 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
           <InputNumber min={0} />
         </Form.Item>
         <Form.Item name={['somatic', 'filling']} label="Полнота">
-          <Input />
+          <Select placeholder="Полнота">
+            {statusOptions['nutrition_list'] &&
+              statusOptions['nutrition_list'].map((option, index) => (
+                <Option key={index} value={option.id}>
+                  {option.title}
+                </Option>
+              ))}
+          </Select>
         </Form.Item>
         <Form.Item name={['somatic', 'tongue']} label="Язык">
           <Input />
@@ -343,7 +400,7 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
             {statusOptions['pupils_list'] &&
               statusOptions['pupils_list'].map((option, index) => (
                 <Option key={index} value={option.id}>
-                  {Object.values(option)[0]}
+                  {option.title}
                 </Option>
               ))}
           </Select>
@@ -356,7 +413,7 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
             {statusOptions['meningeal_list'] &&
               statusOptions['meningeal_list'].map((option, index) => (
                 <Option key={index} value={option.id}>
-                  {Object.values(option)[0]}
+                  {option.title}
                 </Option>
               ))}
           </Select>
@@ -372,7 +429,7 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
             {statusOptions['views_list'] &&
               statusOptions['views_list'].map((option, index) => (
                 <Option key={index} value={option.id}>
-                  {Object.values(option)[0]}
+                  {option.title}
                 </Option>
               ))}
           </Select>

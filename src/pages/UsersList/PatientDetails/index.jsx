@@ -7,6 +7,7 @@ import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { API_URL } from '../../../components/utils/config';
 import CreateSessionModal from './CreateSession';
+import { useAuth } from '../../../components/utils/context';
 const { confirm } = Modal;
 const { Option } = Select;
 
@@ -19,10 +20,21 @@ const PatientDetails = () => {
   const [form] = Form.useForm();
   const [educationOptions, setEducationOptions] = useState([]);
   const [familyOptions, setFamilyOptions] = useState([]);
-  const [role, setrole] = useState('');
   const location = useLocation();
   const [patientData, setPatientData] = useState(location.state?.patientData || {});
+  const { authData } = useAuth();
+  const { role } = authData;
+  const handleAddFilesClick = () => {
+    navigate(`/add-files/${id}`); // Adjust the path as per your application's routing
+  };
 
+  const handleDiariesClick = () => {
+    navigate(`/diaries/${id}`); // Adjust the path as per your application's routing
+  };
+
+  const handlePsychologistNotesClick = () => {
+    navigate(`/psychologist-notes/${id}`); // Adjust the path as per your application's routing
+  };
   const fetchEducationOptions = async () => {
     try {
       const response = await axios.get(`${API_URL}/api/v1/status/education_list/`);
@@ -117,6 +129,7 @@ const PatientDetails = () => {
       const response = await axios.get(`${API_URL}/api/v1/records/${id}/`, {
         headers,
       });
+      console.log(response.data);
       setRecordsData(response.data);
     } catch (error) {
       console.error('Error fetching patient data:', error);
@@ -210,6 +223,22 @@ const PatientDetails = () => {
       >
         Добавить сессию
       </Button>
+      {role === 'Доктор' && (
+        <>
+          <Button onClick={handleAddFilesClick} style={{ marginLeft: 16 }} type="primary">
+            Добавить файлы
+          </Button>
+          <Button onClick={handleDiariesClick} style={{ marginLeft: 16 }} type="primary">
+            Дневники
+          </Button>
+        </>
+      )}
+      {role === 'Психолог' && (
+        <Button onClick={handlePsychologistNotesClick} style={{ marginLeft: 16 }} type="primary">
+          Заметки психолога
+        </Button>
+      )}
+
       <Table columns={columns} dataSource={recordsData} rowKey={(record, index) => index} />
       {session && (
         <CreateSessionModal

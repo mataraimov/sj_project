@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
 import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Dropdown, Layout, theme } from 'antd';
+import { Link } from 'react-router-dom';
 
 const { Header } = Layout;
 
@@ -14,7 +14,7 @@ const HeaderComponent = ({ collapsed, toggleCollapsed, userRole }) => {
   };
   const items = [
     {
-      label: <a href="https://www.antgroup.com">Профиль</a>,
+      label: <Link to="/profile">Профиль</Link>,
       key: '0',
     },
     {
