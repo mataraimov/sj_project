@@ -38,11 +38,8 @@ const PatientDetails = () => {
   const fetchEducationOptions = async () => {
     try {
       const response = await axios.get(`${API_URL}/api/v1/status/education_list/`);
-      const educationOptions = Object.entries(response.data).map(([key, value]) => ({
-        id: +key + 1,
-        name: value[Object.keys(value)[0]],
-      }));
-      setEducationOptions(educationOptions);
+
+      setEducationOptions(response.data);
     } catch (error) {
       console.error('Error fetching education options:', error);
     }
@@ -50,12 +47,8 @@ const PatientDetails = () => {
   const fetchFamilyOptions = async () => {
     try {
       const response = await axios.get(`${API_URL}/api/v1/status/family_list/`);
-      const familyOptions = Object.entries(response.data).map(([key, value]) => ({
-        id: +key + 1,
-        name: value[Object.keys(value)[0]],
-      }));
 
-      setFamilyOptions(familyOptions);
+      setFamilyOptions(response.data);
     } catch (error) {
       console.error('Error fetching family options:', error);
     }
@@ -273,7 +266,7 @@ const PatientDetails = () => {
               <Select>
                 {educationOptions.map((option) => (
                   <Option key={option.id} value={option.id}>
-                    {option.name}
+                    {option.title}
                   </Option>
                 ))}
               </Select>
@@ -283,7 +276,7 @@ const PatientDetails = () => {
               <Select>
                 {familyOptions.map((option) => (
                   <Option key={option.id} value={option.id}>
-                    {option.name}
+                    {option.title}
                   </Option>
                 ))}
               </Select>
