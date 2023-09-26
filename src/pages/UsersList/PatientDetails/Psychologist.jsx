@@ -9,11 +9,12 @@ const { confirm } = Modal;
 
 const PsychologistNotes = () => {
   const [form] = Form.useForm();
-  const [psychologists, setPsychologists] = useState([]);
-  const [editingPsychologist, setEditingPsychologist] = useState(null);
+  const [notes, setNotes] = useState([]);
+  const [editingNote, setEditingNote] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const { id } = useParams();
-  const fetchPsychologists = async () => {
+
+  const fetchNotes = async () => {
     try {
       await refreshAccessToken();
       const headers = {
@@ -21,56 +22,56 @@ const PsychologistNotes = () => {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       };
       const response = await axios.get(`${API_URL}/api/v1/psychology/${id}/`, { headers });
-      setPsychologists(response.data);
+      console.log(response.data);
+      setNotes(response.data);
     } catch (error) {
-      console.error('Error fetching psychologists:', error);
+      console.error('Error fetching psychologist notes:', error);
     }
   };
 
   useEffect(() => {
-    fetchPsychologists();
+    fetchNotes();
   }, []);
 
-  const showDeleteConfirm = (psychologist) => {
+  const showDeleteConfirm = (note) => {
     confirm({
-      title: 'Вы уверены, что хотите удалить этого психолога?',
+      title: 'Вы уверены, что хотите удалить эту заметку?',
       onOk() {
-        handleDelete(psychologist);
+        handleDelete(note);
       },
       onCancel() {},
     });
   };
 
-  const handleEdit = (psychologist) => {
-    setEditingPsychologist(psychologist);
+  const handleEdit = (note) => {
+    setEditingNote(note);
     form.setFieldsValue({
-      name: psychologist.name,
-      email: psychologist.email,
+      content: note.content,
       // Добавьте другие поля, если они есть
     });
     setModalVisible(true);
   };
 
-  const handleDelete = async (psychologist) => {
+  const handleDelete = async (note) => {
     try {
       await refreshAccessToken();
       const headers = {
         accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       };
-      const response = await axios.delete(`${API_URL}/api/v1/psychology/${psychologist.id}/`, {
+      const response = await axios.delete(`${API_URL}/api/v1/psychology/${id}/lists/${note.id}/`, {
         headers,
       });
 
       if (response.status === 204) {
-        setPsychologists((prevList) => prevList.filter((item) => item.id !== psychologist.id));
-        message.success(`Психолог ${psychologist.name} успешно удален`);
+        setNotes((prevList) => prevList.filter((item) => item.id !== note.id));
+        message.success(`Заметка успешно удалена`);
       } else {
-        message.error('Произошла ошибка при удалении психолога');
+        message.error('Произошла ошибка при удалении заметки');
       }
     } catch (error) {
-      console.error('Error deleting psychologist:', error);
-      message.error('Произошла ошибка при удалении психолога');
+      console.error('Error deleting note:', error);
+      message.error('Произошла ошибка при удалении заметки');
     }
   };
 
@@ -84,35 +85,38 @@ const PsychologistNotes = () => {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       };
 
-      if (editingPsychologist) {
-        // Редактирование психолога
+      if (editingNote) {
+        // Редактирование заметки
         const response = await axios.patch(
-          `${API_URL}/api/v1/psychology/${editingPsychologist.id}/`,
+          `${API_URL}/api/v1/psychology/${id}/lists/${editingNote.id}/`,
           values,
           { headers },
         );
 
         if (response.status === 200) {
-          setPsychologists((prevList) =>
-            prevList.map((item) =>
-              item.id === editingPsychologist.id ? { ...item, ...values } : item,
-            ),
+          setNotes((prevList) =>
+            prevList.map((item) => (item.id === editingNote.id ? { ...item, ...values } : item)),
           );
-          message.success(`Психолог ${values.name} успешно отредактирован`);
+          message.success(`Заметка успешно отредактирована`);
           setModalVisible(false);
         } else {
-          message.error('Произошла ошибка при редактировании психолога');
+          message.error('Произошла ошибка при редактировании заметки');
         }
       } else {
-        // Добавление нового психолога
-        const response = await axios.post(`${API_URL}/api/v1/psychology/`, values, { headers });
-
+        const response = await axios.post(
+          `${API_URL}/api/v1/psychology/${id}/psychology/`,
+          values,
+          {
+            headers,
+          },
+        );
+        console.log(response.data);
         if (response.status === 201) {
-          setPsychologists((prevList) => [...prevList, response.data]);
-          message.success(`Психолог ${values.name} успешно добавлен`);
+          setNotes((prevList) => [...prevList, response.data]);
+          message.success(`Заметка успешно добавлена`);
           setModalVisible(false);
         } else {
-          message.error('Произошла ошибка при добавлении психолога');
+          message.error('Произошла ошибка при добавлении заметки');
         }
       }
     } catch (error) {
@@ -126,17 +130,12 @@ const PsychologistNotes = () => {
         Добавить заметку
       </Button>
       <Table
-        dataSource={psychologists}
+        dataSource={notes}
         columns={[
           {
-            title: 'Имя',
-            dataIndex: 'name',
-            key: 'name',
-          },
-          {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
+            title: 'Содержание',
+            dataIndex: 'content',
+            key: 'content',
           },
           {
             title: 'Действия',
@@ -149,43 +148,30 @@ const PsychologistNotes = () => {
             ),
           },
         ]}
-        rowKey="id"
+        rowKey={(record, index) => index}
       />
       <Modal
-        title={editingPsychologist ? 'Редактировать заметку' : 'Добавить заметку'}
+        title={editingNote ? 'Редактировать заметку' : 'Добавить заметку'}
         visible={modalVisible}
         onOk={handleModalOk}
         onCancel={() => {
           setModalVisible(false);
-          setEditingPsychologist(null);
+          setEditingNote(null);
           form.resetFields();
         }}
       >
         <Form form={form} layout="vertical" name="form_in_modal">
           <Form.Item
-            name="name"
-            label="Имя"
+            name="content"
+            label="Содержание"
             rules={[
               {
                 required: true,
-                message: 'Введите имя психолога',
+                message: 'Введите содержание заметки',
               },
             ]}
           >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="email"
-            label="Email"
-            rules={[
-              {
-                required: true,
-                type: 'email',
-                message: 'Введите корректный email',
-              },
-            ]}
-          >
-            <Input />
+            <Input.TextArea />
           </Form.Item>
           {/* Добавьте другие поля, если они есть */}
         </Form>
