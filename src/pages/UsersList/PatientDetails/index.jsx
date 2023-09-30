@@ -25,15 +25,15 @@ const PatientDetails = () => {
   const { authData } = useAuth();
   const { role } = authData;
   const handleAddFilesClick = () => {
-    navigate(`/add-files/${id}`); // Adjust the path as per your application's routing
+    navigate(`/add-files/${id}`);
   };
 
   const handleDiariesClick = () => {
-    navigate(`/diaries/${id}`); // Adjust the path as per your application's routing
+    navigate(`/diaries/${id}`);
   };
 
   const handlePsychologistNotesClick = () => {
-    navigate(`/psychologist-notes/${id}`); // Adjust the path as per your application's routing
+    navigate(`/psychologist-notes/${id}`);
   };
   const fetchEducationOptions = async () => {
     try {
