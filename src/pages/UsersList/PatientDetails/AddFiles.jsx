@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Space, Button, Upload, message } from 'antd';
+import { Table, Space, Button, Upload, message, Modal } from 'antd';
 import { UploadOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../../components/utils/config';
-import { Modal } from 'antd';
 import { refreshAccessToken } from '../../../components/utils/refreshToken';
+
 const { confirm } = Modal;
 
 const Files = () => {
@@ -14,11 +14,14 @@ const Files = () => {
 
   const fetchFilesData = async () => {
     try {
+      await refreshAccessToken();
+
       const response = await axios.get(`${API_URL}/api/v1/files/${id}/all_photo/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
       });
+      console.log(response.data);
       setFileList(response.data);
     } catch (error) {
       console.error('Error fetching files data:', error);
@@ -37,15 +40,19 @@ const Files = () => {
 
   const handleRemove = async (file) => {
     try {
+      console.log(file.id);
       const response = await axios.delete(`${API_URL}/api/v1/files/${file.id}/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
       });
 
-      if (response.status === 200) {
+      console.log(response);
+
+      if (response.status === 204) {
         setFileList((prevList) => prevList.filter((item) => item.id !== file.id));
-        showMessage('success', `${file.name} успешно удален`);
+
+        showMessage('success', `Файл успешно удален`);
       } else {
         showMessage('error', 'Произошла ошибка при удалении файла');
       }
@@ -55,20 +62,96 @@ const Files = () => {
     }
   };
 
+  const handleEdit = (file) => {
+    const onChange = async (info) => {
+      if (info.file.status === 'done') {
+        const newFile = info.file.response.data.url; // Assuming the response contains the new file URL
+        try {
+          await axios.patch(
+            `${API_URL}/api/v1/files/${file.id}/patch`,
+            { file: newFile },
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+              },
+            },
+          );
+
+          fetchFilesData();
+          showMessage('success', `Файл успешно изменен`);
+        } catch (error) {
+          console.error('Error editing file:', error);
+          showMessage('error', 'Произошла ошибка при изменении файла');
+        }
+      } else if (info.file.status === 'error') {
+        console.log(info);
+        showMessage('error', 'Произошла ошибка при загрузке файла');
+      }
+    };
+
+    return (
+      <Upload
+        name="file"
+        // customRequest={customRequest}
+        showUploadList={false}
+        // action={`${API_URL}/api/v1/files/${file.id}/`} // Assuming this is the correct upload endpoint
+        // headers={{
+        //   Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        // }}
+        onChange={onChange}
+      >
+        <Button icon={<UploadOutlined />}>Изменить файл</Button>
+      </Upload>
+    );
+  };
+
+  const customRequest = async ({ file, onSuccess, onError }) => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      await refreshAccessToken();
+      const response = await axios.post(`${API_URL}/api/v1/files/${id}/file/`, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log(response);
+
+      if (response.status === 200 || response.status === 201) {
+        message.success(`${file.name} успешно загружен`);
+        await fetchFilesData(); // Update the file list after a successful upload
+      } else {
+        showMessage('error', `Произошла ошибка при загрузке файла ${file.name}`);
+      }
+      onSuccess();
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      message.error(`Произошла ошибка при загрузке файла ${file.name}`);
+      onError();
+    }
+  };
+
+  const beforeUpload = (file) => {
+    customRequest({ file, onSuccess: () => {}, onError: () => {} });
+    return false; // Отменяем автоматическую загрузку Ant Design
+  };
+
   const columns = [
     {
       title: 'Имя файла',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'file',
+      key: 'file',
+      render: (file) => <img src={`http://${file}`} alt="file" style={{ width: '150px' }} />,
     },
     {
       title: 'Действия',
       key: 'action',
       render: (text, record) => (
         <Space>
-          <Button icon={<EditOutlined />} onClick={() => handleEdit(record)}>
-            Изменить
-          </Button>
+          {handleEdit(record)}
           <Button icon={<DeleteOutlined />} onClick={() => showDeleteConfirm(record)}>
             Удалить
           </Button>
@@ -87,73 +170,10 @@ const Files = () => {
     });
   };
 
-  const handleEdit = (file) => {
-    // Реализуйте здесь логику редактирования файла
-    console.log(`Редактирование файла: ${file.name}`);
-  };
-
-  const customRequest = async ({ file, onSuccess, onError }) => {
-    console.log(1);
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      const response = await axios.post(`${API_URL}/api/v1/files/${id}/file/`, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      console.log(response.data);
-      if (response.data.success) {
-        console.log(response.data);
-        onSuccess();
-      } else {
-        onError(new Error('Upload failed'));
-      }
-    } catch (error) {
-      console.error('Error uploading file:', error);
-      onError(error);
-    }
-  };
-  const handleUpload = async (file) => {
-    console.log(file);
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-      await refreshAccessToken();
-      const response = await axios.post(`${API_URL}/api/v1/files/${id}/file/`, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      if (response.data.success) {
-        message.success(`${file.name} успешно загружен`);
-        await fetchFilesData(); // Обновляем список файлов после загрузки нового
-      } else {
-        message.error(`Произошла ошибка при загрузке файла ${file.name}`);
-      }
-    } catch (error) {
-      console.error('Error uploading file:', error);
-      message.error(`Произошла ошибка при загрузке файла ${file.name}`);
-    }
-  };
-  const beforeUpload = (file) => {
-    handleUpload(file);
-    return false; // Отменяем автоматическую загрузку Ant Design
-  };
   return (
     <div>
       <Space direction="vertical" style={{ marginBottom: '16px' }}>
-        <Upload
-          customRequest={customRequest}
-          showUploadList={false}
-          beforeUpload={beforeUpload}
-          onChange={handleUpload} // Добавляем обработчик изменения состояния загрузки
-        >
-          {' '}
+        <Upload customRequest={customRequest} showUploadList={false} beforeUpload={beforeUpload}>
           <Button icon={<UploadOutlined />}>Загрузить файл</Button>
         </Upload>
       </Space>

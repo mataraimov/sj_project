@@ -59,7 +59,7 @@ const PsychologistNotes = () => {
         accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       };
-      const response = await axios.delete(`${API_URL}/api/v1/psychology/${id}/lists/${note.id}/`, {
+      const response = await axios.delete(`${API_URL}/api/v1/psychology/${note.id}/`, {
         headers,
       });
 
@@ -87,8 +87,8 @@ const PsychologistNotes = () => {
 
       if (editingNote) {
         // Редактирование заметки
-        const response = await axios.patch(
-          `${API_URL}/api/v1/psychology/${id}/lists/${editingNote.id}/`,
+        const response = await axios.post(
+          `${API_URL}/api/v1/psychology/${editingNote.id}/psychology/`,
           values,
           { headers },
         );

@@ -9,14 +9,52 @@ const { TextArea } = Input;
 
 const Diaries = () => {
   const { id } = useParams();
-
+  const [editingDiary, setEditingDiary] = useState(null);
   const [diariesData, setDiariesData] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [form] = Form.useForm();
-
+  const [editModalVisible, setEditModalVisible] = useState(false);
   const [fullContent, setFullContent] = useState('');
   const [showFullContentModal, setShowFullContentModal] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const handleEditClick = (record) => {
+    setEditingId(record.id);
+    setEditingDiary(record);
+    setEditModalVisible(true);
+  };
+  useEffect(() => {
+    if (editingDiary) {
+      form.setFieldsValue({
+        content: editingDiary.content,
+      });
+    }
+  }, [editingDiary]);
+  const handleEditDiaryEntry = async (values) => {
+    try {
+      console.log(values);
+      await refreshAccessToken();
+      const headers = {
+        accept: 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      };
 
+      await axios.patch(`${API_URL}/api/v1/diaries/${editingId}/`, values, { headers });
+
+      message.success('Запись в дневнике успешно изменена');
+      setModalVisible(false);
+      setEditingId(null);
+      fetchDiariesData();
+    } catch (error) {
+      if (error.response && error.response.data) {
+        const errorMessage =
+          error.response.data.detail || 'Произошла ошибка при изменении записи в дневнике';
+        message.error(errorMessage);
+      } else {
+        message.error('Произошла ошибка при изменении записи в дневнике');
+      }
+      console.error('Error editing diary entry:', error);
+    }
+  };
   const toggleShowFullContentModal = (text) => {
     setFullContent(text);
     setShowFullContentModal(!showFullContentModal);
@@ -130,6 +168,9 @@ const Diaries = () => {
       key: 'action',
       render: (text, record) => (
         <span>
+          <Button type="primary" onClick={() => handleEditClick(record)}>
+            Редактировать
+          </Button>
           <Button type="danger" onClick={() => showDeleteConfirm(record.id)}>
             Удалить
           </Button>
@@ -160,7 +201,26 @@ const Diaries = () => {
           </Form.Item>
         </Form>
       </Modal>
-
+      <Modal
+        title="Редактировать запись в дневнике"
+        visible={editModalVisible}
+        onOk={() => form.submit()}
+        onCancel={() => {
+          setEditModalVisible(false);
+          setEditingDiary('');
+        }}
+      >
+        <Form form={form} onFinish={handleEditDiaryEntry}>
+          <Form.Item
+            name="content"
+            label="Содержание"
+            rules={[{ required: true, message: 'Введите содержание' }]}
+            initialValue={editingDiary ? editingDiary.content : ''}
+          >
+            <TextArea rows={4} />
+          </Form.Item>
+        </Form>
+      </Modal>
       <Modal
         title="Полное содержание"
         visible={showFullContentModal}

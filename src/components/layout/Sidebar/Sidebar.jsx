@@ -27,7 +27,6 @@ const SiderBarComponent = ({ collapsed, userRole }) => {
   } else {
     items.push(
       getItem(`${userRole}`, 'sub1', '', <UserOutlined />, [
-        getItem('Дашборд', '2', '/doctor'),
         getItem('Пациенты', '3', '/patient-list'),
       ]),
     );

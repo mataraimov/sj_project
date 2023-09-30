@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Space, Table, Modal, Form, Input } from 'antd';
+import { Space, Table, Modal, Form, Input, Button } from 'antd';
 import axios from 'axios';
 import { refreshAccessToken } from '../../../components/utils/refreshToken';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { API_URL } from '../../../components/utils/config';
-
+import { PlusOutlined } from '@ant-design/icons';
 const PatientList = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -92,8 +92,8 @@ const PatientList = () => {
             </>
           ) : (
             <>
-              <a onClick={() => showDetails(record)}>Details</a>
-              <a onClick={() => showDeleteConfirm(record)}>Delete</a>
+              <a onClick={() => showDetails(record)}>Детали</a>
+              <a onClick={() => showDeleteConfirm(record)}>Удалить</a>
             </>
           )}
         </Space>
@@ -118,6 +118,11 @@ const PatientList = () => {
 
   return (
     <>
+      <Link to="/admin/create-patient">
+        <Button type="primary" icon={<PlusOutlined />} style={{ marginBottom: 16, float: 'right' }}>
+          Добавить пациента
+        </Button>
+      </Link>
       <Table columns={columns} dataSource={data} loading={loading} rowKey="id" />
 
       <Modal
