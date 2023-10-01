@@ -29,12 +29,8 @@ const CreatePatient = () => {
   const fetchEducationOptions = async () => {
     try {
       const response = await axios.get(`${API_URL}/api/v1/status/education_list/`);
-      const educationOptions = Object.entries(response.data).map(([key, value]) => ({
-        id: +key + 1,
-        name: value[Object.keys(value)[0]],
-      }));
-      // Обновите состояние с вариантами образования
-      setEducationOptions(educationOptions);
+
+      setEducationOptions(response.data);
     } catch (error) {
       console.error('Error fetching education options:', error);
     }
@@ -42,12 +38,8 @@ const CreatePatient = () => {
   const fetchFamilyOptions = async () => {
     try {
       const response = await axios.get(`${API_URL}/api/v1/status/family_list/`);
-      const familyOptions = Object.entries(response.data).map(([key, value]) => ({
-        id: +key + 1,
-        name: value[Object.keys(value)[0]],
-      }));
 
-      setFamilyOptions(familyOptions);
+      setFamilyOptions(response.data);
     } catch (error) {
       console.error('Error fetching family options:', error);
     }
@@ -192,7 +184,7 @@ const CreatePatient = () => {
           >
             {educationOptions.map((option) => (
               <Option key={option.id} value={option.id}>
-                {option.name}
+                {option.title}
               </Option>
             ))}
           </Select>
@@ -208,7 +200,7 @@ const CreatePatient = () => {
           >
             {familyOptions.map((option) => (
               <Option key={option.id} value={option.id}>
-                {option.name}
+                {option.title}
               </Option>
             ))}
           </Select>

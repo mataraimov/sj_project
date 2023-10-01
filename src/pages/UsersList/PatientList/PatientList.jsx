@@ -58,7 +58,11 @@ const PatientList = () => {
   const handleUpdate = async (id, updatedData) => {
     setLoading(true);
     try {
-      await axios.put(`${API_URL}/api/v1/patients/${id}/`, updatedData);
+      await refreshAccessToken();
+      const headers = await {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      };
+      await axios.put(`${API_URL}/api/v1/patients/${id}/`, { headers }, updatedData);
       await fetchData();
       setEditingId(null);
     } catch (error) {
@@ -71,7 +75,11 @@ const PatientList = () => {
   const handleDelete = async (id) => {
     setLoading(true);
     try {
-      await axios.delete(`${API_URL}/api/v1/patients/${id}/`);
+      await refreshAccessToken();
+      const headers = await {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      };
+      await axios.delete(`${API_URL}/api/v1/patients/${id}/`, { headers });
       await fetchData();
     } catch (error) {
       console.error('Error deleting patient:', error);
