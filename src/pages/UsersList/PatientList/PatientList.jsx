@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Space, Table, Modal, Form, Input, Button } from 'antd';
 import axios from 'axios';
 import { refreshAccessToken } from '../../../components/utils/refreshToken';
@@ -10,18 +10,46 @@ const PatientList = () => {
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const navigate = useNavigate();
+  const [previousData, setPreviousData] = useState([]);
+  const prevPaginationRef = useRef();
+  const [pagination, setPagination] = useState({
+    current: 1,
+    // pageSize: 10,
+    total: 0,
+  });
+
+  const handleTableChange = (pagination) => {
+    prevPaginationRef.current = pagination; // Сохраняем текущее значение pagination
+    setPagination(pagination);
+    fetchData(pagination.current);
+  };
   useEffect(() => {
     fetchData();
   }, []);
 
-  const fetchData = async () => {
+  const fetchData = async (page = 1) => {
     try {
       await refreshAccessToken();
       const headers = await {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       };
-      const response = await axios.get(`${API_URL}/api/v1/patients/`, { headers });
-      setData(response.data);
+      const response = await axios.get(`${API_URL}/api/v1/patients/`, {
+        headers,
+        params: {
+          page,
+        },
+      });
+      setData(response.data.results);
+      setPagination({
+        ...pagination,
+        total: response.data.count,
+        next: response.data.next,
+      });
+
+      // Восстанавливаем предыдущее значение pagination
+      if (prevPaginationRef.current) {
+        setPagination(prevPaginationRef.current);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -123,7 +151,14 @@ const PatientList = () => {
           Добавить пациента
         </Button>
       </Link>
-      <Table columns={columns} dataSource={data} loading={loading} rowKey="id" />
+      <Table
+        columns={columns}
+        dataSource={data}
+        loading={loading}
+        rowKey="id"
+        pagination={pagination}
+        onChange={handleTableChange}
+      />
 
       <Modal
         visible={editingId !== null}
