@@ -10,7 +10,7 @@ const PatientList = () => {
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const navigate = useNavigate();
-  const [previousData, setPreviousData] = useState([]);
+
   const prevPaginationRef = useRef();
   const [pagination, setPagination] = useState({
     current: 1,
@@ -19,7 +19,7 @@ const PatientList = () => {
   });
 
   const handleTableChange = (pagination) => {
-    prevPaginationRef.current = pagination; // Сохраняем текущее значение pagination
+    prevPaginationRef.current = pagination;
     setPagination(pagination);
     fetchData(pagination.current);
   };

@@ -22,7 +22,6 @@ const PsychologistNotes = () => {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       };
       const response = await axios.get(`${API_URL}/api/v1/psychology/${id}/`, { headers });
-      console.log(response.data);
       setNotes(response.data);
     } catch (error) {
       console.error('Error fetching psychologist notes:', error);
@@ -47,7 +46,6 @@ const PsychologistNotes = () => {
     setEditingNote(note);
     form.setFieldsValue({
       content: note.content,
-      // Добавьте другие поля, если они есть
     });
     setModalVisible(true);
   };
@@ -86,7 +84,6 @@ const PsychologistNotes = () => {
       };
 
       if (editingNote) {
-        // Редактирование заметки
         const response = await axios.post(
           `${API_URL}/api/v1/psychology/${editingNote.id}/psychology/`,
           values,

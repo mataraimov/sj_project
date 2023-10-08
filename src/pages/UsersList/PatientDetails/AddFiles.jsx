@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Space, Button, Upload, message, Modal } from 'antd';
-import { UploadOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { UploadOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../../components/utils/config';
@@ -21,7 +21,6 @@ const Files = () => {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
       });
-      console.log(response.data);
       setFileList(response.data);
     } catch (error) {
       console.error('Error fetching files data:', error);
@@ -40,14 +39,11 @@ const Files = () => {
 
   const handleRemove = async (file) => {
     try {
-      console.log(file.id);
       const response = await axios.delete(`${API_URL}/api/v1/files/${file.id}/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
       });
-
-      console.log(response);
 
       if (response.status === 204) {
         setFileList((prevList) => prevList.filter((item) => item.id !== file.id));
@@ -117,8 +113,6 @@ const Files = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-
-      console.log(response);
 
       if (response.status === 200 || response.status === 201) {
         message.success(`${file.name} успешно загружен`);

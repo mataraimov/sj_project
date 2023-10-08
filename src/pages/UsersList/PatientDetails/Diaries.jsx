@@ -31,7 +31,6 @@ const Diaries = () => {
   }, [editingDiary]);
   const handleEditDiaryEntry = async (values) => {
     try {
-      console.log(values);
       await refreshAccessToken();
       const headers = {
         accept: 'application/json',
@@ -81,7 +80,6 @@ const Diaries = () => {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       };
       const response = await axios.get(`${API_URL}/api/v1/diaries/${id}/lists/`, { headers });
-      console.log(response.data);
       setDiariesData(response.data);
     } catch (error) {
       console.error('Error fetching diaries data:', error);
@@ -127,11 +125,9 @@ const Diaries = () => {
         accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       };
-      console.log(diaryId);
       const response = await axios.delete(`${API_URL}/api/v1/diaries/${diaryId}/`, { headers });
       if (response.status === 200) {
         message.success('Дневник успешно удален');
-        // Обновляем данные
         const updatedDiaries = diariesData.filter((diary) => diary.id !== diaryId);
         setDiariesData(updatedDiaries);
       }

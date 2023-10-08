@@ -135,14 +135,12 @@ const InvestorDetails = () => {
         };
 
         if (editingId) {
-          // Update existing investment
           await axios.put(
             `http://127.0.0.1:8000/api/inv/update_attachments/${editingId}/`,
             requestData,
             { headers },
           );
         } else {
-          // Create new investment
           await axios.post('http://127.0.0.1:8000/api/inv/add_attachment/', requestData, {
             headers,
           });

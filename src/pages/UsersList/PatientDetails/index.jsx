@@ -8,6 +8,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { API_URL } from '../../../components/utils/config';
 import CreateSessionModal from './CreateSession';
 import { useAuth } from '../../../components/utils/context';
+import { refreshAccessToken } from '../../../components/utils/refreshToken';
 const { confirm } = Modal;
 const { Option } = Select;
 
@@ -37,8 +38,8 @@ const PatientDetails = () => {
   };
   const fetchEducationOptions = async () => {
     try {
+      await refreshAccessToken();
       const response = await axios.get(`${API_URL}/api/v1/status/education_list/`);
-
       setEducationOptions(response.data);
     } catch (error) {
       console.error('Error fetching education options:', error);
@@ -46,20 +47,31 @@ const PatientDetails = () => {
   };
   const fetchFamilyOptions = async () => {
     try {
+      await refreshAccessToken();
       const response = await axios.get(`${API_URL}/api/v1/status/family_list/`);
-
       setFamilyOptions(response.data);
     } catch (error) {
       console.error('Error fetching family options:', error);
     }
   };
-
+  const fetchPatientData = async () => {
+    try {
+      await refreshAccessToken();
+      const response = await axios.get(`${API_URL}/api/v1/patients/${id}/`, {
+        headers,
+      });
+      setPatientData(response.data);
+    } catch (error) {
+      console.error('Error fetching patient data:', error);
+    }
+  };
   useEffect(() => {
     fetchEducationOptions();
     fetchFamilyOptions();
   }, [modalVisible]);
   useEffect(() => {
     fetchRecordsData();
+    fetchPatientData();
     // moment.locale('ru');
   }, []);
 
@@ -105,7 +117,7 @@ const PatientDetails = () => {
     },
   ];
   const showDetails = (record) => {
-    navigate(`/records/${id}`, { state: { recordData: record } });
+    navigate(`/records/${id}`, { state: { recordData: record, patientData: patientData } });
   };
 
   const showConfirm = (record) => {
@@ -119,10 +131,10 @@ const PatientDetails = () => {
 
   const fetchRecordsData = async () => {
     try {
+      await refreshAccessToken();
       const response = await axios.get(`${API_URL}/api/v1/records/${id}/`, {
         headers,
       });
-      console.log(response.data);
       setRecordsData(response.data);
     } catch (error) {
       console.error('Error fetching patient data:', error);
@@ -178,28 +190,28 @@ const PatientDetails = () => {
           {moment(patientData?.date_of_birth).format('YYYY-MM-DD')}
         </Descriptions.Item>
         <Descriptions.Item label="Образование">
-          {patientData?.anamnesis_life?.education}
+          {patientData?.anamnesis?.education}
         </Descriptions.Item>
         <Descriptions.Item label="Семейное положение">
-          {patientData?.anamnesis_life?.martial_status}
+          {patientData?.anamnesis?.martial_status}
         </Descriptions.Item>
         <Descriptions.Item label="Место работы">
-          {patientData?.anamnesis_life?.place_work}
+          {patientData?.anamnesis?.place_work}
         </Descriptions.Item>
         <Descriptions.Item label="Судимости">
-          {patientData?.anamnesis_life?.criminal_record}
+          {patientData?.anamnesis?.criminal_record}
         </Descriptions.Item>
         <Descriptions.Item label="Прошлые заболевания">
-          {patientData?.anamnesis_life?.previous_illnesses}
+          {patientData?.anamnesis?.previous_illnesses}
         </Descriptions.Item>
         <Descriptions.Item label="Принимаемые медикаменты">
-          {patientData?.anamnesis_life?.medications}
+          {patientData?.anamnesis?.medications}
         </Descriptions.Item>
         <Descriptions.Item label="Аллергический анамнез">
-          {patientData?.anamnesis_life?.allergic_history}
+          {patientData?.anamnesis?.allergic_history}
         </Descriptions.Item>
-        {/* Добавьте другие поля для отображения информации о пациенте */}
       </Descriptions>
+
       <Button
         type="primary"
         icon={<EditOutlined />}
@@ -235,13 +247,13 @@ const PatientDetails = () => {
       <Table columns={columns} dataSource={recordsData} rowKey={(record, index) => index} />
       {session && (
         <CreateSessionModal
-          visible={session} // Передаем видимость модалки
-          onCancel={handleCancel} // Передаем функцию закрытия модалки
-          patientId={id} // Передаем ID пациента
-          fetchData={fetchRecordsData} // Передаем функцию для обновления данных
+          visible={session}
+          onCancel={handleCancel}
+          patientId={id}
+          fetchData={fetchRecordsData}
         />
       )}
-      {/* Добавьте другие компоненты для отображения данных о посещениях пациента */}
+
       {modalVisible && (
         <Modal
           title="Редактировать информацию о пациенте"

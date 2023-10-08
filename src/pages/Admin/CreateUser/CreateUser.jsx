@@ -4,12 +4,10 @@ import axios from 'axios';
 import d from './CreateUser.module.css';
 import { Option } from 'antd/es/mentions';
 import { refreshAccessToken } from '../../../components/utils/refreshToken';
-import { useNavigate } from 'react-router-dom';
 import CustomNotification from '../../../components/utils/Toasts/CustomNotification';
 import { API_URL } from '../../../components/utils/config';
 
 const CreateUser = () => {
-  const navigate = useNavigate();
   const [showSuccessNotification, setShowSuccessNotification] = useState(false);
   const [showErrorNotification, setShowErrorNotification] = useState(false);
   const [form] = Form.useForm();

@@ -40,8 +40,6 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
 
       for (const statusType of statusList) {
         const response = await axios.get(`${API_URL}/api/v1/status/${statusType}/`);
-        console.log(statusType);
-        console.log(response.data);
         options[statusType] = response.data;
       }
 
@@ -61,11 +59,10 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
       values.anamnesis.receiving_something_time = moment(
         values.anamnesis.receiving_something_time,
       ).format('YYYY-MM-DD');
-      values.anamnesis.category = [values.anamnesis.category];
-      values.anamnesis.type_palimpsests = [values.anamnesis.type_palimpsests];
-      // values.somatic.state_conjunctiva = 1;
-      values.anamnesis.type_tolerance = [values.anamnesis.type_tolerance];
-      values.anamnesis.type_intoxication = [values.anamnesis.type_intoxication];
+      values.anamnesis.category = [{ title: values.anamnesis.category }];
+      values.anamnesis.type_palimpsests = [{ title: values.anamnesis.type_palimpsests }];
+      values.anamnesis.type_tolerance = [{ title: values.anamnesis.type_tolerance }];
+      values.anamnesis.type_intoxication = [{ title: values.anamnesis.type_intoxication }];
 
       await refreshAccessToken();
       await axios.post(`${API_URL}/api/v1/records/${patientId}/record/`, values, {

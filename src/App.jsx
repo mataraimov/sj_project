@@ -6,8 +6,7 @@ import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 
 import InvestorDetails from './pages/UsersList/InvestorDetails/InvestorDetails';
-import Projects from './pages/Projects/Projects';
-import ProjectsDetails from './pages/Projects/ProjectsDetails';
+
 import CreateUser from './pages/Admin/CreateUser/CreateUser';
 import { useAuth } from './components/utils/context';
 
@@ -53,22 +52,7 @@ function App() {
               </LayoutWrapper>
             }
           />
-          <Route
-            path="/projects"
-            element={
-              <LayoutWrapper>
-                <Projects />
-              </LayoutWrapper>
-            }
-          />
-          <Route
-            path="/projects/id"
-            element={
-              <LayoutWrapper>
-                <ProjectsDetails />
-              </LayoutWrapper>
-            }
-          />
+
           <Route
             path="/admin/create-patient"
             element={

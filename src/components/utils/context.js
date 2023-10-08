@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const accessToken = localStorage.getItem('access_token');
-    const role = localStorage.getItem('role'); // Получаем роль из localStorage
+    const role = localStorage.getItem('role');
 
     if (accessToken) {
       setAuthData({
