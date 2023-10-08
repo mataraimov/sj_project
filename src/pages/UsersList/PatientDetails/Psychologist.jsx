@@ -21,7 +21,8 @@ const PsychologistNotes = () => {
         accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       };
-      const response = await axios.get(`${API_URL}/api/v1/psychology/${id}/`, { headers });
+      const response = await axios.get(`${API_URL}/api/v1/psychology/${id}/lists`, { headers });
+      console.log(response);
       setNotes(response.data);
     } catch (error) {
       console.error('Error fetching psychologist notes:', error);
@@ -76,48 +77,46 @@ const PsychologistNotes = () => {
   const handleModalOk = async () => {
     try {
       const values = await form.validateFields();
-
       await refreshAccessToken();
+      const accessToken = localStorage.getItem('access_token');
+      if (!accessToken) {
+        throw new Error('Access token not found');
+      }
+
       const headers = {
         accept: 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        Authorization: `Bearer ${accessToken}`,
       };
 
-      if (editingNote) {
-        const response = await axios.post(
-          `${API_URL}/api/v1/psychology/${editingNote.id}/psychology/`,
-          values,
-          { headers },
-        );
+      let response;
 
-        if (response.status === 200) {
-          setNotes((prevList) =>
-            prevList.map((item) => (item.id === editingNote.id ? { ...item, ...values } : item)),
-          );
-          message.success(`Заметка успешно отредактирована`);
-          setModalVisible(false);
-        } else {
-          message.error('Произошла ошибка при редактировании заметки');
-        }
+      if (editingNote) {
+        const url = `${API_URL}/api/v1/psychology/${editingNote.id}/`;
+        response = await axios.patch(url, values, { headers });
+        console.log(response);
       } else {
-        const response = await axios.post(
-          `${API_URL}/api/v1/psychology/${id}/psychology/`,
-          values,
-          {
-            headers,
-          },
+        const url = `${API_URL}/api/v1/psychology/${id}/psychology/`;
+        response = await axios.post(url, values, { headers });
+        console.log(response);
+      }
+
+      if (response.status === 200 || response.status === 201 || response.status === 202) {
+        const updatedNotes = editingNote
+          ? notes.map((item) => (item.id === editingNote.id ? { ...item, ...values } : item))
+          : [...notes, response.data];
+
+        setNotes(updatedNotes);
+        message.success(
+          editingNote ? 'Заметка успешно отредактирована' : 'Заметка успешно добавлена',
         );
-        console.log(response.data);
-        if (response.status === 201) {
-          setNotes((prevList) => [...prevList, response.data]);
-          message.success(`Заметка успешно добавлена`);
-          setModalVisible(false);
-        } else {
-          message.error('Произошла ошибка при добавлении заметки');
-        }
+        setModalVisible(false);
+        form.resetFields();
+      } else {
+        throw new Error('Error while adding/editing note');
       }
     } catch (error) {
       console.error('Error:', error);
+      message.error('Произошла ошибка при сохранении заметки');
     }
   };
 
