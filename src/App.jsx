@@ -19,6 +19,7 @@ import AddFiles from './pages/UsersList/PatientDetails/AddFiles';
 import Diaries from './pages/UsersList/PatientDetails/Diaries';
 import PsychologistNotes from './pages/UsersList/PatientDetails/Psychologist';
 import Profile from './pages/Home/Profile';
+import Revenues from './pages/Admin/Revenues';
 
 function App() {
   const { authData } = useAuth();
@@ -130,6 +131,14 @@ function App() {
             element={
               <LayoutWrapper>
                 <Profile />
+              </LayoutWrapper>
+            }
+          />
+          <Route
+            path="/revenues"
+            element={
+              <LayoutWrapper>
+                <Revenues />
               </LayoutWrapper>
             }
           />

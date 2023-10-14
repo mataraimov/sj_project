@@ -21,7 +21,7 @@ const SiderBarComponent = ({ collapsed, userRole }) => {
         getItem('Дашборд', '2', '/admin'),
         getItem('Пациенты', '3', '/patient-list'),
         getItem('Докторы', '4', '/doctor-list'),
-        getItem('Доходы', '5', '/projects'),
+        getItem('Доходы', '5', '/revenues'),
       ]),
     );
   } else {
