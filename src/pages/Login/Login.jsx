@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import l from './Login.module.css';
 import axios from 'axios';
 import { useAuth } from '../../components/utils/context';
@@ -26,12 +26,17 @@ const Login = () => {
       localStorage.setItem('surname', response2.data.surname);
       localStorage.setItem('phone', response2.data.phone);
     } catch (error) {
-      console.error('Login Failed with POST:', error);
+      if (error.response.status === 401) {
+        message.error('Неправильные учетные данные. Пожалуйста, попробуйте снова.');
+      } else {
+        console.error('Авторизация ошибочна:', error);
+      }
     }
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
+    message.error('Пожалуйста, введите правильные данные для входа');
   };
 
   return (
@@ -49,7 +54,7 @@ const Login = () => {
           rules={[
             {
               required: true,
-              message: 'phone',
+              message: 'Введите номер телефона!',
             },
           ]}
           className={l.input}
@@ -64,7 +69,7 @@ const Login = () => {
           rules={[
             {
               required: true,
-              message: 'Please input your password!',
+              message: 'Пожалуйста введите пароль!',
             },
           ]}
           className={l.input}
