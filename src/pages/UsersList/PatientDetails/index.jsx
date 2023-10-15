@@ -6,9 +6,10 @@ import { Descriptions, Button, Modal, Form, Input, Select, Table } from 'antd';
 import { EditOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { API_URL } from '../../../components/utils/config';
-import CreateSessionModal from './CreateSession';
+// import CreateSessionModal from './CreateSession';
 import { useAuth } from '../../../components/utils/context';
 import { refreshAccessToken } from '../../../components/utils/refreshToken';
+import CreateSessionModal from './Sessions/CreateSession';
 const { confirm } = Modal;
 const { Option } = Select;
 
