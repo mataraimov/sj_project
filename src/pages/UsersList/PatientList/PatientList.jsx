@@ -5,12 +5,14 @@ import { refreshAccessToken } from '../../../components/utils/refreshToken';
 import { Link, useNavigate } from 'react-router-dom';
 import { API_URL } from '../../../components/utils/config';
 import { PlusOutlined } from '@ant-design/icons';
+import { useAuth } from '../../../components/utils/context';
 const PatientList = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const navigate = useNavigate();
-
+  const { authData } = useAuth();
+  const { role } = authData;
   const prevPaginationRef = useRef();
   const [pagination, setPagination] = useState({
     current: 1,
@@ -128,8 +130,14 @@ const PatientList = () => {
             </>
           ) : (
             <>
-              <a onClick={() => showDetails(record)}>Детали</a>
-              <a onClick={() => showDeleteConfirm(record)}>Удалить</a>
+              <a style={{ color: '#1890ff' }} onClick={() => showDetails(record)}>
+                Детали
+              </a>
+              {role === 'Admin' && (
+                <a onClick={() => showDeleteConfirm(record)} style={{ color: 'red' }}>
+                  Удалить
+                </a>
+              )}
             </>
           )}
         </Space>
@@ -141,11 +149,11 @@ const PatientList = () => {
   };
   const showDeleteConfirm = (record) => {
     Modal.confirm({
-      title: 'Confirm Deletion',
-      content: 'Are you sure you want to delete this patient?',
-      okText: 'Yes',
+      title: 'Подтверждение удаления',
+      content: 'Вы уверены что хотите удалить пациента?',
+      okText: 'Да',
       okType: 'danger',
-      cancelText: 'No',
+      cancelText: 'Нет',
       onOk: () => handleDelete(record.id),
     });
   };

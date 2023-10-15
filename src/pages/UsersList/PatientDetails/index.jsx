@@ -3,7 +3,7 @@ import axios from 'axios';
 import moment from 'moment';
 import 'moment/locale/ru';
 import { Descriptions, Button, Modal, Form, Input, Select, Table } from 'antd';
-import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { EditOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { API_URL } from '../../../components/utils/config';
 import CreateSessionModal from './CreateSession';
@@ -109,9 +109,11 @@ const PatientDetails = () => {
           <Button type="primary" onClick={() => showDetails(record)}>
             Детали
           </Button>
-          <Button type="danger" onClick={() => showConfirm(record)}>
-            Удалить
-          </Button>
+          {role === 'Admin' && (
+            <Button style={{ color: 'red' }} type="danger" onClick={() => showConfirm(record)}>
+              Удалить
+            </Button>
+          )}
         </span>
       ),
     },
@@ -121,12 +123,28 @@ const PatientDetails = () => {
   };
 
   const showConfirm = (record) => {
-    confirm({
-      title: 'Вы уверены, что хотите удалить эту сессию?',
-      onOk() {
-        // Обработка действия "Удалить" для конкретной сессии
-      },
+    Modal.confirm({
+      title: 'Подтверждение удаления',
+      content: 'Вы уверены что хотите удалить пациента?',
+      okText: 'Да',
+      okType: 'danger',
+      cancelText: 'Нет',
+      onOk: () => handleDelete(record.id),
     });
+  };
+  const handleDelete = async (sessionId) => {
+    try {
+      await refreshAccessToken();
+      const headers = await {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      };
+      await axios.delete(`${API_URL}/api/v1/records/${sessionId}/`, { headers });
+      await fetchRecordsData(); // Assuming this function is defined and fetches the records data
+    } catch (error) {
+      console.error('Error deleting session:', error);
+    } finally {
+      console.log(1);
+    }
   };
 
   const fetchRecordsData = async () => {
