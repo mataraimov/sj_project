@@ -154,6 +154,7 @@ const PatientDetails = () => {
       const response = await axios.get(`${API_URL}/api/v1/records/${id}/`, {
         headers,
       });
+      console.log(response.data);
       setRecordsData(response.data);
     } catch (error) {
       console.error('Error fetching patient data:', error);
@@ -257,10 +258,16 @@ const PatientDetails = () => {
           </Button>
         </>
       )}
+
       {role === 'Психолог' && (
-        <Button onClick={handlePsychologistNotesClick} style={{ marginLeft: 16 }} type="primary">
-          Заметки психолога
-        </Button>
+        <>
+          <Button onClick={handleAddFilesClick} style={{ marginLeft: 16 }} type="primary">
+            Добавить файлы
+          </Button>
+          <Button onClick={handlePsychologistNotesClick} style={{ marginLeft: 16 }} type="primary">
+            Заметки психолога
+          </Button>
+        </>
       )}
 
       <Table columns={columns} dataSource={recordsData} rowKey={(record, index) => index} />
