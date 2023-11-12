@@ -10,6 +10,7 @@ import { API_URL } from '../../../components/utils/config';
 import { useAuth } from '../../../components/utils/context';
 import { refreshAccessToken } from '../../../components/utils/refreshToken';
 import CreateSessionModal from './Sessions/CreateSession';
+import CreateEpicrisisModal from './Epicrisis';
 const { confirm } = Modal;
 const { Option } = Select;
 
@@ -19,6 +20,7 @@ const PatientDetails = () => {
   const [recordsData, setRecordsData] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [session, setSessionVisible] = useState(false);
+  const [epicris, setEpicrisVisible] = useState(false);
   const [form] = Form.useForm();
   const [educationOptions, setEducationOptions] = useState([]);
   const [familyOptions, setFamilyOptions] = useState([]);
@@ -32,6 +34,9 @@ const PatientDetails = () => {
 
   const handleDiariesClick = () => {
     navigate(`/diaries/${id}`);
+  };
+  const handleEpicrisisClick = () => {
+    navigate(`/epicrisis/${id}`);
   };
 
   const handlePsychologistNotesClick = () => {
@@ -193,10 +198,14 @@ const PatientDetails = () => {
   const showSessionModal = () => {
     setSessionVisible(true);
   };
+  const showEpicrisModal = () => {
+    setEpicrisVisible(true);
+  };
 
   const handleCancel = () => {
     setModalVisible(false);
     setSessionVisible(false);
+    setEpicrisVisible(false);
     form.resetFields();
   };
 
@@ -248,6 +257,18 @@ const PatientDetails = () => {
       >
         Добавить сессию
       </Button>
+      {role !== 'Психолог' && (
+        <>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            style={{ marginBottom: 16, float: 'right', marginRight: 16 }}
+            onClick={handleEpicrisisClick}
+          >
+            Эпикриз
+          </Button>
+        </>
+      )}
       {role === 'Доктор' && (
         <>
           <Button onClick={handleAddFilesClick} style={{ marginLeft: 16 }} type="primary">

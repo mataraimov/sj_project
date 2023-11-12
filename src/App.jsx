@@ -4,12 +4,9 @@ import Admin from './pages/Admin/Admin';
 import CreatePatient from './pages/Admin/CreatePatient/CreatePatient';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
-
 import InvestorDetails from './pages/UsersList/InvestorDetails/InvestorDetails';
-
 import CreateUser from './pages/Admin/CreateUser/CreateUser';
 import { useAuth } from './components/utils/context';
-
 import PatientList from './pages/UsersList/PatientList/PatientList';
 import PatientDetails from './pages/UsersList/PatientDetails';
 import RecordsDetail from './pages/UsersList/PatientDetails/RecordsDetail';
@@ -20,6 +17,7 @@ import Diaries from './pages/UsersList/PatientDetails/Diaries';
 import PsychologistNotes from './pages/UsersList/PatientDetails/Psychologist';
 import Profile from './pages/Home/Profile';
 import Revenues from './pages/Admin/Revenues';
+import Epicrisis from './pages/UsersList/PatientDetails/Epicrisis';
 
 function App() {
   const { authData } = useAuth();
@@ -115,6 +113,14 @@ function App() {
             element={
               <LayoutWrapper>
                 <Diaries />
+              </LayoutWrapper>
+            }
+          />
+          <Route
+            path="/epicrisis/:id"
+            element={
+              <LayoutWrapper>
+                <Epicrisis />
               </LayoutWrapper>
             }
           />
