@@ -4,7 +4,6 @@ import Admin from './pages/Admin/Admin';
 import CreatePatient from './pages/Admin/CreatePatient/CreatePatient';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
-import InvestorDetails from './pages/UsersList/InvestorDetails/InvestorDetails';
 import CreateUser from './pages/Admin/CreateUser/CreateUser';
 import { useAuth } from './components/utils/context';
 import PatientList from './pages/UsersList/PatientList/PatientList';
@@ -149,14 +148,6 @@ function App() {
             }
           />
 
-          <Route
-            path="/investor/:id"
-            element={
-              <LayoutWrapper>
-                <InvestorDetails />
-              </LayoutWrapper>
-            }
-          />
           <Route path="*" element={<Navigate to="/" />} />
         </>
       ) : (

@@ -178,6 +178,7 @@ const PatientDetails = () => {
           { headers },
         )
         .then((response) => {
+          fetchPatientData();
           setPatientData(response.data);
           setModalVisible(false);
           form.resetFields();
