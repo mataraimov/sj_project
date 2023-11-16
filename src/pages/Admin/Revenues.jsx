@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Table } from 'antd';
-import axios from 'axios';
-import { API_URL } from '../../components/utils/config';
-import { refreshAccessToken } from '../../components/utils/refreshToken';
-import moment from 'moment';
+import React, { useState, useEffect } from "react";
+import { Table } from "antd";
+import axios from "axios";
+import { API_URL } from "../../components/utils/config";
+import { refreshAccessToken } from "../../components/utils/refreshToken";
+import moment from "moment";
+import IncomeTraffic from "../../components/IncomeTraffic/IncomeTraffic";
 
 const Revenues = () => {
   const [data, setData] = useState([]);
@@ -16,36 +17,51 @@ const Revenues = () => {
   const fetchData = async () => {
     try {
       await refreshAccessToken();
-      const response = await axios.get(`${API_URL}/api/v1/monthly-income/`, {
+      const response = await axios.get(`${API_URL}/api/v1/income/`, {
         headers: {
-          accept: 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
       console.log(response.data);
-      setData(Object.entries(response.data).map(([month, income]) => ({ month, income })));
+      setData(
+        Object.entries(response.data).map(([month, income]) => ({
+          month,
+          income,
+        }))
+      );
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
   const columns = [
     {
-      title: 'Месяц',
-      dataIndex: 'month',
-      key: 'month',
-      render: (month) => <span>{moment(month).format('MMMM YYYY')}</span>,
+      title: "Месяц",
+      dataIndex: "month",
+      key: "month",
+      render: (month) => <span>{moment(month).format("MMMM YYYY")}</span>,
     },
 
     {
-      title: 'Доход',
-      dataIndex: 'income',
-      key: 'income',
+      title: "Доход",
+      dataIndex: "income",
+      key: "income",
       render: (income) => <span>{income} сом</span>,
     },
   ];
 
-  return <Table columns={columns} dataSource={data} loading={loading} rowKey="month" />;
+  return (
+    <>
+    <IncomeTraffic />
+      <Table
+        columns={columns}
+        dataSource={data}
+        loading={loading}
+        rowKey="month"
+      />
+    </>
+  );
 };
 
 export default Revenues;
