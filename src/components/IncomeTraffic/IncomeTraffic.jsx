@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import {
-  BarChart,
-  Bar,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 import { API_URL } from "../utils/config";
@@ -47,28 +46,29 @@ const IncomeTraffic = () => {
     const incomeForMonth = data.find(item => moment(item.month).format("MMMM YYYY") === month);
     return {
       name: month,
-      pv: incomeForMonth ? incomeForMonth.income : 0,
+      uv: incomeForMonth ? incomeForMonth.income : 0,
     };
   });
 
   return (
-    <ResponsiveContainer width="100%" height={600}>
-      <BarChart
+    <ResponsiveContainer  width="100%" height={450}>
+      <LineChart
+        width={500}
+        height={200}
         data={formattedData}
         margin={{
-          top: 20,
+          top: 10,
           right: 30,
-          left: 20,
-          bottom: 5,
+          left: 0,
+          bottom: 0,
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
-        <Legend />
-        <Bar dataKey="pv" stackId="a" fill="#8884d8" />
-      </BarChart>
+        <Line connectNulls type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
+      </LineChart>
     </ResponsiveContainer>
   );
 };
