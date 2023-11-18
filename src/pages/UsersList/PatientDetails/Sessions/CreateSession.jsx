@@ -16,7 +16,44 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
   const [statusOptions, setStatusOptions] = useState({});
   const [form] = Form.useForm();
   const [values, setValues] = useState({});
+  const handleOk = async () => {
+    try {
+      // const values = await form.getFieldsValue();
+      // const values = await form.validateFields();
+      console.log(values);
+      const finalValues = {
+        ...values,
+        anamnesis: {
+          ...values.anamnesis,
+          receiving_something_time: moment(values.anamnesis.receiving_something_time).format(
+            'YYYY-MM-DD',
+          ),
+          category: [{ title: '1' }],
+          type_palimpsests: [{ title: 1 }],
+          type_tolerance: [{ title: '1' }],
+          type_intoxication: [{ title: values.anamnesis.type_intoxication }],
+        },
+      };
 
+      console.log(finalValues);
+
+      await refreshAccessToken();
+      await axios.post(`${API_URL}/api/v1/records/${patientId}/record/`, finalValues, {
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        },
+      });
+
+      message.success('Сессия успешно создана');
+      form.resetFields();
+      fetchData();
+      onCancel();
+    } catch (error) {
+      console.error('Error creating session:', error);
+      message.error('Ошибка при создании сессии');
+    }
+  };
   const nextStep = (stepValues) => {
     console.log(stepValues);
     setValues({
@@ -45,7 +82,13 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
       form={form}
       statusOptions={statusOptions}
     />,
-    <FifthStep nextStep={nextStep} prevStep={prevStep} form={form} statusOptions={statusOptions} />,
+    <FifthStep
+      handleOk={handleOk}
+      nextStep={nextStep}
+      prevStep={prevStep}
+      form={form}
+      statusOptions={statusOptions}
+    />,
   ];
 
   const fetchStatusOptions = async () => {
@@ -89,49 +132,11 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
     fetchStatusOptions();
   }, []);
 
-  const handleOk = async () => {
-    try {
-      // const values = await form.getFieldsValue();
-      // const values = await form.validateFields();
-      console.log(values);
-      const finalValues = {
-        ...values,
-        anamnesis: {
-          ...values.anamnesis,
-          receiving_something_time: moment(values.anamnesis.receiving_something_time).format(
-            'YYYY-MM-DD',
-          ),
-          category: [{ title: '1' }],
-          type_palimpsests: [{ title: values.anamnesis.type_palimpsests }],
-          type_tolerance: [{ title: '1' }],
-          type_intoxication: [{ title: values.anamnesis.type_intoxication }],
-        },
-      };
-
-      console.log(finalValues);
-
-      await refreshAccessToken();
-      await axios.post(`${API_URL}/api/v1/records/${patientId}/record/`, finalValues, {
-        headers: {
-          accept: 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-      });
-
-      message.success('Сессия успешно создана');
-      form.resetFields();
-      fetchData();
-      onCancel();
-    } catch (error) {
-      console.error('Error creating session:', error);
-      message.error('Ошибка при создании сессии');
-    }
-  };
-
   return (
     <Modal
       title="Добавить сессию"
       visible={visible}
+      onOk={handleOk}
       onCancel={onCancel}
       footer={[
         <Button key="back" onClick={prevStep}>

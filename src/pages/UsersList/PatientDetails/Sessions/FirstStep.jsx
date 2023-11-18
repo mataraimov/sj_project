@@ -89,7 +89,7 @@ const FirstStep = ({ form, statusOptions, nextStep, prevStep }) => {
         <Input />
       </Form.Item>
       <Button type="primary" htmlType="submit">
-        Next
+        Продолжить
       </Button>
     </Form>
   );

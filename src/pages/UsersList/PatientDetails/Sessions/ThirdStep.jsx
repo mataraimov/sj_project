@@ -147,8 +147,12 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       <Form.Item name={['somatic', 'supplements']} label="Добавки">
         <Input />
       </Form.Item>
+      <Button key="back" onClick={prevStep}>
+        Назад
+      </Button>
+      ,
       <Button type="primary" htmlType="submit">
-        Next
+        Продолжить
       </Button>
     </Form>
   );

@@ -1,19 +1,25 @@
 import React from 'react';
-import { Form, Select, Input, Button } from 'antd';
+import { Form, Select, Input, Button, Checkbox } from 'antd';
 
 const { Option } = Select;
 
-const FifthStep = ({ form, statusOptions, nextStep, prevStep }) => {
+const FifthStep = ({ form, statusOptions, nextStep, prevStep, handleOk }) => {
   const onFinish = (values) => {
     // Передаем значения обратно в родительский компонент
     nextStep(values);
   };
-  const onFinishAndSubmit = (values) => {
-    // Передаем значения для сохранения на последнем шаге
-    nextStep(values);
-    // Дополнительный код для сохранения на последнем шаге
-    // Вызовите функцию для сохранения данных на сервере здесь
-    // ...
+  const onFinishAndSubmit = () => {
+    // Получаем значения из формы
+    form
+      .validateFields()
+      .then((values) => {
+        // Передаем значения для сохранения на последнем шаге
+        nextStep(values);
+        // handleOk();
+      })
+      .catch((errorInfo) => {
+        console.log('Ошибка при сохранении:', errorInfo);
+      });
   };
   return (
     <Form form={form} onFinish={onFinish}>
@@ -32,8 +38,9 @@ const FifthStep = ({ form, statusOptions, nextStep, prevStep }) => {
         name={['mental', 'smell_of_alcohol']}
         label="Запах алкоголя"
         valuePropName="checked"
+        initialValue={false} // Установите начальное значение чекбокса
       >
-        <Input type="checkbox" />
+        <Checkbox />
       </Form.Item>
       <Form.Item name={['mental', 'behavior']} label="Поведение">
         <Input />

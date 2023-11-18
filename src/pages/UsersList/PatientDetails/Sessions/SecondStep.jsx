@@ -94,8 +94,11 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
             ))}
         </Select>
       </Form.Item>
+      <Button key="back" onClick={prevStep}>
+        Назад
+      </Button>
       <Button type="primary" htmlType="submit">
-        Next
+        Продолжить
       </Button>
     </Form>
   );
