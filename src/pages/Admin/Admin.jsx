@@ -10,7 +10,7 @@ const Admin = () => {
         <Button>Создать пациента</Button>
       </Link>
       <Link to="/admin/create-doctor">
-        <Button>Создать доктора</Button>
+        <Button>Создать сотрудника</Button>
       </Link>
     </div>
   );
