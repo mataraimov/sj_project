@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Table } from "antd";
+import { Button, Table } from "antd";
 import axios from "axios";
 import { API_URL } from "../../components/utils/config";
 import { refreshAccessToken } from "../../components/utils/refreshToken";
 import moment from "moment";
 import IncomeTraffic from "../../components/IncomeTraffic/IncomeTraffic";
+import { Link, useNavigate } from "react-router-dom";
 
 const Revenues = () => {
   const [data, setData] = useState([]);
@@ -17,48 +18,68 @@ const Revenues = () => {
   const fetchData = async () => {
     try {
       await refreshAccessToken();
-      const response = await axios.get(`${API_URL}/api/v1/income/`, {
+      const response = await axios.get(`${API_URL}/api/v1/income/lists`, {
         headers: {
           accept: "application/json",
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
       console.log(response.data);
-      setData(
-        Object.entries(response.data).map(([month, income]) => ({
-          month,
-          income,
-        }))
-      );
+      setData(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-
+  const navigate = useNavigate();
+  const showDetails = (record) => {
+    navigate(`/patient/${record.id}`, { state: { patientData: record } });
+  };
   const columns = [
     {
-      title: "Месяц",
-      dataIndex: "month",
-      key: "month",
-      render: (month) => <span>{moment(month).format("MMMM YYYY")}</span>,
+      title: "Имя",
+      dataIndex: "name",
+      key: "name",
     },
-
+    {
+      title: "Фамилия",
+      dataIndex: "surname",
+      key: "surname",
+    },
     {
       title: "Доход",
-      dataIndex: "income",
-      key: "income",
-      render: (income) => <span>{income} сом</span>,
+      dataIndex: "total_profit",
+      key: "total_profit",
+    },
+    {
+      title: "Последнее обновление",
+      dataIndex: "date_of_birth",
+      key: "date_of_birth",
+      render: (date) => <span>{moment(date).format("DD/MM/YYYY")}</span>,
+    },
+    {
+      render: (text, record) => (
+        <span>
+          <a style={{ color: "#1890ff" }} onClick={() => showDetails(record)}>
+            Детали
+          </a>
+        </span>
+      ),
     },
   ];
-
+  const styles = {
+    tableContainer: {
+      marginTop: '60px', 
+    },
+  };
   return (
     <>
-    <IncomeTraffic />
+      <IncomeTraffic />
       <Table
         columns={columns}
         dataSource={data}
         loading={loading}
-        rowKey="month"
+        rowKey={(record, index) => index}
+        style={styles.tableContainer}
       />
     </>
   );
