@@ -46,7 +46,7 @@ const IncomeTraffic = () => {
     const incomeForMonth = data.find(item => moment(item.month).format("MMMM YYYY") === month);
     return {
       name: month,
-      uv: incomeForMonth ? incomeForMonth.income : 0,
+      зп: incomeForMonth ? incomeForMonth.income : 0,
     };
   });
 
@@ -67,7 +67,7 @@ const IncomeTraffic = () => {
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
-        <Line connectNulls type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
+        <Line connectNulls type="monotone" dataKey="зп" stroke="#8884d8" fill="#8884d8" />
       </LineChart>
     </ResponsiveContainer>
   );

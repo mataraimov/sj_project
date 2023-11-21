@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { API_URL } from '../../../components/utils/config';
 import { PlusOutlined } from '@ant-design/icons';
 import { useAuth } from '../../../components/utils/context';
+import SearchPatients from '../../../components/SearchPatients/SearchPatients';
 const PatientList = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -92,34 +93,34 @@ const PatientList = () => {
 
   const columns = [
     {
-      title: 'Name',
+      title: 'Имя',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'Surname',
+      title: 'Фамилия',
       dataIndex: 'surname',
       key: 'surname',
     },
     {
-      title: 'Patronymic',
+      title: 'Отчество',
       dataIndex: 'patronymic',
       key: 'patronymic',
     },
     {
-      title: 'Avatar',
+      title: 'Аватар',
       dataIndex: 'avatar',
       key: 'avatar',
       render: (avatar) => <img src={avatar} alt="Avatar" style={{ width: '50px' }} />,
     },
     {
-      title: 'In Hospital',
+      title: 'В госпитале',
       dataIndex: 'in_hospital',
       key: 'in_hospital',
-      render: (inHospital) => (inHospital ? 'Yes' : 'No'),
+      render: (inHospital) => (inHospital ? 'Да' : 'Нет'),
     },
     {
-      title: 'Action',
+      title: 'Действия',
       key: 'action',
       render: (text, record) => (
         <Space size="middle">
@@ -162,6 +163,7 @@ const PatientList = () => {
 
   return (
     <>
+      <SearchPatients />
       <Link to="/admin/create-patient">
         <Button type="primary" icon={<PlusOutlined />} style={{ marginBottom: 16, float: 'right' }}>
           Добавить пациента
