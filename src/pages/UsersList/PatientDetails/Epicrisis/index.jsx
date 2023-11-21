@@ -30,7 +30,6 @@ const EpicrisisDetails = ({ epicrisisId, onCancel }) => {
         const response = await axios.get(`${API_URL}/api/v1/epicrisis/${epicrisisId}/`, {
           headers,
         });
-        console.log(response.data);
         setEpicrisisDetails(response.data);
         setLoading(false);
       } catch (error) {
@@ -189,7 +188,6 @@ const Epicrisis = () => {
           const response = await axios.delete(`${API_URL}/api/v1/epicrisis/${epicrisisId}/`, {
             headers,
           });
-          console.log(response);
           if (response.status === 204) {
             message.success('Epicrisis successfully deleted');
             fetchData();

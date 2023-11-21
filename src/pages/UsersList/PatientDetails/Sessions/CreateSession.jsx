@@ -20,7 +20,6 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
     try {
       // const values = await form.getFieldsValue();
       // const values = await form.validateFields();
-      console.log(values);
       const finalValues = {
         ...values,
         anamnesis: {
@@ -35,7 +34,6 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
         },
       };
 
-      console.log(finalValues);
 
       await refreshAccessToken();
       await axios.post(`${API_URL}/api/v1/records/${patientId}/record/`, finalValues, {
@@ -55,7 +53,6 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
     }
   };
   const nextStep = (stepValues) => {
-    console.log(stepValues);
     setValues({
       ...values,
       ...stepValues,

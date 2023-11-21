@@ -29,7 +29,6 @@ const IncomeTraffic = () => {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
-      console.log(response.data);
       const incomeData = Object.entries(response.data).map(([month, income]) => ({
         month,
         income,

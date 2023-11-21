@@ -20,8 +20,6 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
         end_treatment: moment(values.end_treatment).format('YYYY-MM-DD'),
       };
       await refreshAccessToken();
-      console.log(finalValues);
-      console.log(values);
       await axios.post(`${API_URL}/api/v1/epicrisis/${patientId}/post/`, finalValues, {
         headers: {
           accept: 'application/json',

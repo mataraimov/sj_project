@@ -24,7 +24,6 @@ const Revenues = () => {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
-      console.log(response.data);
       setData(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);

@@ -148,9 +148,7 @@ const PatientDetails = () => {
       await fetchRecordsData(); // Assuming this function is defined and fetches the records data
     } catch (error) {
       console.error('Error deleting session:', error);
-    } finally {
-      console.log(1);
-    }
+    }  
   };
 
   const fetchRecordsData = async () => {
@@ -159,7 +157,6 @@ const PatientDetails = () => {
       const response = await axios.get(`${API_URL}/api/v1/records/${id}/`, {
         headers,
       });
-      console.log(response.data);
       setRecordsData(response.data);
     } catch (error) {
       console.error('Error fetching patient data:', error);
