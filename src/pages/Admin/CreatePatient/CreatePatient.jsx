@@ -65,7 +65,6 @@ const CreatePatient = () => {
         },
         { headers },
       );
-      console.log('Success:', response.data);
       setShowSuccessNotification(true);
       form.resetFields();
     } catch (error) {

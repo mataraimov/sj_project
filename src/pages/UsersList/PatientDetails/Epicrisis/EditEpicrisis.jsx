@@ -26,7 +26,6 @@ export const EditEpicrisisModal = ({ visible, onCancel, epicrisisDetails }) => {
           headers,
         },
       );
-      console.log(response);
       if (response.status === 200) {
         message.success('Epicrisis successfully edited');
       }

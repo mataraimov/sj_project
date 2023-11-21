@@ -10,7 +10,6 @@ const Login = () => {
   const onFinish = async (values) => {
     try {
       const response = await axios.post(`${API_URL}/api/v1/login/`, values);
-      console.log('Login Successful:', response.data);
       localStorage.setItem('access_token', response.data.access);
       localStorage.setItem('refresh_token', response.data.refresh);
       setAuthData({ isAuth: true });

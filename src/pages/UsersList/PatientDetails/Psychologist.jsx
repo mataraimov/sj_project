@@ -22,7 +22,6 @@ const PsychologistNotes = () => {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       };
       const response = await axios.get(`${API_URL}/api/v1/psychology/${id}/lists`, { headers });
-      console.log(response);
       setNotes(response.data);
     } catch (error) {
       console.error('Error fetching psychologist notes:', error);
@@ -93,11 +92,9 @@ const PsychologistNotes = () => {
       if (editingNote) {
         const url = `${API_URL}/api/v1/psychology/${editingNote.id}/`;
         response = await axios.patch(url, values, { headers });
-        console.log(response);
       } else {
         const url = `${API_URL}/api/v1/psychology/${id}/psychology/`;
         response = await axios.post(url, values, { headers });
-        console.log(response);
       }
 
       if (response.status === 200 || response.status === 201 || response.status === 202) {
