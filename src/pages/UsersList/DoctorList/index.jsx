@@ -139,27 +139,27 @@ const Doctors = () => {
 
   const columns = [
     {
-      title: "Name",
+      title: "Имя",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Surname",
+      title: "Фамилия",
       dataIndex: "surname",
       key: "surname",
     },
     {
-      title: "Phone",
+      title: "Номер телефона",
       dataIndex: "phone",
       key: "phone",
     },
     {
-      title: "Role",
+      title: "Роль",
       dataIndex: "role",
       key: "role",
     },
     {
-      title: "Actions",
+      title: "Действия",
       key: "action",
       render: (text, record) => (
         <span>

@@ -169,8 +169,8 @@ const Epicrisis = () => {
     Modal.confirm({
       title: 'Confirm Deletion',
       content: 'Are you sure you want to delete this epicrisis?',
-      okText: 'Yes',
-      cancelText: 'No',
+      okText: 'Да',
+      cancelText: 'Нет',
       onOk: async () => {
         // Check if the user has the 'Admin' role
         if (role !== 'Admin') {
@@ -208,11 +208,11 @@ const Epicrisis = () => {
         Добавить эпикриз
       </Button>
       <Table dataSource={epicrisisData} rowKey="id">
-        <Column title="Start Treatment" dataIndex="start_treatment" key="start_treatment" />
-        <Column title="End Treatment" dataIndex="end_treatment" key="end_treatment" />
+        <Column title="Начало лечения" dataIndex="start_treatment" key="start_treatment" />
+        <Column title="Конец лечения" dataIndex="end_treatment" key="end_treatment" />
         <Column title="Сопутствующий" dataIndex="concomitant" key="concomitant" />
         <Column
-          title="Actions"
+          title="Действия"
           key="actions"
           render={(text, record) => (
             <span>
