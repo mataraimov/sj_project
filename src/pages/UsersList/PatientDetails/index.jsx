@@ -72,14 +72,18 @@ const PatientDetails = () => {
     }
   };
   useEffect(() => {
+    fetchRecordsData();
+  }, [id]); 
+  
+  useEffect(() => {
     fetchEducationOptions();
     fetchFamilyOptions();
   }, [modalVisible]);
+  
   useEffect(() => {
-    fetchRecordsData();
     fetchPatientData();
-    // moment.locale('ru');
-  }, []);
+  }, [id]); 
+  
 
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('access_token')}`,
@@ -103,7 +107,7 @@ const PatientDetails = () => {
       key: 'price',
     },
     {
-      title: 'Условия',
+      title: 'Состояние',
       dataIndex: 'conditions',
       key: 'conditions',
     },

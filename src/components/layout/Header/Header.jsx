@@ -1,6 +1,7 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Dropdown, Layout, theme } from 'antd';
 import { Link } from 'react-router-dom';
+import SearchPatients from '../../SearchPatients/SearchPatients';
 
 const { Header } = Layout;
 
@@ -47,6 +48,7 @@ const HeaderComponent = ({ collapsed, toggleCollapsed, userRole }) => {
           height: 64,
         }}
       />
+        <SearchPatients />
       <Dropdown menu={{ items }} trigger={['click']}>
         <div
           style={{
