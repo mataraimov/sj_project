@@ -163,7 +163,6 @@ const PatientList = () => {
 
   return (
     <>
-      <SearchPatients />
       <Link to="/admin/create-patient">
         <Button type="primary" icon={<PlusOutlined />} style={{ marginBottom: 16, float: 'right' }}>
           Добавить пациента

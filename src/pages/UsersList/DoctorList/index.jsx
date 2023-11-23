@@ -45,7 +45,7 @@ const Doctors = () => {
         },
       });
       fetchData();
-      setEditModalVisible(false); 
+      setEditModalVisible(false);
     } catch (error) {
       console.error("Error updating data:", error);
     }
@@ -243,25 +243,7 @@ const Doctors = () => {
               />
             </Form.Item>
           </div>
-          <div className={d.form_input}>
-            <span className={d.form_span}>Password:</span>
-            <Form.Item
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your password!",
-                },
-              ]}
-              className={d.input}
-            >
-              <Input.Password
-                onChange={(e) =>
-                  handleEditInputChange(e.target.value, "password")
-                }
-              />
-            </Form.Item>
-          </div>
+
           <div className={d.form_input}>
             <span className={d.form_span}>Role:</span>
             <Form.Item
