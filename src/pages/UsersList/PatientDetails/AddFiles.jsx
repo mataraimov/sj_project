@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Space, Button, Upload, message, Modal } from 'antd';
-import { UploadOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { API_URL } from '../../../components/utils/config';
-import { refreshAccessToken } from '../../../components/utils/refreshToken';
+import React, { useState, useEffect } from "react";
+import { Table, Space, Button, Upload, message, Modal } from "antd";
+import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { API_URL } from "../../../components/utils/config";
+import { refreshAccessToken } from "../../../components/utils/refreshToken";
 
 const { confirm } = Modal;
 
@@ -16,14 +16,17 @@ const Files = () => {
     try {
       await refreshAccessToken();
 
-      const response = await axios.get(`${API_URL}/api/v1/files/${id}/all_photo/`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-      });
+      const response = await axios.get(
+        `${API_URL}/api/v1/files/${id}/all_photo/`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
       setFileList(response.data);
     } catch (error) {
-      console.error('Error fetching files data:', error);
+      console.error("Error fetching files data:", error);
     }
   };
 
@@ -39,28 +42,33 @@ const Files = () => {
 
   const handleRemove = async (file) => {
     try {
-      const response = await axios.delete(`${API_URL}/api/v1/files/${file.id}/`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-      });
+      const response = await axios.delete(
+        `${API_URL}/api/v1/files/${file.id}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
 
       if (response.status === 204) {
-        setFileList((prevList) => prevList.filter((item) => item.id !== file.id));
+        setFileList((prevList) =>
+          prevList.filter((item) => item.id !== file.id)
+        );
 
-        showMessage('success', `Файл успешно удален`);
+        showMessage("success", `Файл успешно удален`);
       } else {
-        showMessage('error', 'Произошла ошибка при удалении файла');
+        showMessage("error", "Произошла ошибка при удалении файла");
       }
     } catch (error) {
-      console.error('Error deleting file:', error);
-      showMessage('error', 'Произошла ошибка при удалении файла');
+      console.error("Error deleting file:", error);
+      showMessage("error", "Произошла ошибка при удалении файла");
     }
   };
 
   const handleEdit = (file) => {
     const onChange = async (info) => {
-      if (info.file.status === 'done') {
+      if (info.file.status === "done") {
         const newFile = info.file.response.data.url; // Assuming the response contains the new file URL
         try {
           await axios.patch(
@@ -68,20 +76,20 @@ const Files = () => {
             { file: newFile },
             {
               headers: {
-                Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
               },
-            },
+            }
           );
-
+  
           fetchFilesData();
-          showMessage('success', `Файл успешно изменен`);
+          showMessage("success", `Файл успешно изменен`);
         } catch (error) {
-          console.error('Error editing file:', error);
-          showMessage('error', 'Произошла ошибка при изменении файла');
+          console.error("Error editing file:", error);
+          showMessage("error", "Произошла ошибка при изменении файла");
         }
-      } else if (info.file.status === 'error') {
+      } else if (info.file.status === "error") {
         console.log(info);
-        showMessage('error', 'Произошла ошибка при загрузке файла');
+        showMessage("error", "Произошла ошибка при загрузке файла");
       }
     };
 
@@ -104,25 +112,32 @@ const Files = () => {
   const customRequest = async ({ file, onSuccess, onError }) => {
     try {
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append("file", file);
 
       await refreshAccessToken();
-      const response = await axios.post(`${API_URL}/api/v1/files/${id}/file/`, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axios.post(
+        `${API_URL}/api/v1/files/${id}/file/`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       if (response.status === 200 || response.status === 201) {
         message.success(`${file.name} успешно загружен`);
-        await fetchFilesData(); // Update the file list after a successful upload
+        await fetchFilesData();  
       } else {
-        showMessage('error', `Произошла ошибка при загрузке файла ${file.name}`);
+        showMessage(
+          "error",
+          `Произошла ошибка при загрузке файла ${file.name}`
+        );
       }
       onSuccess();
     } catch (error) {
-      console.error('Error uploading file:', error);
+      console.error("Error uploading file:", error);
       message.error(`Произошла ошибка при загрузке файла ${file.name}`);
       onError();
     }
@@ -135,18 +150,23 @@ const Files = () => {
 
   const columns = [
     {
-      title: 'Имя файла',
-      dataIndex: 'file',
-      key: 'file',
-      render: (file) => <img src={`http://${file}`} alt="file" style={{ width: '150px' }} />,
+      title: "",
+      dataIndex: "file",
+      key: "file",
+      render: (file) => (
+        <img src={`http://${file}`} alt="file" style={{ width: "150px" }} />
+      ),
     },
     {
-      title: 'Действия',
-      key: 'action',
+      title: "Действия",
+      key: "action",
       render: (text, record) => (
         <Space>
           {handleEdit(record)}
-          <Button icon={<DeleteOutlined />} onClick={() => showDeleteConfirm(record)}>
+          <Button
+            icon={<DeleteOutlined />}
+            onClick={() => showDeleteConfirm(record)}
+          >
             Удалить
           </Button>
         </Space>
@@ -156,7 +176,7 @@ const Files = () => {
 
   const showDeleteConfirm = (file) => {
     confirm({
-      title: 'Вы уверены, что хотите удалить этот файл?',
+      title: "Вы уверены, что хотите удалить этот файл?",
       onOk() {
         handleRemove(file);
       },
@@ -166,8 +186,12 @@ const Files = () => {
 
   return (
     <div>
-      <Space direction="vertical" style={{ marginBottom: '16px' }}>
-        <Upload customRequest={customRequest} showUploadList={false} beforeUpload={beforeUpload}>
+      <Space direction="vertical" style={{ marginBottom: "16px" }}>
+        <Upload
+          customRequest={customRequest}
+          showUploadList={false}
+          beforeUpload={beforeUpload}
+        >
           <Button icon={<UploadOutlined />}>Загрузить файл</Button>
         </Upload>
       </Space>

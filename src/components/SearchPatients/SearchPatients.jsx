@@ -46,14 +46,22 @@ const SearchPatients = () => {
     value: user.name,
     label: (
       <>
-        <span onClick={() => showDetails(user)}>
-          <a
-            style={{ color: "#1890ff" }}
-            onClick={() => showDetails(user)}
-          >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+          onClick={() => showDetails(user)}
+        >
+          <a style={{ color: "#000" }} onClick={() => showDetails(user)}>
             {user.name}
           </a>
-        </span>
+
+          <a style={{ color: "#1890ff" }} onClick={() => showDetails(user)}>
+            детали
+          </a>
+        </div>
       </>
     ),
   }));
