@@ -8,7 +8,7 @@ const { Content } = Layout;
 
 const LayoutWrapper = ({ children }) => {
   const { authData } = useAuth();
-  const role = 'Admin';
+  const { role } = authData;
   const [collapsed, setCollapsed] = useState(true);
   const {
     token: { colorBgContainer },

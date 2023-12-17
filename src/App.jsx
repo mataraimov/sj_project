@@ -20,7 +20,7 @@ import Epicrisis from './pages/UsersList/PatientDetails/Epicrisis';
 
 function App() {
   const { authData } = useAuth();
-  const isAuth = true;
+  const { isAuth } = authData;
 
   return (
     <Routes>
