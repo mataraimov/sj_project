@@ -8,6 +8,13 @@ const FirstStep = ({ form, statusOptions, nextStep, prevStep }) => {
     // Передаем значения обратно в родительский компонент
     nextStep(values);
   };
+  const hardcodedArrivesList = [
+    { id: 1, title: 'Впервые в жизни' },
+    { id: 2, title: 'Впервые в этом году' },
+    { id: 3, title: 'Повторно в этом году' },
+    { id: 4, title: 'Повторно вообще' },
+  ];
+
   return (
     <Form form={form} onFinish={onFinish}>
       <h2>Общие данные</h2>
@@ -17,12 +24,11 @@ const FirstStep = ({ form, statusOptions, nextStep, prevStep }) => {
         rules={[{ required: true, message: 'Пожалуйста, укажите прибытие' }]}
       >
         <Select placeholder="Выберите прибытие">
-          {statusOptions['arrives_list'] &&
-            statusOptions['arrives_list'].map((option, i) => (
-              <Option key={i} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
+          {hardcodedArrivesList.map((option) => (
+            <Option key={option.id} value={option.id}>
+              {option.title}
+            </Option>
+          ))}
         </Select>
       </Form.Item>
       <Form.Item

@@ -10,63 +10,45 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
     <Form form={form} onFinish={onFinish}>
       <h2>Соматическое состояние</h2>
       <Form.Item name={['somatic', 'condition']} label="Состояние">
-        <Select placeholder="состояние">
-          {statusOptions['conditions_list'] &&
-            statusOptions['conditions_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
+        <Select placeholder="Состояние">
+          <Option value="normal">Нормальное</Option>
+          <Option value="acute_pain">Острая боль</Option>
+          <Option value="chronic_pain">Хроническая боль</Option>
+          <Option value="inflammation">Воспаление</Option>
         </Select>
       </Form.Item>
       <Form.Item name={['somatic', 'category']} label="Категория">
-        <Select placeholder="состояние">
-          {statusOptions['category_list'] &&
-            statusOptions['category_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
+        <Select placeholder="Категория">
+          <Option value="mild">Легкое</Option>
+          <Option value="moderate">Средней тяжести</Option>
+          <Option value="severe">Тяжелое</Option>
         </Select>
       </Form.Item>
       <Form.Item name={['somatic', 'skin_type']} label="Тип кожи">
         <Select placeholder="Тип кожи">
-          {statusOptions['skin_list'] &&
-            statusOptions['skin_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
+          <Option value="dry">Сухая</Option>
+          <Option value="oily">Жирная</Option>
+          <Option value="normal">Нормальная</Option>
+          <Option value="combination">Комбинированная</Option>
         </Select>
       </Form.Item>
       <Form.Item name={['somatic', 'availability']} label="Доступность">
         <Select placeholder="Доступность">
-          {statusOptions['availability_list'] &&
-            statusOptions['availability_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
+          <Option value="available">Доступно</Option>
+          <Option value="not_available">Не доступно</Option>
         </Select>
       </Form.Item>
       <Form.Item name={['somatic', 'traces']} label="Следы">
         <Select placeholder="Следы">
-          {statusOptions['traces_list'] &&
-            statusOptions['traces_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
+          <Option value="present">Присутствуют</Option>
+          <Option value="not_present">Не присутствуют</Option>
         </Select>
       </Form.Item>
       <Form.Item name={['somatic', 'state_conjunctiva']} label="Состояние конъюнктивы">
         <Select placeholder="Выберите состояние конъюнктивы">
-          {statusOptions['conjunctiva_list'] &&
-            statusOptions['conjunctiva_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
+          <Option value="healthy">Здоровое</Option>
+          <Option value="inflamed">Воспаленное</Option>
+          <Option value="irritated">Раздраженное</Option>
         </Select>
       </Form.Item>
       <Form.Item name={['somatic', 'breath']} label="Дыхание">
@@ -74,12 +56,8 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item name={['somatic', 'wheezing']} label="Свист">
         <Select placeholder="Свист">
-          {statusOptions['wheezing_list'] &&
-            statusOptions['wheezing_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
+          <Option value="present">Присутствует</Option>
+          <Option value="absent">Отсутствует</Option>
         </Select>
       </Form.Item>
       <Form.Item name={['somatic', 'bh']} label="BH">
@@ -90,12 +68,9 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item name={['somatic', 'heart_tones']} label="Сердечные тоны">
         <Select placeholder="Сердечные тоны">
-          {statusOptions['heart_list'] &&
-            statusOptions['heart_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
+          <Option value="regular">Регулярные</Option>
+          <Option value="irregular">Нерегулярные</Option>
+          <Option value="murmur">Шумные</Option>
         </Select>
       </Form.Item>
       <Form.Item name={['somatic', 'ad']} label="АД">
@@ -106,12 +81,9 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item name={['somatic', 'filling']} label="Полнота">
         <Select placeholder="Полнота">
-          {statusOptions['nutrition_list'] &&
-            statusOptions['nutrition_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
+          <Option value="good">Хорошая</Option>
+          <Option value="average">Средняя</Option>
+          <Option value="poor">Плохая</Option>
         </Select>
       </Form.Item>
       <Form.Item name={['somatic', 'tongue']} label="Язык">

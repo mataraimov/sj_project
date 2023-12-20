@@ -21,17 +21,21 @@ const FifthStep = ({ form, statusOptions, nextStep, prevStep, handleOk }) => {
         console.log('Ошибка при сохранении:', errorInfo);
       });
   };
+  const viewsList = [
+    { id: 1, title: 'Стандартный' },
+    { id: 2, title: 'Индивидуальный' },
+    { id: 3, title: 'Особый' },
+  ];
   return (
     <Form form={form} onFinish={onFinish}>
       <h2>Ментальное состояние</h2>
       <Form.Item name={['mental', 'view']} label="Вид">
         <Select placeholder="Выберите вид">
-          {statusOptions['views_list'] &&
-            statusOptions['views_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
+          {viewsList.map((option, index) => (
+            <Option key={index} value={option.id}>
+              {option.title}
+            </Option>
+          ))}
         </Select>
       </Form.Item>
       <Form.Item

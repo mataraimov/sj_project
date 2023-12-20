@@ -34,14 +34,17 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
         },
       };
 
-
       await refreshAccessToken();
-      await axios.post(`${API_URL}/api/v1/records/${patientId}/record/`, finalValues, {
-        headers: {
-          accept: 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      const response = await axios.post(
+        `${API_URL}/api/v1/records/${patientId}/record/`,
+        finalValues,
+        {
+          headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          },
         },
-      });
+      );
 
       message.success('Сессия успешно создана');
       form.resetFields();

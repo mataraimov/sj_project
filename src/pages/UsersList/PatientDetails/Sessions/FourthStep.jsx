@@ -13,12 +13,9 @@ const FourthStep = ({ form, statusOptions, nextStep, prevStep }) => {
       <h2>Неврологическое состояние</h2>
       <Form.Item name={['neurological', 'pupils']} label="Зрачки">
         <Select placeholder="Выберите состояние зрачков">
-          {statusOptions['pupils_list'] &&
-            statusOptions['pupils_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
+          <Option value="normal">Нормальное</Option>
+          <Option value="dilated">Расширенные</Option>
+          <Option value="constricted">Суженные</Option>
         </Select>
       </Form.Item>
       <Form.Item name={['neurological', 'photo_reaction']} label="Фотореакция">
@@ -26,12 +23,8 @@ const FourthStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item name={['neurological', 'meningeal_signs']} label="Менингеальные признаки">
         <Select placeholder="Выберите менингеальные признаки">
-          {statusOptions['meningeal_list'] &&
-            statusOptions['meningeal_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
+          <Option value="absent">Отсутствуют</Option>
+          <Option value="present">Присутствуют</Option>
         </Select>
       </Form.Item>
       <Form.Item name={['neurological', 'seizures']} label="Судороги">
