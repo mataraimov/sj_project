@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Select, InputNumber, Input, DatePicker, Button } from 'antd';
-
+import moment from 'moment';
 const { Option } = Select;
 
 const FirstStep = ({ form, statusOptions, nextStep, prevStep }) => {
@@ -58,14 +58,46 @@ const FirstStep = ({ form, statusOptions, nextStep, prevStep }) => {
         label="Дата поступления"
         rules={[{ required: true, message: 'Пожалуйста, укажите дату поступления' }]}
       >
-        <DatePicker showTime format="YYYY-MM-DD" />
+        <DatePicker
+          showTime
+          format="YYYY-MM-DD"
+          disabledDate={(current) => {
+            const startOfMonth = moment().startOf('month');
+            if (current.isBefore(startOfMonth)) {
+              return true;
+            }
+
+            const endOfMonth = moment().endOf('month');
+            if (current.isAfter(endOfMonth)) {
+              return true;
+            }
+
+            return false;
+          }}
+        />
       </Form.Item>
       <Form.Item
         name={['date_of_discharge']}
         label="Дата выписки"
         rules={[{ required: true, message: 'Пожалуйста, укажите дату выписки' }]}
       >
-        <DatePicker showTime format="YYYY-MM-DD" />
+        <DatePicker
+          showTime
+          format="YYYY-MM-DD"
+          disabledDate={(current) => {
+            const startOfMonth = moment().startOf('month');
+            if (current.isBefore(startOfMonth)) {
+              return true;
+            }
+
+            const endOfMonth = moment().endOf('month');
+            if (current.isAfter(endOfMonth)) {
+              return true;
+            }
+
+            return false;
+          }}
+        />
       </Form.Item>
       <Form.Item
         name={['departament']}
