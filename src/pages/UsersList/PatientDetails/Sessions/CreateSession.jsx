@@ -13,7 +13,7 @@ import { API_URL } from '../../../../components/utils/config';
 
 const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [statusOptions, setStatusOptions] = useState({});
+  const [statusOptions, setStatusOptions] = useState([]);
   const [form] = Form.useForm();
   const [values, setValues] = useState({});
   const handleOk = async () => {
@@ -27,13 +27,12 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
           receiving_something_time: moment(values.anamnesis.receiving_something_time).format(
             'YYYY-MM-DD',
           ),
-          category: [{ title: '1' }],
-          type_palimpsests: [{ title: 1 }],
-          type_tolerance: [{ title: '1' }],
-          type_intoxication: [{ title: values.anamnesis.type_intoxication }],
+          // category: [{ title: '1' }],
+          // type_palimpsests: [{ title: 1 }],
+          // type_tolerance: [{ title: '1' }],
+          // type_intoxication: [{ title: values.anamnesis.type_intoxication }],
         },
       };
-
 
       await refreshAccessToken();
       await axios.post(`${API_URL}/api/v1/records/${patientId}/record/`, finalValues, {
@@ -93,20 +92,20 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
       const statusList = [
         'arrives_list',
         'availability_list',
-        'category_list',
+
         'conditions_list',
         'conjunctiva_list',
         'education_list',
         'family_list',
         'heart_list',
-        'intoxication_list',
+
         'meningeal_list',
         'nutrition_list',
-        'palimpsests_list',
+
         'pupils_list',
         'situation_list',
         'skin_list',
-        'tolerance_list',
+
         'traces_list',
         'views_list',
         'wheezing_list',
@@ -116,9 +115,10 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
 
       for (const statusType of statusList) {
         const response = await axios.get(`${API_URL}/api/v1/status/${statusType}/`);
+        console.log(response.data);
         options[statusType] = response.data;
       }
-
+      console.log(options);
       setStatusOptions(options);
     } catch (error) {
       console.error('Error fetching status options:', error);
