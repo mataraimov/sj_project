@@ -1,12 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Descriptions, Divider, Form, Input, Modal } from "antd";
 import { refreshAccessToken } from "../../../../components/utils/refreshToken";
 import axios from "axios";
 import { API_URL } from "../../../../components/utils/config";
 
+const fieldDescriptions = {
+  ad: "Артериальное давление",
+  apparatus: "Аппарат",
+  availability: "Наличие шрамов",
+  bh: "БХ",  
+  breath: "Дыхание",
+  category: "Категория",
+  condition: "Состояние",
+  diuresis: "Диурез",
+  edema: "Отёки",
+  filling: "Заполнение",
+  glucose: "Глюкоза",
+  heart_tones: "Сердечные тоны",
+  id: "ID",
+  liver: "Печень",
+  pulse_frequency: "Частота пульса",
+  saturation: "Сатурация",
+  skin_type: "Цвет кожи",
+  state_conjunctiva: "Состояние конъюнктивы",
+  stomach: "Живот",
+  stool: "Стул",
+  supplements: "Приём добавок",
+  tongue: "Язык",
+  traces: "Шрамы",
+  vascular_system: "Сосудистая система",
+  vomiting: "Рвота",
+  wheezing: "Хрипы",
+};
+
 const SomaticComponent = ({ somaticData }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [formData, setFormData] = useState(somaticData);
+  const [updatedSomaticData, setUpdatedSomaticData] = useState(null);
+
+  console.log(somaticData);
+
+  useEffect(() => {
+    setFormData(somaticData);
+    setUpdatedSomaticData(somaticData);
+  }, [somaticData]);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -19,16 +56,13 @@ const SomaticComponent = ({ somaticData }) => {
   const updateData = async () => {
     try {
       await refreshAccessToken();
-      await axios.patch(
-        `${API_URL}/api/v1/records/${somaticData.id}/`,
-        formData,
-        {
-          headers: {
-            accept: "application/json",
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
+      await axios.patch(`${API_URL}/api/v1/records/${formData.id}/`, formData, {
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
+      setUpdatedSomaticData(formData);
       handleCancel();
     } catch (error) {
       console.error("Ошибка при обновлении данных", error);
@@ -57,69 +91,14 @@ const SomaticComponent = ({ somaticData }) => {
         <Button onClick={showModal}>Редактировать</Button>
       </div>
       <Descriptions bordered>
-        <Descriptions.Item label="Состояние">
-          {somaticData.condition}
-        </Descriptions.Item>
-        <Descriptions.Item label="Сердечные тоны">
-          {somaticData.heart_tones}
-        </Descriptions.Item>
-        <Descriptions.Item label="Артериальное давление">
-          {somaticData.ad}
-        </Descriptions.Item>
-        <Descriptions.Item label="Наличие шрамов">
-          {somaticData.availability}
-        </Descriptions.Item>
-        <Descriptions.Item label="Общее состояние">
-          {somaticData.condition}
-        </Descriptions.Item>
-        <Descriptions.Item label="Диурез">
-          {somaticData.diuresis}
-        </Descriptions.Item>
-        <Descriptions.Item label="Отёки">{somaticData.edema}</Descriptions.Item>
-        <Descriptions.Item label="Заполнение">
-          {somaticData.filling}
-        </Descriptions.Item>
-        <Descriptions.Item label="Глюкоза">
-          {somaticData.glucose}
-        </Descriptions.Item>
-        <Descriptions.Item label="Сердечные тоны">
-          {somaticData.heart_tones}
-        </Descriptions.Item>
-        <Descriptions.Item label="Печень">
-          {somaticData.liver}
-        </Descriptions.Item>
-        <Descriptions.Item label="Частота пульса">
-          {somaticData.pulse_frequency}
-        </Descriptions.Item>
-        <Descriptions.Item label="Сатурация">
-          {somaticData.saturation}
-        </Descriptions.Item>
-        <Descriptions.Item label="Цвет кожи">
-          {somaticData.skin_type}
-        </Descriptions.Item>
-        <Descriptions.Item label="Состояние конъюнктивы">
-          {somaticData.state_conjunctiva}
-        </Descriptions.Item>
-        <Descriptions.Item label="Живот">
-          {somaticData.stomach}
-        </Descriptions.Item>
-        <Descriptions.Item label="Стул">{somaticData.stool}</Descriptions.Item>
-        <Descriptions.Item label="Приём добавок">
-          {somaticData.supplements}
-        </Descriptions.Item>
-        <Descriptions.Item label="Язык">{somaticData.tongue}</Descriptions.Item>
-        <Descriptions.Item label="Шрамы">
-          {somaticData.traces}
-        </Descriptions.Item>
-        <Descriptions.Item label="Сосудистая система">
-          {somaticData.vascular_system}
-        </Descriptions.Item>
-        <Descriptions.Item label="Рвота">
-          {somaticData.vomiting}
-        </Descriptions.Item>
-        <Descriptions.Item label="Хрипы">
-          {somaticData.wheezing}
-        </Descriptions.Item>
+        {Object.entries(updatedSomaticData || {}).map(
+          ([key, value]) =>
+            key !== "id" && (
+              <Descriptions.Item key={key} label={fieldDescriptions[key]}>
+                {value}
+              </Descriptions.Item>
+            )
+        )}
       </Descriptions>
       <Modal
         title="Редактировать данные"
@@ -135,152 +114,17 @@ const SomaticComponent = ({ somaticData }) => {
         ]}
       >
         <Form>
-          <Form.Item label="Состояние">
-            <Input
-              value={formData.condition}
-              onChange={(e) => handleInputChange("condition", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Сердечные тоны">
-            <Input
-              value={formData.heart_tones}
-              onChange={(e) => handleInputChange("heart_tones", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Артериальное давление">
-            <Input
-              value={formData.ad}
-              onChange={(e) => handleInputChange("ad", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Наличие шрамов">
-            <Input
-              value={formData.availability}
-              onChange={(e) =>
-                handleInputChange("availability", e.target.value)
-              }
-            />
-          </Form.Item>
-          <Form.Item label="Общее состояние">
-            <Input
-              value={formData.condition}
-              onChange={(e) => handleInputChange("condition", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Диурез">
-            <Input
-              value={formData.diuresis}
-              onChange={(e) => handleInputChange("diuresis", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Отёки">
-            <Input
-              value={formData.edema}
-              onChange={(e) => handleInputChange("edema", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Заполнение">
-            <Input
-              value={formData.filling}
-              onChange={(e) => handleInputChange("filling", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Глюкоза">
-            <Input
-              value={formData.glucose}
-              onChange={(e) => handleInputChange("glucose", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Сердечные тоны">
-            <Input
-              value={formData.heart_tones}
-              onChange={(e) => handleInputChange("heart_tones", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Печень">
-            <Input
-              value={formData.liver}
-              onChange={(e) => handleInputChange("liver", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Частота пульса">
-            <Input
-              value={formData.pulse_frequency}
-              onChange={(e) =>
-                handleInputChange("pulse_frequency", e.target.value)
-              }
-            />
-          </Form.Item>
-          <Form.Item label="Сатурация">
-            <Input
-              value={formData.saturation}
-              onChange={(e) => handleInputChange("saturation", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Цвет кожи">
-            <Input
-              value={formData.skin_type}
-              onChange={(e) => handleInputChange("skin_type", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Состояние конъюнктивы">
-            <Input
-              value={formData.state_conjunctiva}
-              onChange={(e) =>
-                handleInputChange("state_conjunctiva", e.target.value)
-              }
-            />
-          </Form.Item>
-          <Form.Item label="Живот">
-            <Input
-              value={formData.stomach}
-              onChange={(e) => handleInputChange("stomach", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Стул">
-            <Input
-              value={formData.stool}
-              onChange={(e) => handleInputChange("stool", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Приём добавок">
-            <Input
-              value={formData.supplements}
-              onChange={(e) => handleInputChange("supplements", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Язык">
-            <Input
-              value={formData.tongue}
-              onChange={(e) => handleInputChange("tongue", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Шрамы">
-            <Input
-              value={formData.traces}
-              onChange={(e) => handleInputChange("traces", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Сосудистая система">
-            <Input
-              value={formData.vascular_system}
-              onChange={(e) =>
-                handleInputChange("vascular_system", e.target.value)
-              }
-            />
-          </Form.Item>
-          <Form.Item label="Рвота">
-            <Input
-              value={formData.vomiting}
-              onChange={(e) => handleInputChange("vomiting", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Хрипы">
-            <Input
-              value={formData.wheezing}
-              onChange={(e) => handleInputChange("wheezing", e.target.value)}
-            />
-          </Form.Item>
+          {Object.entries(formData).map(
+            ([key, value]) =>
+              key !== "id" && (
+                <Form.Item key={key} label={fieldDescriptions[key]}>
+                  <Input
+                    value={value}
+                    onChange={(e) => handleInputChange(key, e.target.value)}
+                  />
+                </Form.Item>
+              )
+          )}
         </Form>
       </Modal>
     </div>

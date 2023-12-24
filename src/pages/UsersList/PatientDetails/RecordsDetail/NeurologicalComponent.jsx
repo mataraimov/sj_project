@@ -1,13 +1,27 @@
 // NeurologicalComponent.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Descriptions, Divider, Form, Input, Modal } from "antd";
 import { refreshAccessToken } from "../../../../components/utils/refreshToken";
 import axios from "axios";
 import { API_URL } from "../../../../components/utils/config";
 
+const filedDescription = {
+  dysarthria: "Дизартрия",
+  meningeal_signs: "Признаки менингеального раздражения",
+  photo_reaction: "Реакция на свет",
+  pupils: "Движения глазных яблок",
+  seizures: "Судороги",
+};
+
 const NeurologicalComponent = ({ neurologicalData }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [formData, setFormData] = useState(neurologicalData);
+  const [updatedNeurologicalData, setUpdatedNeurologicalData] = useState(null);
+
+  useEffect(() => {
+    setFormData(neurologicalData);
+    setUpdatedNeurologicalData(neurologicalData);
+  }, [neurologicalData]);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -21,7 +35,7 @@ const NeurologicalComponent = ({ neurologicalData }) => {
     try {
       await refreshAccessToken();
       await axios.patch(
-        `${API_URL}/api/v1/records/${neurologicalData.id}/`,
+        `${API_URL}/api/v1/records/${formData.id}/`,
         formData,
         {
           headers: {
@@ -30,6 +44,7 @@ const NeurologicalComponent = ({ neurologicalData }) => {
           },
         }
       );
+      setUpdatedNeurologicalData(formData);
       handleCancel();
     } catch (error) {
       console.error("Ошибка при обновлении данных:", error);
@@ -58,21 +73,14 @@ const NeurologicalComponent = ({ neurologicalData }) => {
         <Button onClick={showModal}>Редактировать</Button>
       </div>
       <Descriptions bordered>
-        <Descriptions.Item label="Дизартрия">
-          {neurologicalData.dysarthria}
-        </Descriptions.Item>
-        <Descriptions.Item label="Признаки менингеального раздражения">
-          {neurologicalData.meningeal_signs}
-        </Descriptions.Item>
-        <Descriptions.Item label="Реакция на свет">
-          {neurologicalData.photo_reaction}
-        </Descriptions.Item>
-        <Descriptions.Item label="Движения глазных яблок">
-          {neurologicalData.pupils}
-        </Descriptions.Item>
-        <Descriptions.Item label="Судороги">
-          {neurologicalData.seizures}
-        </Descriptions.Item>
+        {Object.entries(updatedNeurologicalData || {}).map(
+          ([key, value]) =>
+            key !== "id" && (
+              <Descriptions.Item key={key} label={filedDescription[key]}>
+                {value}
+              </Descriptions.Item>
+            )
+        )}
       </Descriptions>
 
       <Modal
@@ -89,40 +97,17 @@ const NeurologicalComponent = ({ neurologicalData }) => {
         ]}
       >
         <Form>
-          <Form.Item label="Дизартрия">
-            <Input
-              value={formData.dysarthria}
-              onChange={(e) => handleInputChange("dysarthria", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Признаки менингеального раздражения">
-            <Input
-              value={formData.meningeal_signs}
-              onChange={(e) =>
-                handleInputChange("meningeal_signs", e.target.value)
-              }
-            />
-          </Form.Item>
-          <Form.Item label="Реакция на свет">
-            <Input
-              value={formData.photo_reaction}
-              onChange={(e) =>
-                handleInputChange("photo_reaction", e.target.value)
-              }
-            />
-          </Form.Item>
-          <Form.Item label="Движения глазных яблок">
-            <Input
-              value={formData.pupils}
-              onChange={(e) => handleInputChange("pupils", e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Судороги">
-            <Input
-              value={formData.seizures}
-              onChange={(e) => handleInputChange("seizures", e.target.value)}
-            />
-          </Form.Item>
+          {Object.entries(formData).map(
+            ([key, value]) =>
+            key !== "id" && (
+              <Form.Item key={key} label={filedDescription[key]}>
+                <Input
+                  value={formData[key]}
+                  onChange={(e) => handleInputChange(key, e.target.value)}
+                />
+              </Form.Item>
+            )
+        )}
         </Form>
       </Modal>
     </div>

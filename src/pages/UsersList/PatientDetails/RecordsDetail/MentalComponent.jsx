@@ -1,12 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Descriptions, Divider, Form, Input, Modal } from "antd";
 import { refreshAccessToken } from "../../../../components/utils/refreshToken";
 import axios from "axios";
 import { API_URL } from "../../../../components/utils/config";
 
+const fieldDescriptions = {
+  behavior: "Поведение",
+  emotional_background: "Эмоциональный фон",
+  causes_of_alcohol: "Причины употребления алкоголя",
+  consciousness: "Сознание",
+  night_sleep: "Ночной сон",
+  orientation: "Ориентированность",
+  perception_disorders: "Расстройства восприятия",
+  purpose_of_hospitalization: "Цель госпитализации",
+  smell_of_alcohol: "Запах алкоголя",
+  suicide_attempt: "Попытка суицида",
+  view: "Вид",
+};
+
 const MentalComponent = ({ mentalData }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [formData, setFormData] = useState(mentalData);
+  const [updatedMentalData, setUpdatedMentalData] = useState(null);
+
+  useEffect(() => {
+    setFormData(mentalData);
+    setUpdatedMentalData(mentalData);
+  }, [mentalData]); // Добавил зависимость для правильной работы useEffect
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -19,16 +39,13 @@ const MentalComponent = ({ mentalData }) => {
   const updateData = async () => {
     try {
       await refreshAccessToken();
-      await axios.patch(
-        `${API_URL}/api/v1/records/${mentalData.id}/`,
-        formData,
-        {
-          headers: {
-            accept: "application/json",
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
+      await axios.patch(`${API_URL}/api/v1/records/${formData.id}/`, formData, {
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
+      setUpdatedMentalData(formData);
       handleCancel();
     } catch (error) {
       console.error("Ошибка при обновлении данных", error);
@@ -57,17 +74,14 @@ const MentalComponent = ({ mentalData }) => {
         <Button onClick={showModal}>Редактировать</Button>
       </div>
       <Descriptions bordered>
-        <Descriptions.Item label="Поведение">{mentalData.behavior}</Descriptions.Item>
-        <Descriptions.Item label="Эмоциональный фон">{mentalData.emotional_background}</Descriptions.Item>
-        <Descriptions.Item label="Причины употребления алкоголя">{mentalData.causes_of_alcohol}</Descriptions.Item>
-        <Descriptions.Item label="Сознание">{mentalData.consciousness}</Descriptions.Item>
-        <Descriptions.Item label="Ночной сон">{mentalData.night_sleep}</Descriptions.Item>
-        <Descriptions.Item label="Ориентированность">{mentalData.orientation}</Descriptions.Item>
-        <Descriptions.Item label="Расстройства восприятия">{mentalData.perception_disorders}</Descriptions.Item>
-        <Descriptions.Item label="Цель госпитализации">{mentalData.purpose_of_hospitalization}</Descriptions.Item>
-        <Descriptions.Item label="Запах алкоголя">{mentalData.smell_of_alcohol ? "Да" : "Нет"}</Descriptions.Item>
-        <Descriptions.Item label="Попытка суицида">{mentalData.suicide_attempt}</Descriptions.Item>
-        <Descriptions.Item label="Вид">{mentalData.view}</Descriptions.Item>
+        {Object.entries(updatedMentalData || {}).map(
+          ([key, value]) =>
+            key !== "id" && (
+              <Descriptions.Item key={key} label={fieldDescriptions[key]}>
+                {value}
+              </Descriptions.Item>
+            )
+        )}
       </Descriptions>
       <Modal
         title="Редактировать данные"
@@ -83,39 +97,17 @@ const MentalComponent = ({ mentalData }) => {
         ]}
       >
         <Form>
-          <Form.Item label="Поведение">
-            <Input value={formData.behavior} onChange={(e) => handleInputChange("behavior", e.target.value)} />
-          </Form.Item>
-          <Form.Item label="Эмоциональный фон">
-            <Input value={formData.emotional_background} onChange={(e) => handleInputChange("emotional_background", e.target.value)} />
-          </Form.Item>
-          <Form.Item label="Причины употребления алкоголя">
-            <Input value={formData.causes_of_alcohol} onChange={(e) => handleInputChange("causes_of_alcohol", e.target.value)} />
-          </Form.Item>
-          <Form.Item label="Сознание">
-            <Input value={formData.consciousness} onChange={(e) => handleInputChange("consciousness", e.target.value)} />
-          </Form.Item>
-          <Form.Item label="Ночной сон">
-            <Input value={formData.night_sleep} onChange={(e) => handleInputChange("night_sleep", e.target.value)} />
-          </Form.Item>
-          <Form.Item label="Ориентированность">
-            <Input value={formData.orientation} onChange={(e) => handleInputChange("orientation", e.target.value)} />
-          </Form.Item>
-          <Form.Item label="Расстройства восприятия">
-            <Input value={formData.perception_disorders} onChange={(e) => handleInputChange("perception_disorders", e.target.value)} />
-          </Form.Item>
-          <Form.Item label="Цель госпитализации">
-            <Input value={formData.purpose_of_hospitalization} onChange={(e) => handleInputChange("purpose_of_hospitalization", e.target.value)} />
-          </Form.Item>
-          <Form.Item label="Запах алкоголя">
-            <Input value={formData.smell_of_alcohol} onChange={(e) => handleInputChange("smell_of_alcohol", e.target.value)} />
-          </Form.Item>
-          <Form.Item label="Попытка суицида">
-            <Input value={formData.suicide_attempt} onChange={(e) => handleInputChange("suicide_attempt", e.target.value)} />
-          </Form.Item>
-          <Form.Item label="Вид">
-            <Input value={formData.view} onChange={(e) => handleInputChange("view", e.target.value)} />
-          </Form.Item>
+          {Object.entries(formData).map(
+            ([key, value]) =>
+              key !== "id" && (
+                <Form.Item key={key} label={fieldDescriptions[key]}>
+                  <Input
+                    value={formData[key]}
+                    onChange={(e) => handleInputChange(key, e.target.value)}
+                  />
+                </Form.Item>
+              )
+          )}
         </Form>
       </Modal>
     </div>
