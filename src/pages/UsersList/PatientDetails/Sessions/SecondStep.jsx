@@ -54,44 +54,38 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
       <Form.Item name={['anamnesis', 'addition']} label="Дополнение">
         <Input />
       </Form.Item>
-      <Form.Item name={['anamnesis', 'category']} label="Категория">
-        <Select placeholder="Выберите категорию">
-          {statusOptions['category_list'] &&
-            statusOptions['category_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
-        </Select>
-      </Form.Item>
       <Form.Item name={['anamnesis', 'type_tolerance']} label="Тип толерантности">
         <Select placeholder="Выберите тип толерантности">
-          {statusOptions['tolerance_list'] &&
-            statusOptions['tolerance_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
-        </Select>
-      </Form.Item>
-      <Form.Item name={['anamnesis', 'type_intoxication']} label="Тип отравления">
-        <Select placeholder="Выберите тип отравления">
-          {statusOptions['intoxication_list'] &&
-            statusOptions['intoxication_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
+          <Option value="stable">Стабильный</Option>
+          <Option value="increases">Увеличивается</Option>
+          <Option value="decreases">Уменьшается</Option>
         </Select>
       </Form.Item>
       <Form.Item name={['anamnesis', 'type_palimpsests']} label="Тип палимпсестов">
         <Select placeholder="Выберите тип палимпсестов">
-          {statusOptions['palimpsests_list'] &&
-            statusOptions['palimpsests_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
+          <Option value="yes">Есть</Option>
+          <Option value="no">Нет</Option>
+          <Option value="total_amnesia_yes">Тотальная амнезия есть</Option>
+          <Option value="total_amnesia_no">Тотальная амнезия нет</Option>
+        </Select>
+      </Form.Item>
+      <Form.Item name={['anamnesis', 'type_intoxication']} label="Тип отравления">
+        <Select placeholder="Выберите тип отравления">
+          <Option value="explosive">Эксплозивный</Option>
+          <Option value="dysphoric">Дисфорический</Option>
+          <Option value="hysterical">Истерический</Option>
+          <Option value="impulsive">Импульсивный</Option>
+          <Option value="depressive">Депрессивный</Option>
+          <Option value="maniac">Маниакальный</Option>
+          <Option value="somnolent">Сомнолентный</Option>
+        </Select>
+      </Form.Item>
+      <Form.Item name={['anamnesis', 'category']} label="Категории">
+        <Select placeholder="Выберите категорию">
+          <Option value="quantitative">Количественный контроль</Option>
+          <Option value="situational">Ситуационный контроль</Option>
+          <Option value="lost_control">Утрачен контроль</Option>
+          <Option value="no_lost_control">Контроль не утрачен</Option>
         </Select>
       </Form.Item>
       <Button key="back" onClick={prevStep}>

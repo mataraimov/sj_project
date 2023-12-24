@@ -42,6 +42,7 @@ const PatientList = () => {
           page,
         },
       });
+      console.log(response.data);
       setData(response.data.results);
       setPagination({
         ...pagination,
@@ -111,7 +112,13 @@ const PatientList = () => {
       title: 'Аватар',
       dataIndex: 'avatar',
       key: 'avatar',
-      render: (avatar) => <img src={avatar} alt="Avatar" style={{ width: '50px' }} />,
+      render: (avatar) => (
+        <img
+          src={'http://139.59.132.105/api/media/default_png.jpg'}
+          alt="Avatar"
+          style={{ width: '50px' }}
+        />
+      ),
     },
     {
       title: 'В госпитале',

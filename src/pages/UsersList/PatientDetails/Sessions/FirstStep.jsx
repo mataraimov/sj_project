@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Select, InputNumber, Input, DatePicker, Button } from 'antd';
-
+import moment from 'moment';
 const { Option } = Select;
 
 const FirstStep = ({ form, statusOptions, nextStep, prevStep }) => {
+  useEffect(() => {
+    console.log(statusOptions);
+  }, []);
+
   const onFinish = (values) => {
     // Передаем значения обратно в родительский компонент
     nextStep(values);
@@ -37,7 +41,14 @@ const FirstStep = ({ form, statusOptions, nextStep, prevStep }) => {
         label="Условия"
         rules={[{ required: true, message: 'Пожалуйста, укажите условия' }]}
       >
-        <Input />
+        <Select placeholder="Выберите прибытие">
+          {statusOptions['conditions_list'] &&
+            statusOptions['conditions_list'].map((option, i) => (
+              <Option key={i} value={option.id}>
+                {option.title}
+              </Option>
+            ))}
+        </Select>
       </Form.Item>
       <Form.Item
         name={['escorts']}
@@ -58,14 +69,44 @@ const FirstStep = ({ form, statusOptions, nextStep, prevStep }) => {
         label="Дата поступления"
         rules={[{ required: true, message: 'Пожалуйста, укажите дату поступления' }]}
       >
-        <DatePicker showTime format="YYYY-MM-DD" />
+        <DatePicker
+          format="YYYY-MM-DD"
+          disabledDate={(current) => {
+            const startOfMonth = moment().startOf('month');
+            if (current.isBefore(startOfMonth)) {
+              return true;
+            }
+
+            const endOfMonth = moment().endOf('month');
+            if (current.isAfter(endOfMonth)) {
+              return true;
+            }
+
+            return false;
+          }}
+        />
       </Form.Item>
       <Form.Item
         name={['date_of_discharge']}
         label="Дата выписки"
         rules={[{ required: true, message: 'Пожалуйста, укажите дату выписки' }]}
       >
-        <DatePicker showTime format="YYYY-MM-DD" />
+        <DatePicker
+          format="YYYY-MM-DD"
+          disabledDate={(current) => {
+            const startOfMonth = moment().startOf('month');
+            if (current.isBefore(startOfMonth)) {
+              return true;
+            }
+
+            const endOfMonth = moment().endOf('month');
+            if (current.isAfter(endOfMonth)) {
+              return true;
+            }
+
+            return false;
+          }}
+        />
       </Form.Item>
       <Form.Item
         name={['departament']}

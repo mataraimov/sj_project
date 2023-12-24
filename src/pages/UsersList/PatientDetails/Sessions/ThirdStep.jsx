@@ -19,10 +19,10 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
             ))}
         </Select>
       </Form.Item>
-      <Form.Item name={['somatic', 'category']} label="Категория">
-        <Select placeholder="состояние">
-          {statusOptions['category_list'] &&
-            statusOptions['category_list'].map((option, index) => (
+      <Form.Item name={['somatic', 'category']} label="Тип категории">
+        <Select placeholder="Тип категории">
+          {statusOptions['nutrition_list'] &&
+            statusOptions['nutrition_list'].map((option, index) => (
               <Option key={index} value={option.id}>
                 {option.title}
               </Option>

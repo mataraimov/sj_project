@@ -4,6 +4,7 @@ import { refreshAccessToken } from "../../../../components/utils/refreshToken";
 import axios from "axios";
 import { API_URL } from "../../../../components/utils/config";
 
+
 const fieldDescriptions = {
   addition: "Добавление",
   binge_drinking: "Потребление алкоголя",
@@ -45,6 +46,7 @@ const AnamnesisComponent = ({ anamnesisData }) => {
   const updateData = async () => {
     try {
       await refreshAccessToken();
+
        await axios.patch(
         `${API_URL}/api/v1/records/${formData.id}/anamnesis/`,
         formData,
@@ -56,9 +58,10 @@ const AnamnesisComponent = ({ anamnesisData }) => {
         }
       );
       setUpdatedAnamnesisData(formData);
+
       handleCancel();
     } catch (error) {
-      console.error("Ошибка при обновлении данных:", error);
+      console.error('Ошибка при обновлении данных:', error);
     }
   };
 
@@ -73,17 +76,18 @@ const AnamnesisComponent = ({ anamnesisData }) => {
     <div>
       <div
         style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          width: "1200px",
-          alignItems: "center",
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          width: '1200px',
+          alignItems: 'center',
         }}
       >
         <Divider orientation="left">Анамнез</Divider>
         <Button onClick={showModal}>Редактировать</Button>
       </div>
       <Descriptions bordered>
+
         {Object.entries(updatedAnamnesisData || {}).map(
           ([key, value]) =>
             key !== "id" && (
@@ -92,6 +96,7 @@ const AnamnesisComponent = ({ anamnesisData }) => {
               </Descriptions.Item>
             )
         )}
+
       </Descriptions>
 
       <Modal
@@ -108,6 +113,7 @@ const AnamnesisComponent = ({ anamnesisData }) => {
         ]}
       >
         <Form>
+
           {Object.entries(formData).map(
             ([key, value]) =>
               key !== "id" && (
@@ -119,6 +125,7 @@ const AnamnesisComponent = ({ anamnesisData }) => {
                 </Form.Item>
               )
           )}
+
         </Form>
       </Modal>
     </div>
