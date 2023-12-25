@@ -4,25 +4,19 @@ import { Form, Select, Input, Button, Checkbox } from 'antd';
 const { Option } = Select;
 
 const FifthStep = ({ form, statusOptions, nextStep, prevStep, handleOk }) => {
-  const onFinish = (values) => {
-    // Передаем значения обратно в родительский компонент
-    nextStep(values);
+  const onFinishAndSubmit = async () => {
+    try {
+      await form.validateFields();
+      const values = await form.getFieldsValue();
+      nextStep(values);
+      // handleOk();
+    } catch (errorInfo) {
+      console.log('Ошибка при сохранении:', errorInfo);
+    }
   };
-  const onFinishAndSubmit = () => {
-    // Получаем значения из формы
-    form
-      .validateFields()
-      .then((values) => {
-        // Передаем значения для сохранения на последнем шаге
-        nextStep(values);
-        // handleOk();
-      })
-      .catch((errorInfo) => {
-        console.log('Ошибка при сохранении:', errorInfo);
-      });
-  };
+
   return (
-    <Form form={form} onFinish={onFinish}>
+    <Form form={form} onFinish={onFinishAndSubmit}>
       <h2>Ментальное состояние</h2>
       <Form.Item name={['mental', 'view']} label="Вид">
         <Select placeholder="Выберите вид">
@@ -70,7 +64,7 @@ const FifthStep = ({ form, statusOptions, nextStep, prevStep, handleOk }) => {
         <Input />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit" onClick={onFinishAndSubmit}>
+        <Button type="primary" htmlType="submit">
           Сохранить
         </Button>
         <Button type="default" onClick={prevStep}>

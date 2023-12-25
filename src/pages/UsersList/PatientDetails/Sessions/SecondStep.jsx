@@ -12,7 +12,7 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
       <Form.Item name={['anamnesis', 'receiving_something']} label="Прием чего-то">
         <Input />
       </Form.Item>
-      <Form.Item name={['anamnesis', 'receiving_something_time']} label="Время приема чего-то">
+      <Form.Item name={['anamnesis', 'receiving_something_time']} label="Последнее время приёма">
         <DatePicker format="YYYY-MM-DD" />
       </Form.Item>
       <Form.Item name={['anamnesis', 'somatic_disorders']} label="Соматические расстройства">

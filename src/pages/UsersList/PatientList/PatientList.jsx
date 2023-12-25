@@ -42,7 +42,7 @@ const PatientList = () => {
           page,
         },
       });
-      console.log(response.data);
+
       setData(response.data.results);
       setPagination({
         ...pagination,

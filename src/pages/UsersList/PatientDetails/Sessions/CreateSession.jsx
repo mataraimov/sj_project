@@ -18,8 +18,6 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
   const [values, setValues] = useState({});
   const handleOk = async () => {
     try {
-      // const values = await form.getFieldsValue();
-      // const values = await form.validateFields();
       const finalValues = {
         ...values,
         anamnesis: {
@@ -27,10 +25,6 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
           receiving_something_time: moment(values.anamnesis.receiving_something_time).format(
             'YYYY-MM-DD',
           ),
-          // category: [{ title: '1' }],
-          // type_palimpsests: [{ title: 1 }],
-          // type_tolerance: [{ title: '1' }],
-          // type_intoxication: [{ title: values.anamnesis.type_intoxication }],
         },
       };
 
@@ -92,20 +86,16 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
       const statusList = [
         'arrives_list',
         'availability_list',
-
         'conditions_list',
         'conjunctiva_list',
         'education_list',
         'family_list',
         'heart_list',
-
         'meningeal_list',
         'nutrition_list',
-
         'pupils_list',
         'situation_list',
         'skin_list',
-
         'traces_list',
         'views_list',
         'wheezing_list',
@@ -115,10 +105,8 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
 
       for (const statusType of statusList) {
         const response = await axios.get(`${API_URL}/api/v1/status/${statusType}/`);
-        console.log(response.data);
         options[statusType] = response.data;
       }
-      console.log(options);
       setStatusOptions(options);
     } catch (error) {
       console.error('Error fetching status options:', error);

@@ -1,44 +1,42 @@
-import React, { useEffect, useState } from "react";
-import { Button, Descriptions, Divider, Form, Input, Modal } from "antd";
-import { refreshAccessToken } from "../../../../components/utils/refreshToken";
-import axios from "axios";
-import { API_URL } from "../../../../components/utils/config";
+import React, { useEffect, useState } from 'react';
+import { Button, Descriptions, Divider, Form, Input, Modal } from 'antd';
+import { refreshAccessToken } from '../../../../components/utils/refreshToken';
+import axios from 'axios';
+import { API_URL } from '../../../../components/utils/config';
 
 const fieldDescriptions = {
-  ad: "Артериальное давление",
-  apparatus: "Аппарат",
-  availability: "Наличие шрамов",
-  bh: "БХ",  
-  breath: "Дыхание",
-  category: "Категория",
-  condition: "Состояние",
-  diuresis: "Диурез",
-  edema: "Отёки",
-  filling: "Заполнение",
-  glucose: "Глюкоза",
-  heart_tones: "Сердечные тоны",
-  id: "ID",
-  liver: "Печень",
-  pulse_frequency: "Частота пульса",
-  saturation: "Сатурация",
-  skin_type: "Цвет кожи",
-  state_conjunctiva: "Состояние конъюнктивы",
-  stomach: "Живот",
-  stool: "Стул",
-  supplements: "Приём добавок",
-  tongue: "Язык",
-  traces: "Шрамы",
-  vascular_system: "Сосудистая система",
-  vomiting: "Рвота",
-  wheezing: "Хрипы",
+  ad: 'Артериальное давление',
+  apparatus: 'Аппарат',
+  availability: 'Наличие шрамов',
+  bh: 'БХ',
+  breath: 'Дыхание',
+  category: 'Категория',
+  condition: 'Состояние',
+  diuresis: 'Диурез',
+  edema: 'Отёки',
+  filling: 'Заполнение',
+  glucose: 'Глюкоза',
+  heart_tones: 'Сердечные тоны',
+  id: 'ID',
+  liver: 'Печень',
+  pulse_frequency: 'Частота пульса',
+  saturation: 'Сатурация',
+  skin_type: 'Цвет кожи',
+  state_conjunctiva: 'Состояние конъюнктивы',
+  stomach: 'Живот',
+  stool: 'Стул',
+  supplements: 'Приём добавок',
+  tongue: 'Язык',
+  traces: 'Шрамы',
+  vascular_system: 'Сосудистая система',
+  vomiting: 'Рвота',
+  wheezing: 'Хрипы',
 };
 
 const SomaticComponent = ({ somaticData }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [formData, setFormData] = useState(somaticData);
   const [updatedSomaticData, setUpdatedSomaticData] = useState(null);
-
-  console.log(somaticData);
 
   useEffect(() => {
     setFormData(somaticData);
@@ -58,14 +56,14 @@ const SomaticComponent = ({ somaticData }) => {
       await refreshAccessToken();
       await axios.patch(`${API_URL}/api/v1/records/${formData.id}/`, formData, {
         headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          accept: 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
       });
       setUpdatedSomaticData(formData);
       handleCancel();
     } catch (error) {
-      console.error("Ошибка при обновлении данных", error);
+      console.error('Ошибка при обновлении данных', error);
     }
   };
 
@@ -80,11 +78,11 @@ const SomaticComponent = ({ somaticData }) => {
     <div>
       <div
         style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          width: "1200px",
-          alignItems: "center",
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          width: '1200px',
+          alignItems: 'center',
         }}
       >
         <Divider orientation="left">Соматическое состояние</Divider>
@@ -93,11 +91,11 @@ const SomaticComponent = ({ somaticData }) => {
       <Descriptions bordered>
         {Object.entries(updatedSomaticData || {}).map(
           ([key, value]) =>
-            key !== "id" && (
+            key !== 'id' && (
               <Descriptions.Item key={key} label={fieldDescriptions[key]}>
                 {value}
               </Descriptions.Item>
-            )
+            ),
         )}
       </Descriptions>
       <Modal
@@ -116,14 +114,11 @@ const SomaticComponent = ({ somaticData }) => {
         <Form>
           {Object.entries(formData).map(
             ([key, value]) =>
-              key !== "id" && (
+              key !== 'id' && (
                 <Form.Item key={key} label={fieldDescriptions[key]}>
-                  <Input
-                    value={value}
-                    onChange={(e) => handleInputChange(key, e.target.value)}
-                  />
+                  <Input value={value} onChange={(e) => handleInputChange(key, e.target.value)} />
                 </Form.Item>
-              )
+              ),
           )}
         </Form>
       </Modal>

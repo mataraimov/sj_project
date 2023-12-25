@@ -4,12 +4,7 @@ import moment from 'moment';
 const { Option } = Select;
 
 const FirstStep = ({ form, statusOptions, nextStep, prevStep }) => {
-  useEffect(() => {
-    console.log(statusOptions);
-  }, []);
-
   const onFinish = (values) => {
-    // Передаем значения обратно в родительский компонент
     nextStep(values);
   };
   return (
