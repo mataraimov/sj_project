@@ -1,5 +1,5 @@
-import React from 'react';
-import { Form, Select, Input, Button, Checkbox } from 'antd';
+import React from "react";
+import { Form, Select, Input, Button, Checkbox } from "antd";
 
 const { Option } = Select;
 
@@ -11,17 +11,17 @@ const FifthStep = ({ form, statusOptions, nextStep, prevStep, handleOk }) => {
       nextStep(values);
       // handleOk();
     } catch (errorInfo) {
-      console.log('Ошибка при сохранении:', errorInfo);
+      console.log("Ошибка при сохранении:", errorInfo);
     }
   };
 
   return (
     <Form form={form} onFinish={onFinishAndSubmit}>
       <h2>Ментальное состояние</h2>
-      <Form.Item name={['mental', 'view']} label="Вид">
+      <Form.Item name={["mental", "view"]} label="Вид">
         <Select placeholder="Выберите вид">
-          {statusOptions['views_list'] &&
-            statusOptions['views_list'].map((option, index) => (
+          {statusOptions["views_list"] &&
+            statusOptions["views_list"].map((option, index) => (
               <Option key={index} value={option.id}>
                 {option.title}
               </Option>
@@ -29,38 +29,47 @@ const FifthStep = ({ form, statusOptions, nextStep, prevStep, handleOk }) => {
         </Select>
       </Form.Item>
       <Form.Item
-        name={['mental', 'smell_of_alcohol']}
+        name={["mental", "smell_of_alcohol"]}
         label="Запах алкоголя"
         valuePropName="checked"
         initialValue={false} // Установите начальное значение чекбокса
       >
         <Checkbox />
       </Form.Item>
-      <Form.Item name={['mental', 'behavior']} label="Поведение">
+      <Form.Item name={["mental", "behavior"]} label="Поведение">
         <Input />
       </Form.Item>
-      <Form.Item name={['mental', 'consciousness']} label="Сознание">
+      <Form.Item name={["mental", "consciousness"]} label="Сознание">
         <Input />
       </Form.Item>
-      <Form.Item name={['mental', 'orientation']} label="Ориентированность">
+      <Form.Item name={["mental", "orientation"]} label="Ориентированность">
         <Input />
       </Form.Item>
-      <Form.Item name={['mental', 'perception_disorders']} label="Расстройства восприятия">
+      <Form.Item
+        name={["mental", "perception_disorders"]}
+        label="Расстройства восприятия"
+      >
         <Input />
       </Form.Item>
-      <Form.Item name={['mental', 'emotional_background']} label="Эмоциональный фон">
+      <Form.Item
+        name={["mental", "emotional_background"]}
+        label="Эмоциональный фон"
+      >
         <Input />
       </Form.Item>
-      <Form.Item name={['mental', 'night_sleep']} label="Ночной сон">
+      <Form.Item name={["mental", "night_sleep"]} label="Ночной сон">
         <Input />
       </Form.Item>
-      <Form.Item name={['mental', 'suicide_attempt']} label="Попытка суицида">
+      <Form.Item name={["mental", "suicide_attempt"]} label="Попытка суицида">
         <Input />
       </Form.Item>
-      <Form.Item name={['mental', 'causes_of_alcohol']} label="Причины употребления алкоголя">
+      <Form.Item
+        name={["mental", "causes_of_alcohol"]}
+        label="Причины употребления алкоголя"
+      >
         <Input />
       </Form.Item>
-      <Form.Item name={['mental', 'purpose_of_hospitalization']} label="Цель госпитализации">
+      <Form.Item name={["mental", "purpose_of_hospitalization"]} label="зации">
         <Input />
       </Form.Item>
       <Form.Item>

@@ -12,7 +12,7 @@ const fieldDescriptions = {
   night_sleep: "Ночной сон",
   orientation: "Ориентированность",
   perception_disorders: "Расстройства восприятия",
-  purpose_of_hospitalization: "Цель госпитализации",
+  purpose_of_hospitalization: "зации",
   smell_of_alcohol: "Запах алкоголя",
   suicide_attempt: "Попытка суицида",
   view: "Вид",

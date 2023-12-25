@@ -7,6 +7,7 @@ import { refreshAccessToken } from '../../../../components/utils/refreshToken';
 
 export const EditEpicrisisModal = ({ visible, onCancel, epicrisisDetails }) => {
   const [form] = Form.useForm();
+
   const handleFormSubmission = async () => {
     try {
       moment.locale('ru');
@@ -14,6 +15,7 @@ export const EditEpicrisisModal = ({ visible, onCancel, epicrisisDetails }) => {
       values.start_treatment = moment(values.start_treatment).format('YYYY-MM-DD');
       values.end_treatment = moment(values.end_treatment).format('YYYY-MM-DD');
       await refreshAccessToken();
+
       const headers = {
         accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
@@ -22,18 +24,17 @@ export const EditEpicrisisModal = ({ visible, onCancel, epicrisisDetails }) => {
       const response = await axios.patch(
         `${API_URL}/api/v1/epicrisis/${epicrisisDetails.id}/`,
         values,
-        {
-          headers,
-        },
+        { headers }
       );
+
       if (response.status === 200) {
-        message.success('Epicrisis successfully edited');
+        message.success('Эпикриз успешно отредактирован');
       }
 
       onCancel();
     } catch (error) {
-      console.error('Error editing epicrisis:', error);
-      message.error('Error editing epicrisis');
+      console.error('Ошибка при редактировании эпикриза:', error);
+      message.error('Ошибка при редактировании эпикриза');
     }
   };
 
@@ -48,122 +49,122 @@ export const EditEpicrisisModal = ({ visible, onCancel, epicrisisDetails }) => {
       <Form form={form} initialValues={epicrisisDetails}>
         <Form.Item
           name="start_treatment"
-          label="Start Treatment"
-          rules={[{ required: true, message: 'Please select start treatment date' }]}
+          label="Дата начала лечения"
+          rules={[{ required: true, message: 'Пожалуйста, выберите дату начала лечения' }]}
         >
           <Input placeholder="YYYY-MM-DD" />
         </Form.Item>
         <Form.Item
           name="end_treatment"
-          label="End Treatment"
-          rules={[{ required: true, message: 'Please select end treatment date' }]}
+          label="Дата окончания лечения"
+          rules={[{ required: true, message: 'Пожалуйста, выберите дату окончания лечения' }]}
         >
           <Input placeholder="YYYY-MM-DD" />
         </Form.Item>
         <Form.Item
           name="main_diagnosis"
-          label="Main Diagnosis"
+          label="Основной диагноз"
           rules={[
-            { required: true, message: 'Please enter main diagnosis' },
-            { max: 255, message: 'Main diagnosis must be at most 255 characters' },
+            { required: true, message: 'Пожалуйста, введите основной диагноз' },
+            { max: 255, message: 'Основной диагноз должен содержать не более 255 символов' },
           ]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name="concomitant"
-          label="Concomitant"
+          label="Сопутствующее"
           rules={[
-            { required: true, message: 'Please enter concomitant' },
-            { max: 125, message: 'Concomitant must be at most 125 characters' },
+            { required: true, message: 'Пожалуйста, введите сопутствующее' },
+            { max: 125, message: 'Сопутствующее должно содержать не более 125 символов' },
           ]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name="complications"
-          label="Complications"
+          label="Осложнения"
           rules={[
-            { required: true, message: 'Please enter complications' },
-            { max: 255, message: 'Complications must be at most 255 characters' },
+            { required: true, message: 'Пожалуйста, введите осложнения' },
+            { max: 255, message: 'Осложнения должны содержать не более 255 символов' },
           ]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name="laboratory_tests"
-          label="Laboratory Tests"
+          label="Лабораторные исследования"
           rules={[
-            { required: true, message: 'Please enter laboratory tests' },
-            { max: 255, message: 'Laboratory tests must be at most 255 characters' },
+            { required: true, message: 'Пожалуйста, введите лабораторные исследования' },
+            { max: 255, message: 'Лабораторные исследования должны содержать не более 255 символов' },
           ]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name="instrumental_studies"
-          label="Instrumental Studies"
+          label="Инструментальные исследования"
           rules={[
-            { required: true, message: 'Please enter instrumental studies' },
-            { max: 255, message: 'Instrumental studies must be at most 255 characters' },
+            { required: true, message: 'Пожалуйста, введите инструментальные исследования' },
+            { max: 255, message: 'Инструментальные исследования должны содержать не более 255 символов' },
           ]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name="ecg"
-          label="ECG"
+          label="ЭКГ"
           rules={[
-            { required: true, message: 'Please enter ECG' },
-            { max: 255, message: 'ECG must be at most 255 characters' },
+            { required: true, message: 'Пожалуйста, введите ЭКГ' },
+            { max: 255, message: 'ЭКГ должно содержать не более 255 символов' },
           ]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name="x_ray"
-          label="X Ray"
+          label="Рентген"
           rules={[
-            { required: true, message: 'Please enter X Ray' },
-            { max: 125, message: 'X Ray must be at most 125 characters' },
+            { required: true, message: 'Пожалуйста, введите Рентген' },
+            { max: 125, message: 'Рентген должен содержать не более 125 символов' },
           ]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name="specialist_consultations"
-          label="Specialist Consultations"
+          label="Консультации специалистов"
           rules={[
-            { required: true, message: 'Please enter specialist consultations' },
-            { max: 255, message: 'Specialist consultations must be at most 255 characters' },
+            { required: true, message: 'Пожалуйста, введите консультации специалистов' },
+            { max: 255, message: 'Консультации специалистов должны содержать не более 255 символов' },
           ]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name="treatment"
-          label="Treatment"
+          label="Лечение"
           rules={[
-            { required: true, message: 'Please enter treatment' },
-            { max: 255, message: 'Treatment must be at most 255 characters' },
+            { required: true, message: 'Пожалуйста, введите лечение' },
+            { max: 255, message: 'Лечение должно содержать не более 255 символов' },
           ]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name="treatment_results"
-          label="Treatment Results"
+          label="Результаты лечения"
           rules={[
-            { required: true, message: 'Please enter treatment results' },
-            { max: 255, message: 'Treatment results must be at most 255 characters' },
+            { required: true, message: 'Пожалуйста, введите результаты лечения' },
+            { max: 255, message: 'Результаты лечения должны содержать не более 255 символов' },
           ]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name="recommendations"
-          label="Recommendations"
-          rules={[{ max: 255, message: 'Recommendations must be at most 255 characters' }]}
+          label="Рекомендации"
+          rules={[{ max: 255, message: 'Рекомендации должны содержать не более 255 символов' }]}
         >
           <Input />
         </Form.Item>
