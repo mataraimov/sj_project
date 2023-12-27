@@ -94,8 +94,7 @@ const Files = () => {
         // headers={{
         //   Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         // }}
-        onChange={onChange}
-      >
+        onChange={onChange}>
         <Button icon={<UploadOutlined />}>Изменить файл</Button>
       </Upload>
     );

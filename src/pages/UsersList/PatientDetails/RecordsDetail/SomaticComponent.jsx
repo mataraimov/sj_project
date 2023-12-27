@@ -83,8 +83,7 @@ const SomaticComponent = ({ somaticData }) => {
           justifyContent: 'space-between',
           width: '1200px',
           alignItems: 'center',
-        }}
-      >
+        }}>
         <Divider orientation="left">Соматическое состояние</Divider>
         <Button onClick={showModal}>Редактировать</Button>
       </div>
@@ -109,8 +108,7 @@ const SomaticComponent = ({ somaticData }) => {
           <Button key="submit" type="primary" onClick={updateData}>
             Обновить
           </Button>,
-        ]}
-      >
+        ]}>
         <Form>
           {Object.entries(formData).map(
             ([key, value]) =>

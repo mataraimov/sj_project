@@ -24,7 +24,7 @@ export const EditEpicrisisModal = ({ visible, onCancel, epicrisisDetails }) => {
       const response = await axios.patch(
         `${API_URL}/api/v1/epicrisis/${epicrisisDetails.id}/`,
         values,
-        { headers }
+        { headers },
       );
 
       if (response.status === 200) {
@@ -44,21 +44,18 @@ export const EditEpicrisisModal = ({ visible, onCancel, epicrisisDetails }) => {
       visible={visible}
       onCancel={onCancel}
       onOk={handleFormSubmission}
-      destroyOnClose
-    >
+      destroyOnClose>
       <Form form={form} initialValues={epicrisisDetails}>
         <Form.Item
           name="start_treatment"
           label="Дата начала лечения"
-          rules={[{ required: true, message: 'Пожалуйста, выберите дату начала лечения' }]}
-        >
+          rules={[{ required: true, message: 'Пожалуйста, выберите дату начала лечения' }]}>
           <Input placeholder="YYYY-MM-DD" />
         </Form.Item>
         <Form.Item
           name="end_treatment"
           label="Дата окончания лечения"
-          rules={[{ required: true, message: 'Пожалуйста, выберите дату окончания лечения' }]}
-        >
+          rules={[{ required: true, message: 'Пожалуйста, выберите дату окончания лечения' }]}>
           <Input placeholder="YYYY-MM-DD" />
         </Form.Item>
         <Form.Item
@@ -67,8 +64,7 @@ export const EditEpicrisisModal = ({ visible, onCancel, epicrisisDetails }) => {
           rules={[
             { required: true, message: 'Пожалуйста, введите основной диагноз' },
             { max: 255, message: 'Основной диагноз должен содержать не более 255 символов' },
-          ]}
-        >
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -77,8 +73,7 @@ export const EditEpicrisisModal = ({ visible, onCancel, epicrisisDetails }) => {
           rules={[
             { required: true, message: 'Пожалуйста, введите сопутствующее' },
             { max: 125, message: 'Сопутствующее должно содержать не более 125 символов' },
-          ]}
-        >
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -87,8 +82,7 @@ export const EditEpicrisisModal = ({ visible, onCancel, epicrisisDetails }) => {
           rules={[
             { required: true, message: 'Пожалуйста, введите осложнения' },
             { max: 255, message: 'Осложнения должны содержать не более 255 символов' },
-          ]}
-        >
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -96,9 +90,11 @@ export const EditEpicrisisModal = ({ visible, onCancel, epicrisisDetails }) => {
           label="Лабораторные исследования"
           rules={[
             { required: true, message: 'Пожалуйста, введите лабораторные исследования' },
-            { max: 255, message: 'Лабораторные исследования должны содержать не более 255 символов' },
-          ]}
-        >
+            {
+              max: 255,
+              message: 'Лабораторные исследования должны содержать не более 255 символов',
+            },
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -106,9 +102,11 @@ export const EditEpicrisisModal = ({ visible, onCancel, epicrisisDetails }) => {
           label="Инструментальные исследования"
           rules={[
             { required: true, message: 'Пожалуйста, введите инструментальные исследования' },
-            { max: 255, message: 'Инструментальные исследования должны содержать не более 255 символов' },
-          ]}
-        >
+            {
+              max: 255,
+              message: 'Инструментальные исследования должны содержать не более 255 символов',
+            },
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -117,8 +115,7 @@ export const EditEpicrisisModal = ({ visible, onCancel, epicrisisDetails }) => {
           rules={[
             { required: true, message: 'Пожалуйста, введите ЭКГ' },
             { max: 255, message: 'ЭКГ должно содержать не более 255 символов' },
-          ]}
-        >
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -127,8 +124,7 @@ export const EditEpicrisisModal = ({ visible, onCancel, epicrisisDetails }) => {
           rules={[
             { required: true, message: 'Пожалуйста, введите Рентген' },
             { max: 125, message: 'Рентген должен содержать не более 125 символов' },
-          ]}
-        >
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -136,9 +132,11 @@ export const EditEpicrisisModal = ({ visible, onCancel, epicrisisDetails }) => {
           label="Консультации специалистов"
           rules={[
             { required: true, message: 'Пожалуйста, введите консультации специалистов' },
-            { max: 255, message: 'Консультации специалистов должны содержать не более 255 символов' },
-          ]}
-        >
+            {
+              max: 255,
+              message: 'Консультации специалистов должны содержать не более 255 символов',
+            },
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -147,8 +145,7 @@ export const EditEpicrisisModal = ({ visible, onCancel, epicrisisDetails }) => {
           rules={[
             { required: true, message: 'Пожалуйста, введите лечение' },
             { max: 255, message: 'Лечение должно содержать не более 255 символов' },
-          ]}
-        >
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -157,15 +154,13 @@ export const EditEpicrisisModal = ({ visible, onCancel, epicrisisDetails }) => {
           rules={[
             { required: true, message: 'Пожалуйста, введите результаты лечения' },
             { max: 255, message: 'Результаты лечения должны содержать не более 255 символов' },
-          ]}
-        >
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
           name="recommendations"
           label="Рекомендации"
-          rules={[{ max: 255, message: 'Рекомендации должны содержать не более 255 символов' }]}
-        >
+          rules={[{ max: 255, message: 'Рекомендации должны содержать не более 255 символов' }]}>
           <Input />
         </Form.Item>
       </Form>

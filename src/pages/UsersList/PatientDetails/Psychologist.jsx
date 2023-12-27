@@ -151,8 +151,7 @@ const PsychologistNotes = () => {
           setModalVisible(false);
           setEditingNote(null);
           form.resetFields();
-        }}
-      >
+        }}>
         <Form form={form} layout="vertical" name="form_in_modal">
           <Form.Item
             name="content"
@@ -162,8 +161,7 @@ const PsychologistNotes = () => {
                 required: true,
                 message: 'Введите содержание заметки',
               },
-            ]}
-          >
+            ]}>
             <Input.TextArea />
           </Form.Item>
           {/* Добавьте другие поля, если они есть */}

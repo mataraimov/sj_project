@@ -50,8 +50,7 @@ const EpicrisisDetails = ({ epicrisisId, onCancel }) => {
         <Button key="cancel" onClick={onCancel}>
           Закрыть
         </Button>,
-      ]}
-    >
+      ]}>
       {loading ? (
         <p>Загрузка...</p>
       ) : (
