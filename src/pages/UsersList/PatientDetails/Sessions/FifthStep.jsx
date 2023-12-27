@@ -60,7 +60,7 @@ const FifthStep = ({ form, statusOptions, nextStep, prevStep, handleOk }) => {
       <Form.Item name={['mental', 'causes_of_alcohol']} label="Причины употребления алкоголя">
         <Input />
       </Form.Item>
-      <Form.Item name={['mental', 'purpose_of_hospitalization']} label="Цель госпитализации">
+      <Form.Item name={['mental', 'purpose_of_hospitalization']} label="зации">
         <Input />
       </Form.Item>
       <Form.Item>

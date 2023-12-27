@@ -39,8 +39,7 @@ const FileUpload = ({ onUpload }) => {
         } else if (info.file.status === 'error') {
           message.error(`${info.file.name} file upload failed.`);
         }
-      }}
-    >
+      }}>
       <Button icon={<UploadOutlined />}>Загрузить файл</Button>
     </Upload>
   );

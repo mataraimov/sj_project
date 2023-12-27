@@ -190,13 +190,11 @@ const PatientList = () => {
         okText="Save"
         cancelText="Cancel"
         onCancel={() => setEditingId(null)}
-        onOk={() => editForm.submit()}
-      >
+        onOk={() => editForm.submit()}>
         <Form
           form={editForm}
           onFinish={(values) => handleUpdate(editingId, values)}
-          initialValues={data.find((patient) => patient.id === editingId)}
-        >
+          initialValues={data.find((patient) => patient.id === editingId)}>
           <Form.Item label="Name" name="name">
             <Input />
           </Form.Item>

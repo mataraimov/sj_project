@@ -73,17 +73,16 @@ const PatientDetails = () => {
   };
   useEffect(() => {
     fetchRecordsData();
-  }, [id]); 
-  
+  }, [id]);
+
   useEffect(() => {
     fetchEducationOptions();
     fetchFamilyOptions();
   }, [modalVisible]);
-  
+
   useEffect(() => {
     fetchPatientData();
-  }, [id]); 
-  
+  }, [id]);
 
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('access_token')}`,
@@ -129,7 +128,9 @@ const PatientDetails = () => {
     },
   ];
   const showDetails = (record) => {
-    navigate(`/records/${id}`, { state: { recordData: record, patientData: patientData } });
+    navigate(`/records/${id}`, {
+      state: { recordData: record, patientData: patientData },
+    });
   };
 
   const showConfirm = (record) => {
@@ -148,11 +149,13 @@ const PatientDetails = () => {
       const headers = await {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       };
-      await axios.delete(`${API_URL}/api/v1/records/${sessionId}/`, { headers });
+      await axios.delete(`${API_URL}/api/v1/records/${sessionId}/`, {
+        headers,
+      });
       await fetchRecordsData(); // Assuming this function is defined and fetches the records data
     } catch (error) {
       console.error('Error deleting session:', error);
-    }  
+    }
   };
 
   const fetchRecordsData = async () => {
@@ -243,30 +246,32 @@ const PatientDetails = () => {
         </Descriptions.Item>
       </Descriptions>
 
-      <Button
-        type="primary"
-        icon={<EditOutlined />}
-        style={{ marginBottom: 16, float: 'left' }}
-        onClick={showModal}
-      >
-        Редактировать
-      </Button>
-      <Button
-        type="primary"
-        icon={<PlusOutlined />}
-        style={{ marginBottom: 16, float: 'right' }}
-        onClick={showSessionModal}
-      >
-        Добавить сессию
-      </Button>
+      {role !== 'Психолог' && (
+        <>
+          <Button
+            type="primary"
+            icon={<EditOutlined />}
+            style={{ marginBottom: 16, float: 'left' }}
+            onClick={showModal}>
+            Редактировать
+          </Button>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            style={{ marginBottom: 16, float: 'right' }}
+            onClick={showSessionModal}>
+            Добавить сессию
+          </Button>
+        </>
+      )}
+
       {role !== 'Психолог' && (
         <>
           <Button
             type="primary"
             icon={<PlusOutlined />}
             style={{ marginBottom: 16, float: 'right', marginRight: 16 }}
-            onClick={handleEpicrisisClick}
-          >
+            onClick={handleEpicrisisClick}>
             Эпикриз
           </Button>
         </>
@@ -308,8 +313,7 @@ const PatientDetails = () => {
           title="Редактировать информацию о пациенте"
           visible={modalVisible}
           onOk={handleOk}
-          onCancel={handleCancel}
-        >
+          onCancel={handleCancel}>
           <Form form={form} initialValues={patientData}>
             <Form.Item name="name" label="Имя">
               <Input />
@@ -323,25 +327,26 @@ const PatientDetails = () => {
             {/* <Form.Item name="date_of_birth" label="Дата рождения">
             <DatePicker format="YYYY-MM-DD" />
           </Form.Item> */}
-            <Form.Item name={['anamnesis_life', 'education']} label="Образование">
+            <Form.Item name={['anamnesis', 'education']} label="Образование">
               <Select>
                 {educationOptions.map((option) => (
-                  <Option key={option.id} value={option.id}>
+                  <Option key={option.id} value={option.title}>
                     {option.title}
                   </Option>
                 ))}
               </Select>
             </Form.Item>
 
-            <Form.Item name={['anamnesis_life', 'martial_status']} label="Семейное положение">
+            <Form.Item name={['anamnesis', 'martial_status']} label="Семейное положение">
               <Select>
                 {familyOptions.map((option) => (
-                  <Option key={option.id} value={option.id}>
+                  <Option key={option.id} value={option.title}>
                     {option.title}
                   </Option>
                 ))}
               </Select>
             </Form.Item>
+
             <Form.Item name={['anamnesis_life', 'place_work']} label="Место работы">
               <Input />
             </Form.Item>

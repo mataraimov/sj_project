@@ -135,8 +135,7 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
         <Button key="cancel" onClick={onCancel}>
           Отмена
         </Button>,
-      ]}
-    >
+      ]}>
       {steps[currentStep - 1]}
     </Modal>
   );

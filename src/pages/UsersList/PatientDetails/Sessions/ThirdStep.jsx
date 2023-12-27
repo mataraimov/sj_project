@@ -6,6 +6,7 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
     // Передаем значения обратно в родительский компонент
     nextStep(values);
   };
+
   return (
     <Form form={form} onFinish={onFinish}>
       <h2>Соматическое состояние</h2>
@@ -101,7 +102,10 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       <Form.Item name={['somatic', 'ad']} label="АД">
         <Input />
       </Form.Item>
-      <Form.Item name={['somatic', 'pulse_frequency']} label="Частота пульса">
+      <Form.Item
+        name={['somatic', 'pulse_frequency']}
+        label="Частота пульса"
+        rules={[{ required: true, message: 'Пожалуйста, укажите частоту пульса' }]}>
         <InputNumber min={0} />
       </Form.Item>
       <Form.Item name={['somatic', 'filling']} label="Полнота">

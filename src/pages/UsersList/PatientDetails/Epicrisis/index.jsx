@@ -33,7 +33,7 @@ const EpicrisisDetails = ({ epicrisisId, onCancel }) => {
         setEpicrisisDetails(response.data);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching epicrisis details:', error);
+        console.error('Ошибка при получении деталей эпикриза:', error);
         setLoading(false);
       }
     };
@@ -50,50 +50,49 @@ const EpicrisisDetails = ({ epicrisisId, onCancel }) => {
         <Button key="cancel" onClick={onCancel}>
           Закрыть
         </Button>,
-      ]}
-    >
+      ]}>
       {loading ? (
-        <p>Loading...</p>
+        <p>Загрузка...</p>
       ) : (
         <>
           <Descriptions column={1}>
-            <Descriptions.Item label="Start Treatment">
+            <Descriptions.Item label="Дата начала лечения">
               {moment(epicrisisDetails.start_treatment).format('YYYY-MM-DD')}
             </Descriptions.Item>
-            <Descriptions.Item label="End Treatment">
+            <Descriptions.Item label="Дата окончания лечения">
               {moment(epicrisisDetails.end_treatment).format('YYYY-MM-DD')}
             </Descriptions.Item>
-            <Descriptions.Item label="Main Diagnosis">
+            <Descriptions.Item label="Основной диагноз">
               <Typography.Text>{epicrisisDetails.main_diagnosis}</Typography.Text>
             </Descriptions.Item>
-            <Descriptions.Item label="Concomitant">
+            <Descriptions.Item label="Сопутствующее">
               <Typography.Text>{epicrisisDetails.concomitant}</Typography.Text>
             </Descriptions.Item>
-            <Descriptions.Item label="Complications">
+            <Descriptions.Item label="Осложнения">
               <Typography.Text>{epicrisisDetails.complications}</Typography.Text>
             </Descriptions.Item>
-            <Descriptions.Item label="Laboratory Tests">
+            <Descriptions.Item label="Лабораторные исследования">
               <Typography.Text>{epicrisisDetails.laboratory_tests}</Typography.Text>
             </Descriptions.Item>
-            <Descriptions.Item label="Instrumental Studies">
+            <Descriptions.Item label="Инструментальные исследования">
               <Typography.Text>{epicrisisDetails.instrumental_studies}</Typography.Text>
             </Descriptions.Item>
-            <Descriptions.Item label="ECG">
+            <Descriptions.Item label="ЭКГ">
               <Typography.Text>{epicrisisDetails.ecg}</Typography.Text>
             </Descriptions.Item>
-            <Descriptions.Item label="X Ray">
+            <Descriptions.Item label="Рентген">
               <Typography.Text>{epicrisisDetails.x_ray}</Typography.Text>
             </Descriptions.Item>
-            <Descriptions.Item label="Specialist Consultations">
+            <Descriptions.Item label="Консультации специалистов">
               <Typography.Text>{epicrisisDetails.specialist_consultations}</Typography.Text>
             </Descriptions.Item>
-            <Descriptions.Item label="Treatment">
+            <Descriptions.Item label="Лечение">
               <Typography.Text>{epicrisisDetails.treatment}</Typography.Text>
             </Descriptions.Item>
-            <Descriptions.Item label="Treatment Results">
+            <Descriptions.Item label="Результаты лечения">
               <Typography.Text>{epicrisisDetails.treatment_results}</Typography.Text>
             </Descriptions.Item>
-            <Descriptions.Item label="Recommendations">
+            <Descriptions.Item label="Рекомендации">
               <Typography.Text>{epicrisisDetails.recommendations}</Typography.Text>
             </Descriptions.Item>
           </Descriptions>
@@ -141,7 +140,7 @@ const Epicrisis = () => {
 
       setEpicrisisData(response.data);
     } catch (error) {
-      console.error('Error fetching epicrisis data:', error);
+      console.error('Ошибка при получении данных эпикриза:', error);
     }
   };
 
@@ -158,26 +157,26 @@ const Epicrisis = () => {
   };
 
   const handleDeleteClick = async (epicrisisId) => {
-    // Check if the user has the 'Admin' role
+    // Проверяем, есть ли у пользователя роль 'Администратор'
     if (role !== 'Admin') {
-      message.error('You do not have permission to delete.');
+      message.error('У вас нет прав на удаление.');
       return;
     }
 
-    // If 'Admin', show the confirmation modal
+    // Если у пользователя роль 'Администратор', показываем модальное окно подтверждения
     Modal.confirm({
-      title: 'Confirm Deletion',
-      content: 'Are you sure you want to delete this epicrisis?',
+      title: 'Подтверждение удаления',
+      content: 'Вы уверены, что хотите удалить этот эпикриз?',
       okText: 'Да',
       cancelText: 'Нет',
       onOk: async () => {
-        // Check if the user has the 'Admin' role
+        // Проверяем, есть ли у пользователя роль 'Администратор'
         if (role !== 'Admin') {
-          message.error('You do not have permission to delete.');
+          message.error('У вас нет прав на удаление.');
           return;
         }
 
-        // If 'Admin', proceed with deletion
+        // Если у пользователя роль 'Администратор', продолжаем удаление
         try {
           await refreshAccessToken();
           const headers = {
@@ -189,12 +188,12 @@ const Epicrisis = () => {
             headers,
           });
           if (response.status === 204) {
-            message.success('Epicrisis successfully deleted');
+            message.success('Эпикриз успешно удален');
             fetchData();
           }
         } catch (error) {
-          console.error('Error deleting epicrisis:', error);
-          message.error('Error deleting epicrisis');
+          console.error('Ошибка при удалении эпикриза:', error);
+          message.error('Ошибка при удалении эпикриза');
         }
       },
     });
@@ -206,9 +205,9 @@ const Epicrisis = () => {
         Добавить эпикриз
       </Button>
       <Table dataSource={epicrisisData} rowKey="id">
-        <Column title="Начало лечения" dataIndex="start_treatment" key="start_treatment" />
-        <Column title="Конец лечения" dataIndex="end_treatment" key="end_treatment" />
-        <Column title="Сопутствующий" dataIndex="concomitant" key="concomitant" />
+        <Column title="Дата начала лечения" dataIndex="start_treatment" key="start_treatment" />
+        <Column title="Дата окончания лечения" dataIndex="end_treatment" key="end_treatment" />
+        <Column title="Сопутствующее" dataIndex="concomitant" key="concomitant" />
         <Column
           title="Действия"
           key="actions"
