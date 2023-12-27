@@ -56,36 +56,36 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item name={['anamnesis', 'type_tolerance']} label="Тип толерантности">
         <Select placeholder="Выберите тип толерантности">
-          <Option value="stable">Стабильный</Option>
-          <Option value="increases">Увеличивается</Option>
-          <Option value="decreases">Уменьшается</Option>
+          <Option value="Стабильный">Стабильный</Option>
+          <Option value="Увеличивается">Увеличивается</Option>
+          <Option value="Уменьшается">Уменьшается</Option>
         </Select>
       </Form.Item>
       <Form.Item name={['anamnesis', 'type_palimpsests']} label="Тип палимпсестов">
         <Select placeholder="Выберите тип палимпсестов">
-          <Option value="yes">Есть</Option>
-          <Option value="no">Нет</Option>
-          <Option value="total_amnesia_yes">Тотальная амнезия есть</Option>
-          <Option value="total_amnesia_no">Тотальная амнезия нет</Option>
+          <Option value="Есть">Есть</Option>
+          <Option value="Нет">Нет</Option>
+          <Option value="Тотальная амнезия есть">Тотальная амнезия есть</Option>
+          <Option value="Тотальная амнезия нет">Тотальная амнезия нет</Option>
         </Select>
       </Form.Item>
       <Form.Item name={['anamnesis', 'type_intoxication']} label="Тип отравления">
         <Select placeholder="Выберите тип отравления">
-          <Option value="explosive">Эксплозивный</Option>
-          <Option value="dysphoric">Дисфорический</Option>
-          <Option value="hysterical">Истерический</Option>
-          <Option value="impulsive">Импульсивный</Option>
-          <Option value="depressive">Депрессивный</Option>
-          <Option value="maniac">Маниакальный</Option>
-          <Option value="somnolent">Сомнолентный</Option>
+          <Option value="Эксплозивный">Эксплозивный</Option>
+          <Option value="Дисфорический">Дисфорический</Option>
+          <Option value="Истерический">Истерический</Option>
+          <Option value="Импульсивный">Импульсивный</Option>
+          <Option value="Депрессивный">Депрессивный</Option>
+          <Option value="Маниакальный">Маниакальный</Option>
+          <Option value="Сомнолентный">Сомнолентный</Option>
         </Select>
       </Form.Item>
       <Form.Item name={['anamnesis', 'category']} label="Категории">
         <Select placeholder="Выберите категорию">
-          <Option value="quantitative">Количественный контроль</Option>
-          <Option value="situational">Ситуационный контроль</Option>
-          <Option value="lost_control">Утрачен контроль</Option>
-          <Option value="no_lost_control">Контроль не утрачен</Option>
+          <Option value="Количественный контроль">Количественный контроль</Option>
+          <Option value="Ситуационный контроль">Ситуационный контроль</Option>
+          <Option value="Утрачен контроль">Утрачен контроль</Option>
+          <Option value="Контроль не утрачен">Контроль не утрачен</Option>
         </Select>
       </Form.Item>
       <Button key="back" onClick={prevStep}>

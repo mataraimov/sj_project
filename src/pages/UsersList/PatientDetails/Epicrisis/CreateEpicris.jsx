@@ -49,26 +49,22 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
         <Button key="cancel" onClick={onCancel}>
           Cancel
         </Button>,
-      ]}
-    >
+      ]}>
       <Form
         form={form}
         onFinish={(formValues) => {
           setValues(formValues);
-        }}
-      >
+        }}>
         <Form.Item
           name="start_treatment"
           label="Начало лечения"
-          rules={[{ required: true, message: 'Please select start treatment date' }]}
-        >
+          rules={[{ required: true, message: 'Please select start treatment date' }]}>
           <DatePicker />
         </Form.Item>
         <Form.Item
           name="end_treatment"
           label="Конец лечения"
-          rules={[{ required: true, message: 'Please select end treatment date' }]}
-        >
+          rules={[{ required: true, message: 'Please select end treatment date' }]}>
           <DatePicker />
         </Form.Item>
         <Form.Item
@@ -76,9 +72,11 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
           label="Основной диагноз"
           rules={[
             { required: true, message: 'Please enter main diagnosis' },
-            { max: 255, message: 'Main diagnosis must be at most 255 characters' },
-          ]}
-        >
+            {
+              max: 255,
+              message: 'Main diagnosis must be at most 255 characters',
+            },
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -87,8 +85,7 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
           rules={[
             { required: true, message: 'Please enter concomitant' },
             { max: 125, message: 'Concomitant must be at most 125 characters' },
-          ]}
-        >
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -96,9 +93,11 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
           label="Осложнения"
           rules={[
             { required: true, message: 'Please enter complications' },
-            { max: 255, message: 'Complications must be at most 255 characters' },
-          ]}
-        >
+            {
+              max: 255,
+              message: 'Complications must be at most 255 characters',
+            },
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -106,9 +105,11 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
           label="Лабораторные тесты"
           rules={[
             { required: true, message: 'Please enter laboratory tests' },
-            { max: 255, message: 'Laboratory tests must be at most 255 characters' },
-          ]}
-        >
+            {
+              max: 255,
+              message: 'Laboratory tests must be at most 255 characters',
+            },
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -116,9 +117,11 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
           label="Инструментальные исследования"
           rules={[
             { required: true, message: 'Please enter instrumental studies' },
-            { max: 255, message: 'Instrumental studies must be at most 255 characters' },
-          ]}
-        >
+            {
+              max: 255,
+              message: 'Instrumental studies must be at most 255 characters',
+            },
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -127,8 +130,7 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
           rules={[
             { required: true, message: 'Please enter ECG' },
             { max: 255, message: 'ECG must be at most 255 characters' },
-          ]}
-        >
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -137,18 +139,22 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
           rules={[
             { required: true, message: 'Please enter X Ray' },
             { max: 125, message: 'X Ray must be at most 125 characters' },
-          ]}
-        >
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
           name="specialist_consultations"
           label="Консультации специалистов"
           rules={[
-            { required: true, message: 'Please enter specialist consultations' },
-            { max: 255, message: 'Specialist consultations must be at most 255 characters' },
-          ]}
-        >
+            {
+              required: true,
+              message: 'Please enter specialist consultations',
+            },
+            {
+              max: 255,
+              message: 'Specialist consultations must be at most 255 characters',
+            },
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -157,8 +163,7 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
           rules={[
             { required: true, message: 'Please enter treatment' },
             { max: 255, message: 'Treatment must be at most 255 characters' },
-          ]}
-        >
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -166,16 +171,22 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
           label="Результаты лечения"
           rules={[
             { required: true, message: 'Please enter treatment results' },
-            { max: 255, message: 'Treatment results must be at most 255 characters' },
-          ]}
-        >
+            {
+              max: 255,
+              message: 'Treatment results must be at most 255 characters',
+            },
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
           name="recommendations"
           label="Рекомендации"
-          rules={[{ max: 255, message: 'Recommendations must be at most 255 characters' }]}
-        >
+          rules={[
+            {
+              max: 255,
+              message: 'Recommendations must be at most 255 characters',
+            },
+          ]}>
           <Input />
         </Form.Item>
       </Form>
