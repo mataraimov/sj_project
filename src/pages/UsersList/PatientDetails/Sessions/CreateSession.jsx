@@ -41,7 +41,7 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
       fetchData();
       onCancel();
     } catch (error) {
-      console.error('Error creating session:', error);
+      console.error('Ошибка создания сессии', error);
       message.error('Ошибка при создании сессии');
     }
   };
@@ -109,7 +109,7 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
       }
       setStatusOptions(options);
     } catch (error) {
-      console.error('Error fetching status options:', error);
+      console.error('Ошибка при получении параметров статуса:', error);
     }
   };
 

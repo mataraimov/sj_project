@@ -14,7 +14,7 @@ const FileUpload = ({ onUpload }) => {
       // Далее, если запрос успешный, вызываем onSuccess()
       onSuccess();
     } catch (error) {
-      console.error('Error uploading file:', error);
+      console.error('Ошибка загрузки файла:', error);
       onError(error);
     }
   };

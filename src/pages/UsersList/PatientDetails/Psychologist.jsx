@@ -24,7 +24,7 @@ const PsychologistNotes = () => {
       const response = await axios.get(`${API_URL}/api/v1/psychology/${id}/lists`, { headers });
       setNotes(response.data);
     } catch (error) {
-      console.error('Error fetching psychologist notes:', error);
+      console.error('Не удалось получить заметки психолога:', error);
     }
   };
 
@@ -68,7 +68,7 @@ const PsychologistNotes = () => {
         message.error('Произошла ошибка при удалении заметки');
       }
     } catch (error) {
-      console.error('Error deleting note:', error);
+      console.error('Ошибка удаления заметки:', error);
       message.error('Произошла ошибка при удалении заметки');
     }
   };

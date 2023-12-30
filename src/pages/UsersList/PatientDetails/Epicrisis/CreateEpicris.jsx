@@ -8,16 +8,19 @@ import { refreshAccessToken } from '../../../../components/utils/refreshToken';
 
 const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
   const [form] = Form.useForm();
-  const [values, setValues] = useState({});
-
+  const [dates, setDates] = useState({});
+  const handleDateChange = (field, dateString) => {
+    setDates({
+      ...dates,
+      [field]: dateString ? moment(dateString, 'YYYY-MM-DD') : null,
+    });
+  };
   const handleOk = async () => {
     try {
-      const formValues = form.getFieldsValue();
-
       const finalValues = {
-        ...formValues,
-        start_treatment: moment(values.start_treatment).format('YYYY-MM-DD'),
-        end_treatment: moment(values.end_treatment).format('YYYY-MM-DD'),
+        ...form.getFieldsValue(),
+        start_treatment: moment(dates.start_treatment).format('YYYY-MM-DD'),
+        end_treatment: moment(dates.end_treatment).format('YYYY-MM-DD'),
       };
       await refreshAccessToken();
       await axios.post(`${API_URL}/api/v1/epicrisis/${patientId}/post/`, finalValues, {
@@ -27,13 +30,13 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
         },
       });
 
-      message.success('Epicrisis successfully created');
+      message.success('Эпикриз успешно создан');
       form.resetFields();
       fetchData();
       onCancel();
     } catch (error) {
-      console.error('Error creating epicrisis:', error);
-      message.error('Error creating epicrisis');
+      console.error('Ошибка создания эпикриза:', error);
+      message.error('Ошибка создания эпикриза');
     }
   };
 
@@ -44,47 +47,44 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
       onCancel={onCancel}
       footer={[
         <Button key="submit" type="primary" onClick={handleOk}>
-          Save
+          Сохранить
         </Button>,
         <Button key="cancel" onClick={onCancel}>
-          Cancel
+          Отмена
         </Button>,
       ]}>
-      <Form
-        form={form}
-        onFinish={(formValues) => {
-          setValues(formValues);
-        }}>
+      <Form form={form} onFinish={handleOk}>
         <Form.Item
           name="start_treatment"
           label="Начало лечения"
-          rules={[{ required: true, message: 'Please select start treatment date' }]}>
-          <DatePicker />
+          rules={[{ required: true, message: 'Пожалуйста, выберите дату начала лечения' }]}>
+          <DatePicker
+            onChange={(date, dateString) => handleDateChange('start_treatment', dateString)}
+          />
         </Form.Item>
         <Form.Item
           name="end_treatment"
           label="Конец лечения"
-          rules={[{ required: true, message: 'Please select end treatment date' }]}>
-          <DatePicker />
+          rules={[{ required: true, message: 'Пожалуйста, выберите дату окончания лечения' }]}>
+          <DatePicker
+            onChange={(date, dateString) => handleDateChange('end_treatment', dateString)}
+          />
         </Form.Item>
         <Form.Item
           name="main_diagnosis"
           label="Основной диагноз"
           rules={[
-            { required: true, message: 'Please enter main diagnosis' },
-            {
-              max: 255,
-              message: 'Main diagnosis must be at most 255 characters',
-            },
+            { required: true, message: 'Введите основной диагноз' },
+            { max: 255, message: 'Основной диагноз должен содержать не более 255 символов' },
           ]}>
           <Input />
         </Form.Item>
         <Form.Item
           name="concomitant"
-          label="Concomitant"
+          label="Сопутствующий"
           rules={[
-            { required: true, message: 'Please enter concomitant' },
-            { max: 125, message: 'Concomitant must be at most 125 characters' },
+            { required: true, message: 'Пожалуйста, введите сопутствующие' },
+            { max: 125, message: 'Сопутствующее сообщение должно содержать не более 125 символов' },
           ]}>
           <Input />
         </Form.Item>
@@ -92,11 +92,8 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
           name="complications"
           label="Осложнения"
           rules={[
-            { required: true, message: 'Please enter complications' },
-            {
-              max: 255,
-              message: 'Complications must be at most 255 characters',
-            },
+            { required: true, message: 'Пожалуйста, введите осложнения' },
+            { max: 255, message: 'Осложнения должны содержать не более 255 символов' },
           ]}>
           <Input />
         </Form.Item>
@@ -104,10 +101,10 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
           name="laboratory_tests"
           label="Лабораторные тесты"
           rules={[
-            { required: true, message: 'Please enter laboratory tests' },
+            { required: true, message: 'Пожалуйста, укажите лабораторные анализы' },
             {
               max: 255,
-              message: 'Laboratory tests must be at most 255 characters',
+              message: 'Лабораторные исследования должны содержать не более 255 символов',
             },
           ]}>
           <Input />
@@ -116,20 +113,20 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
           name="instrumental_studies"
           label="Инструментальные исследования"
           rules={[
-            { required: true, message: 'Please enter instrumental studies' },
+            { required: true, message: 'Пожалуйста, укажите инструментальные исследования' },
             {
               max: 255,
-              message: 'Instrumental studies must be at most 255 characters',
+              message: 'Инструментальные исследования должны содержать не более 255 символов',
             },
           ]}>
           <Input />
         </Form.Item>
         <Form.Item
           name="ecg"
-          label="ECG"
+          label="ЭКГ"
           rules={[
-            { required: true, message: 'Please enter ECG' },
-            { max: 255, message: 'ECG must be at most 255 characters' },
+            { required: true, message: 'Пожалуйста, введите ЭКГ' },
+            { max: 255, message: 'ЭКГ должна содержать не более 255 символов' },
           ]}>
           <Input />
         </Form.Item>
@@ -137,8 +134,8 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
           name="x_ray"
           label="Рентген"
           rules={[
-            { required: true, message: 'Please enter X Ray' },
-            { max: 125, message: 'X Ray must be at most 125 characters' },
+            { required: true, message: 'Пожалуйста, введите рентген' },
+            { max: 125, message: 'Рентген должен содержать не более 125 символов' },
           ]}>
           <Input />
         </Form.Item>
@@ -146,14 +143,8 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
           name="specialist_consultations"
           label="Консультации специалистов"
           rules={[
-            {
-              required: true,
-              message: 'Please enter specialist consultations',
-            },
-            {
-              max: 255,
-              message: 'Specialist consultations must be at most 255 characters',
-            },
+            { required: true, message: 'Пожалуйста, введите консультации специалистов' },
+            { max: 255, message: 'Консультации специалистов должны быть не более 255 символов' },
           ]}>
           <Input />
         </Form.Item>
@@ -161,8 +152,8 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
           name="treatment"
           label="Лечение"
           rules={[
-            { required: true, message: 'Please enter treatment' },
-            { max: 255, message: 'Treatment must be at most 255 characters' },
+            { required: true, message: 'Пожалуйста, укажите лечение' },
+            { max: 255, message: 'Длина обращения должна быть не более 255 символов' },
           ]}>
           <Input />
         </Form.Item>
@@ -170,23 +161,15 @@ const CreateEpicrisisModal = ({ visible, onCancel, patientId, fetchData }) => {
           name="treatment_results"
           label="Результаты лечения"
           rules={[
-            { required: true, message: 'Please enter treatment results' },
-            {
-              max: 255,
-              message: 'Treatment results must be at most 255 characters',
-            },
+            { required: true, message: 'Пожалуйста, укажите результаты лечения' },
+            { max: 255, message: 'Результаты лечения должны содержать не более 255 символов' },
           ]}>
           <Input />
         </Form.Item>
         <Form.Item
           name="recommendations"
           label="Рекомендации"
-          rules={[
-            {
-              max: 255,
-              message: 'Recommendations must be at most 255 characters',
-            },
-          ]}>
+          rules={[{ max: 255, message: 'Рекомендации должны содержать не более 255 символов' }]}>
           <Input />
         </Form.Item>
       </Form>

@@ -31,7 +31,7 @@ const Doctors = () => {
       });
       setData(response.data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Ошибка при получении данных:", error);
     }
   };
 
@@ -47,7 +47,7 @@ const Doctors = () => {
       fetchData();
       setEditModalVisible(false);
     } catch (error) {
-      console.error("Error updating data:", error);
+      console.error("Ошибка обновления данных:", error);
     }
   };
 
@@ -68,7 +68,7 @@ const Doctors = () => {
       setDeleteModalVisible(false);
       fetchData();
     } catch (error) {
-      console.error("Error deleting data:", error);
+      console.error("Ошибка удаления данных:", error);
     }
   };
 
@@ -96,7 +96,7 @@ const Doctors = () => {
       setEditModalVisible(false);
       fetchData();
     } catch (error) {
-      console.error("Error updating data:", error);
+      console.error("Ошибка обновления данных:", error);
     }
   };
 
@@ -133,7 +133,7 @@ const Doctors = () => {
         updateData(editingDoctor.id, values);
       })
       .catch((errorInfo) => {
-        console.log("Validation failed:", errorInfo);
+        console.log("Проверка не удалась:", errorInfo);
       });
   };
 
@@ -197,7 +197,7 @@ const Doctors = () => {
         <p>Вы уверены, что хотите удалить этого сотрудника?</p>
       </Modal>
       <Modal
-        title="Edit Employee"
+        title="Изменить сотрудника"
         visible={editModalVisible}
         onCancel={closeModal}
         onOk={handleUpdate}
@@ -210,7 +210,7 @@ const Doctors = () => {
           initialValues={editingDoctor}
         >
           <div className={d.form_input}>
-            <span className={d.form_span}>Phone:</span>
+            <span className={d.form_span}>Номер телефона:</span>
             <Form.Item
               name="phone"
               rules={[
@@ -227,7 +227,7 @@ const Doctors = () => {
             </Form.Item>
           </div>
           <div className={d.form_input}>
-            <span className={d.form_span}>Name:</span>
+            <span className={d.form_span}>Имя:</span>
             <Form.Item
               name="name"
               rules={[
@@ -245,7 +245,7 @@ const Doctors = () => {
           </div>
 
           <div className={d.form_input}>
-            <span className={d.form_span}>Role:</span>
+            <span className={d.form_span}>Роль:</span>
             <Form.Item
               name="role"
               rules={[

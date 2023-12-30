@@ -32,7 +32,7 @@ const CreatePatient = () => {
 
       setEducationOptions(response.data);
     } catch (error) {
-      console.error('Error fetching education options:', error);
+      console.error('Ошибка при получении вариантов обучения:', error);
     }
   };
   const fetchFamilyOptions = async () => {
@@ -41,7 +41,7 @@ const CreatePatient = () => {
 
       setFamilyOptions(response.data);
     } catch (error) {
-      console.error('Error fetching family options:', error);
+      console.error('Ошибка при получении вариантов семейной группы:', error);
     }
   };
 
@@ -118,7 +118,7 @@ const CreatePatient = () => {
           rules={[
             {
               required: true,
-              message: 'Please input name!',
+              message: 'Пожалуйста, введите имя!',
             },
           ]}
           className={i.input}>
@@ -133,7 +133,7 @@ const CreatePatient = () => {
           rules={[
             {
               required: true,
-              message: 'Please input surname!',
+              message: 'Пожалуйста, введите фамилию!',
             },
           ]}
           className={i.input}>
@@ -155,7 +155,7 @@ const CreatePatient = () => {
           rules={[
             {
               required: true,
-              message: 'Please select date of birth!',
+              message: 'Пожалуйста, выберите дату рождения!',
             },
           ]}
           className={i.input}>

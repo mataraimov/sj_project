@@ -51,7 +51,7 @@ const Diaries = () => {
       } else {
         message.error('Произошла ошибка при изменении записи в дневнике');
       }
-      console.error('Error editing diary entry:', error);
+      console.error('Ошибка редактирования записи в дневнике:', error);
     }
   };
   const toggleShowFullContentModal = (text) => {
@@ -82,7 +82,7 @@ const Diaries = () => {
       const response = await axios.get(`${API_URL}/api/v1/diaries/${id}/lists/`, { headers });
       setDiariesData(response.data);
     } catch (error) {
-      console.error('Error fetching diaries data:', error);
+      console.error('Ошибка при получении данных дневников:', error);
     }
   };
 
@@ -113,7 +113,7 @@ const Diaries = () => {
         } else {
           message.error('Произошла ошибка при добавлении записи в дневник');
         }
-        console.error('Error adding diary entry:', error);
+        console.error('Ошибка при добавлении записи в дневник:', error);
       }
     });
   };
@@ -132,7 +132,7 @@ const Diaries = () => {
         setDiariesData(updatedDiaries);
       }
     } catch (error) {
-      console.error('Error deleting diary:', error);
+      console.error('Ошибка удаления дневника:', error);
       message.error('Произошла ошибка при удалении дневника');
     }
   };
