@@ -26,7 +26,7 @@ const Revenues = () => {
       });
       setData(response.data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Ошибка при получении данных:", error);
     }
   };
   const navigate = useNavigate();

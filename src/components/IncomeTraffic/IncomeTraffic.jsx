@@ -35,7 +35,7 @@ const IncomeTraffic = () => {
       }));
       setData(incomeData);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Ошибка при получении данных:", error);
     }
   };
 

@@ -40,7 +40,6 @@ const EpicrisisDetails = ({ epicrisisId, onCancel }) => {
 
     fetchData();
   }, [epicrisisId, editModalVisible]);
-
   return (
     <Modal
       title="Детали эпикриза"
@@ -139,6 +138,7 @@ const Epicrisis = () => {
       });
 
       setEpicrisisData(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error('Ошибка при получении данных эпикриза:', error);
     }

@@ -90,13 +90,13 @@ const PatientDetails = () => {
   const columns = [
     {
       title: 'Дата начала',
-      dataIndex: 'date_start',
+      dataIndex: ' date_of_admission',
       key: 'date_start',
       render: (text) => moment(text).format('YYYY-MM-DD'),
     },
     {
       title: 'Дата окончания',
-      dataIndex: 'date_end',
+      dataIndex: 'date_of_discharge',
       key: 'date_end',
       render: (text) => moment(text).format('YYYY-MM-DD'),
     },

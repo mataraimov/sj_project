@@ -67,7 +67,7 @@ const CreateUser = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your phone!',
+                message: 'Пожалуйста, введите свой номер телефона!',
               },
             ]}
             className={d.input}
@@ -83,7 +83,7 @@ const CreateUser = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your name!',
+                message: 'Пожалуйста, введите свое имя!',
               },
             ]}
             className={d.input}
@@ -99,7 +99,7 @@ const CreateUser = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your password!',
+                message: 'Пожалуйста, введите свой пароль!',
               },
             ]}
             className={d.input}
@@ -114,12 +114,12 @@ const CreateUser = () => {
             rules={[
               {
                 required: true,
-                message: 'Please select a role!',
+                message: 'Пожалуйста, выберите роль!',
               },
             ]}
             className={d.input}
           >
-            <Select placeholder="Select a role">
+            <Select placeholder="Выберите роль">
               <Option value="1">Admin</Option>
               <Option value="2">Доктор</Option>
               <Option value="3">Психолог</Option>

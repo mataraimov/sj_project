@@ -23,7 +23,7 @@ const Files = () => {
       });
       setFileList(response.data);
     } catch (error) {
-      console.error('Error fetching files data:', error);
+      console.error('Ошибка при получении данных файлов:', error);
     }
   };
 
@@ -143,7 +143,7 @@ const Files = () => {
       title: 'Действия',
       key: 'action',
       render: (text, record) => (
-        <Space>
+        <Space> 
           {handleEdit(record)}
           <Button icon={<DeleteOutlined />} onClick={() => showDeleteConfirm(record)}>
             Удалить

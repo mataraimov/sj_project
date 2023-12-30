@@ -4,6 +4,7 @@ import { refreshAccessToken } from '../../../../components/utils/refreshToken';
 import { API_URL } from '../../../../components/utils/config';
 import axios from 'axios';
 import FormItem from 'antd/es/form/FormItem';
+import moment from 'moment';
 
 const { Option } = Select;
 
@@ -28,7 +29,7 @@ const GeneralState = ({ recordData }) => {
       </div>
       <Descriptions bordered>
         <Descriptions.Item label="Дата поступления">
-          {recordData.date_of_admission}
+          {moment(recordData.date_of_admission).format('YYYY-MM-DD')}
         </Descriptions.Item>
         <Descriptions.Item label="Прибывает">{recordData.arrives}</Descriptions.Item>
         <Descriptions.Item label="Тип крови">{recordData.blood_type}</Descriptions.Item>
@@ -38,7 +39,9 @@ const GeneralState = ({ recordData }) => {
         <Descriptions.Item label="Сопровождение">{recordData.escorts}</Descriptions.Item>
         <Descriptions.Item label="Количество дней">{recordData.number_of_days}</Descriptions.Item>
         <Descriptions.Item label="Цена">{recordData.price}</Descriptions.Item>
-        <Descriptions.Item label="Дата выписки">{recordData.date_of_discharge}</Descriptions.Item>
+        <Descriptions.Item label="Дата выписки">{
+          moment(recordData.date_of_discharge).format('YYYY-MM-DD')
+        }</Descriptions.Item>
       </Descriptions>
     </div>
   );

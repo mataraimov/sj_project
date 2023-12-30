@@ -55,7 +55,7 @@ const PatientList = () => {
         setPagination(prevPaginationRef.current);
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Ошибка при получении данных:', error);
     }
   };
 
@@ -70,7 +70,7 @@ const PatientList = () => {
       await fetchData();
       setEditingId(null);
     } catch (error) {
-      console.error('Error updating patient:', error);
+      console.error('Ошибка обновления пациента:', error);
     } finally {
       setLoading(false);
     }
@@ -86,7 +86,7 @@ const PatientList = () => {
       await axios.delete(`${API_URL}/api/v1/patients/${id}/`, { headers });
       await fetchData();
     } catch (error) {
-      console.error('Error deleting patient:', error);
+      console.error('Ошибка удаления пациента:', error);
     } finally {
       setLoading(false);
     }
