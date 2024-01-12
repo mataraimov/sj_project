@@ -9,7 +9,7 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
   return (
     <Form form={form} onFinish={onFinish}>
       <h2>Анамнез жизни</h2>
-      <Form.Item name={['anamnesis', 'receiving_something']} label="Прием чего-то">
+      <Form.Item name={['anamnesis', 'receiving_something']} label="Последний приём алкоголя">
         <Input />
       </Form.Item>
       <Form.Item name={['anamnesis', 'receiving_something_time']} label="Последнее время приёма">
@@ -32,12 +32,14 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'duration_last_binge']}
-        label="Продолжительность последнего похмелья">
+        label="Продолжительность последнего похмелья"
+      >
         <Input />
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'duration_last_remission']}
-        label="Продолжительность последней ремиссии">
+        label="Продолжительность последней ремиссии"
+      >
         <Input />
       </Form.Item>
       <Form.Item name={['anamnesis', 'last_treatment']} label="Последнее лечение">
