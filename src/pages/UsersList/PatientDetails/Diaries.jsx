@@ -126,6 +126,7 @@ const Diaries = () => {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       };
       const response = await axios.delete(`${API_URL}/api/v1/diaries/${diaryId}/`, { headers });
+      setDiariesData((prevDiariesData) => prevDiariesData.filter((diary) => diary.id !== diaryId));
       if (response.status === 200) {
         message.success('Дневник успешно удален');
         const updatedDiaries = diariesData.filter((diary) => diary.id !== diaryId);

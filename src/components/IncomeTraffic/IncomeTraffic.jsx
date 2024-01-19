@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   LineChart,
   Line,
@@ -7,11 +7,11 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-} from "recharts";
-import { API_URL } from "../utils/config";
-import axios from "axios";
-import { refreshAccessToken } from "../utils/refreshToken";
-import moment from "moment";
+} from 'recharts';
+import { API_URL } from '../utils/config';
+import axios from 'axios';
+import { refreshAccessToken } from '../utils/refreshToken';
+import moment from 'moment';
 
 const IncomeTraffic = () => {
   const [data, setData] = useState([]);
@@ -47,10 +47,9 @@ const IncomeTraffic = () => {
       name: month,
       зп: incomeForMonth ? incomeForMonth.income : 0,
     };
-  });
-
+  });     
   return (
-    <ResponsiveContainer  width="100%" height={450}>
+    <ResponsiveContainer width="100%" height={450}>
       <LineChart
         width={500}
         height={200}
@@ -60,8 +59,7 @@ const IncomeTraffic = () => {
           right: 30,
           left: 0,
           bottom: 0,
-        }}
-      >
+        }}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />

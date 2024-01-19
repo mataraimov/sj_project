@@ -114,7 +114,7 @@ const PatientList = () => {
       key: 'avatar',
       render: (avatar) => (
         <img
-          src={'http://139.59.132.105/api/media/default_png.jpg'}
+          src={'https://sj-crm.kg/api/media/default_png.jpg'}
           alt="Avatar"
           style={{ width: '50px' }}
         />
