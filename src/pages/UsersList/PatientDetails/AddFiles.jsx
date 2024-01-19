@@ -88,12 +88,9 @@ const Files = () => {
     return (
       <Upload
         name="file"
-        // customRequest={customRequest}
+         
         showUploadList={false}
-        // action={`${API_URL}/api/v1/files/${file.id}/`} // Assuming this is the correct upload endpoint
-        // headers={{
-        //   Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        // }}
+        
         onChange={onChange}>
         <Button icon={<UploadOutlined />}>Изменить файл</Button>
       </Upload>
