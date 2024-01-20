@@ -172,6 +172,7 @@ const PatientDetails = () => {
 
   const handleOk = () => {
     form.validateFields().then((values) => {
+      console.log(values);
       axios
         .patch(
           `${API_URL}/api/v1/patients/${id}/`,
@@ -183,6 +184,7 @@ const PatientDetails = () => {
         )
         .then((response) => {
           fetchPatientData();
+          console.log(response.data);
           setPatientData(response.data);
           setModalVisible(false);
           form.resetFields();
@@ -252,14 +254,16 @@ const PatientDetails = () => {
             type="primary"
             icon={<EditOutlined />}
             style={{ marginBottom: 16, float: 'left' }}
-            onClick={showModal}>
+            onClick={showModal}
+          >
             Редактировать
           </Button>
           <Button
             type="primary"
             icon={<PlusOutlined />}
             style={{ marginBottom: 16, float: 'right' }}
-            onClick={showSessionModal}>
+            onClick={showSessionModal}
+          >
             Добавить сессию
           </Button>
         </>
@@ -271,7 +275,8 @@ const PatientDetails = () => {
             type="primary"
             icon={<PlusOutlined />}
             style={{ marginBottom: 16, float: 'right', marginRight: 16 }}
-            onClick={handleEpicrisisClick}>
+            onClick={handleEpicrisisClick}
+          >
             Эпикриз
           </Button>
         </>
@@ -313,7 +318,8 @@ const PatientDetails = () => {
           title="Редактировать информацию о пациенте"
           visible={modalVisible}
           onOk={handleOk}
-          onCancel={handleCancel}>
+          onCancel={handleCancel}
+        >
           <Form form={form} initialValues={patientData}>
             <Form.Item name="name" label="Имя">
               <Input />
@@ -327,7 +333,7 @@ const PatientDetails = () => {
             {/* <Form.Item name="date_of_birth" label="Дата рождения">
             <DatePicker format="YYYY-MM-DD" />
           </Form.Item> */}
-            <Form.Item name={['anamnesis', 'education']} label="Образование">
+            <Form.Item name={['anamnesis_life', 'education']} label="Образование">
               <Select>
                 {educationOptions.map((option) => (
                   <Option key={option.id} value={option.title}>
@@ -337,7 +343,7 @@ const PatientDetails = () => {
               </Select>
             </Form.Item>
 
-            <Form.Item name={['anamnesis', 'martial_status']} label="Семейное положение">
+            <Form.Item name={['anamnesis_life', 'martial_status']} label="Семейное положение">
               <Select>
                 {familyOptions.map((option) => (
                   <Option key={option.id} value={option.title}>
