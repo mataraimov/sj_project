@@ -10,6 +10,7 @@ import ThirdStep from './ThirdStep';
 import FourthStep from './FourthStep';
 import FifthStep from './FifthStep';
 import { API_URL } from '../../../../components/utils/config';
+import SixStep from './SixStep';
 
 const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -79,6 +80,13 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
       form={form}
       statusOptions={statusOptions}
     />,
+    <SixStep
+      handleOk={handleOk}
+      nextStep={nextStep}
+      prevStep={prevStep}
+      form={form}
+      statusOptions={statusOptions}
+    />,
   ];
 
   const fetchStatusOptions = async () => {
@@ -119,6 +127,7 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
 
   return (
     <Modal
+      width={900}
       title="Добавить сессию"
       visible={visible}
       onOk={handleOk}
@@ -127,11 +136,9 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
         <Button key="back" onClick={prevStep}>
           Назад
         </Button>,
-
         <Button key="submit" type="primary" onClick={handleOk}>
           Сохранить
         </Button>,
-
         <Button key="cancel" onClick={onCancel}>
           Отмена
         </Button>,

@@ -9,7 +9,7 @@ const FirstStep = ({ form, statusOptions, nextStep, prevStep }) => {
   };
 
   return (
-    <Form form={form} onFinish={onFinish}>
+    <Form form={form} onFinish={onFinish} labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
       <h2>Общие данные</h2>
       <Form.Item
         name={['arrives']}
@@ -105,7 +105,7 @@ const FirstStep = ({ form, statusOptions, nextStep, prevStep }) => {
         rules={[{ required: true, message: 'Пожалуйста, укажите группу крови' }]}>
         <Input />
       </Form.Item>
-      <Button type="primary" htmlType="submit">
+      <Button type="primary" htmlType="submit"  style={{ width: '140px' }}>
         Продолжить
       </Button>
     </Form>

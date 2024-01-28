@@ -12,12 +12,12 @@ const SearchPatients = () => {
 
   const fetchData = debounce(async (value) => {
     try {
-      await refreshAccessToken(); 
+      await refreshAccessToken();
 
       const response = await axios.get(`${API_URL}/api/v1/income/lists`, {
         headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          accept: 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
         params: {
           search: value,

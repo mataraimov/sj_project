@@ -8,10 +8,15 @@ const FourthStep = ({ form, statusOptions, nextStep, prevStep }) => {
     // Передаем значения обратно в родительский компонент
     nextStep(values);
   };
+
   return (
-    <Form form={form} onFinish={onFinish}>
+    <Form form={form} onFinish={onFinish} labelCol={{ span: 6 }} wrapperCol={{ span: 23 }}  style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
       <h2>Неврологическое состояние</h2>
-      <Form.Item name={['neurological', 'pupils']} label="Зрачки">
+      <Form.Item
+        name={['neurological', 'pupils']}
+        label="Зрачки"
+        rules={[{ required: true, message: 'Пожалуйста, выберите состояние зрачков' }]}
+      >
         <Select placeholder="Выберите состояние зрачков">
           {statusOptions['pupils_list'] &&
             statusOptions['pupils_list'].map((option, index) => (
@@ -21,10 +26,18 @@ const FourthStep = ({ form, statusOptions, nextStep, prevStep }) => {
             ))}
         </Select>
       </Form.Item>
-      <Form.Item name={['neurological', 'photo_reaction']} label="Фотореакция">
+      <Form.Item
+        name={['neurological', 'photo_reaction']}
+        label="Фотореакция"
+        rules={[{ required: true, message: 'Пожалуйста, введите информацию о фотореакции' }]}
+      >
         <Input />
       </Form.Item>
-      <Form.Item name={['neurological', 'meningeal_signs']} label="Менингеальные признаки">
+      <Form.Item
+        name={['neurological', 'meningeal_signs']}
+        label="Менингеальные признаки"
+        rules={[{ required: true, message: 'Пожалуйста, выберите менингеальные признаки' }]}
+      >
         <Select placeholder="Выберите менингеальные признаки">
           {statusOptions['meningeal_list'] &&
             statusOptions['meningeal_list'].map((option, index) => (
@@ -34,17 +47,25 @@ const FourthStep = ({ form, statusOptions, nextStep, prevStep }) => {
             ))}
         </Select>
       </Form.Item>
-      <Form.Item name={['neurological', 'seizures']} label="Судороги">
+      <Form.Item
+        name={['neurological', 'seizures']}
+        label="Судороги"
+        rules={[{ required: true, message: 'Пожалуйста, введите информацию о судорогах' }]}
+      >
         <Input />
       </Form.Item>
-      <Form.Item name={['neurological', 'dysarthria']} label="Дизартрия">
+      <Form.Item
+        name={['neurological', 'dysarthria']}
+        label="Дизартрия"
+        rules={[{ required: true, message: 'Пожалуйста, введите информацию о дизартрии' }]}
+      >
         <Input />
       </Form.Item>
 
-      <Button key="back" onClick={prevStep}>
+      <Button key="back" onClick={prevStep} style={{width: '140px'}}>
         Назад
       </Button>
-      <Button type="primary" htmlType="submit">
+      <Button type="primary" htmlType="submit" style={{width: '140px'}}>
         Продолжить
       </Button>
     </Form>
