@@ -49,11 +49,16 @@ const Revenues = () => {
       dataIndex: "total_profit",
       key: "total_profit",
     },
+    
     {
-      title: "Последнее обновление",
-      dataIndex: "date_of_birth",
-      key: "date_of_birth",
-      render: (date) => <span>{moment(date).format("DD/MM/YYYY")}</span>,
+      title: 'Последнее обновление',
+      dataIndex: 'patient_info',
+      key: 'patient_info',
+      render: (patientInfo) => (
+        <span>
+          {moment(patientInfo[patientInfo.length - 1]?.date_of_admission).format('DD/MM/YYYY')}
+        </span>
+      ),
     },
     {
       render: (text, record) => (
