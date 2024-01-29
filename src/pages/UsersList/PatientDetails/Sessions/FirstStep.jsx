@@ -61,19 +61,19 @@ const FirstStep = ({ form, statusOptions, nextStep, prevStep }) => {
         rules={[{ required: true, message: 'Пожалуйста, укажите дату поступления' }]}>
         <DatePicker
           format="YYYY-MM-DD"
-          disabledDate={(current) => {
-            const startOfMonth = moment().startOf('month');
-            if (current.isBefore(startOfMonth)) {
-              return true;
-            }
+          // disabledDate={(current) => {
+          //   const startOfMonth = moment().startOf('month');
+          //   if (current.isBefore(startOfMonth)) {
+          //     return true;
+          //   }
 
-            const endOfMonth = moment().endOf('month');
-            if (current.isAfter(endOfMonth)) {
-              return true;
-            }
+          //   const endOfMonth = moment().endOf('month');
+          //   if (current.isAfter(endOfMonth)) {
+          //     return true;
+          //   }
 
-            return false;
-          }}
+          //   return false;
+          // }}
         />
       </Form.Item>
       <Form.Item
