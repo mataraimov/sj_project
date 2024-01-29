@@ -25,7 +25,6 @@ const Revenues = () => {
         },
       });
       setData(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Ошибка при получении данных:", error);
     }
@@ -50,7 +49,7 @@ const Revenues = () => {
       dataIndex: "total_profit",
       key: "total_profit",
     },
-    ,
+    
     {
       title: 'Последнее обновление',
       dataIndex: 'patient_info',
