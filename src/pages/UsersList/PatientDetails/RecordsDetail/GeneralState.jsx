@@ -40,7 +40,7 @@ const GeneralState = ({ recordData }) => {
             accept: 'application/json',
             Authorization: `Bearer ${localStorage.getItem('access_token')}`,
           },
-        }
+        },
       );
       setUpdatedData(response.data);
       handleCancel();
@@ -72,7 +72,8 @@ const GeneralState = ({ recordData }) => {
           justifyContent: 'space-between',
           width: '1200px',
           alignItems: 'center',
-        }}>
+        }}
+      >
         <Divider orientation="left">Общее состояние</Divider>
         <Button onClick={showModal}>Редактировать</Button>
       </div>
@@ -108,12 +109,14 @@ const GeneralState = ({ recordData }) => {
           <Button key="submit" type="primary" onClick={updateData}>
             Обновить
           </Button>,
-        ]}>
+        ]}
+      >
         <Form labelCol={{ span: 6 }} wrapperCol={{ span: 23 }}>
           <Form.Item
             name={['date_of_discharge']}
             label="Дата выписки"
-            rules={[{ required: true, message: 'Пожалуйста, укажите дату выписки' }]}>
+            rules={[{ required: true, message: 'Пожалуйста, укажите дату выписки' }]}
+          >
             <DatePicker
               format="YYYY-MM-DD"
               disabledDate={(current) => {
