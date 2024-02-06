@@ -7,7 +7,7 @@ import { API_URL } from '../../../../components/utils/config';
 const fieldDescriptions = {
   addition: 'Добавление',
   binge_drinking: 'Потребление алкоголя',
-  category: 'Категория',
+  category: 'онтроль',
   daily_tolerance: 'Ежедневная переносимость',
   dose: 'Доза',
   duration_last_binge: 'Длительность последнего запоя',

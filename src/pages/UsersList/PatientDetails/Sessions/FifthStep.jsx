@@ -16,8 +16,13 @@ const FifthStep = ({ form, statusOptions, nextStep, prevStep, handleOk }) => {
   };
 
   return (
-    <Form form={form} onFinish={onFinishAndSubmit} labelCol={{ span: 7 }} wrapperCol={{ span: 23 }}  style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-      <h2>Ментальное состояние</h2>
+    <Form
+      form={form}
+      onFinish={onFinishAndSubmit}
+      labelCol={{ span: 7 }}
+      wrapperCol={{ span: 23 }}
+      style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <h2>Психический статус</h2>
       <Form.Item
         name={['mental', 'view']}
         label="Вид"
@@ -39,7 +44,7 @@ const FifthStep = ({ form, statusOptions, nextStep, prevStep, handleOk }) => {
         rules={[
           { required: true, message: 'Пожалуйста, укажите наличие/отсутствие запаха алкоголя' },
         ]}>
-        <Checkbox />
+        <Input />
       </Form.Item>
       <Form.Item
         name={['mental', 'behavior']}
@@ -110,11 +115,11 @@ const FifthStep = ({ form, statusOptions, nextStep, prevStep, handleOk }) => {
         ]}>
         <Input />
       </Form.Item>
-      <Form.Item >
-        <Button type="primary" htmlType="submit" style={{width: '140px'}}>
+      <Form.Item>
+        <Button type="primary" htmlType="submit" style={{ width: '140px' }}>
           Сохранить
         </Button>
-        <Button type="default" onClick={prevStep} style={{width: '140px'}}>
+        <Button type="default" onClick={prevStep} style={{ width: '140px' }}>
           Назад
         </Button>
       </Form.Item>

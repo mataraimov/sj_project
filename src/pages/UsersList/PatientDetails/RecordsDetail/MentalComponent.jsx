@@ -69,7 +69,7 @@ const MentalComponent = ({ mentalData }) => {
           width: '1200px',
           alignItems: 'center',
         }}>
-        <Divider orientation="left">Психическое состояние</Divider>
+        <Divider orientation="left">Психический статус</Divider>
         <Button onClick={showModal}>Редактировать</Button>
       </div>
       <Descriptions bordered>

@@ -99,12 +99,10 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
         'education_list',
         'family_list',
         'heart_list',
-        'meningeal_list',
         'nutrition_list',
         'pupils_list',
         'situation_list',
         'skin_list',
-        'traces_list',
         'views_list',
         'wheezing_list',
       ];
