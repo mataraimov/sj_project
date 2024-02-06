@@ -27,7 +27,7 @@ const fieldDescriptions = {
   stool: 'Стул',
   supplements: 'Приём добавок',
   tongue: 'Язык',
-  traces: 'Шрамы',
+  traces: 'Следы',
   vascular_system: 'Сосудистая система',
   vomiting: 'Рвота',
   wheezing: 'Хрипы',
@@ -83,7 +83,8 @@ const SomaticComponent = ({ somaticData }) => {
           justifyContent: 'space-between',
           width: '1200px',
           alignItems: 'center',
-        }}>
+        }}
+      >
         <Divider orientation="left">Соматический статус</Divider>
         <Button onClick={showModal}>Редактировать</Button>
       </div>
@@ -108,7 +109,8 @@ const SomaticComponent = ({ somaticData }) => {
           <Button key="submit" type="primary" onClick={updateData}>
             Обновить
           </Button>,
-        ]}>
+        ]}
+      >
         <Form>
           {Object.entries(formData).map(
             ([key, value]) =>
