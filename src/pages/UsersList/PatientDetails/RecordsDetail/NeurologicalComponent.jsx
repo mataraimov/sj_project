@@ -64,7 +64,7 @@ const NeurologicalComponent = ({ neurologicalData }) => {
           width: '1200px',
           alignItems: 'center',
         }}>
-        <Divider orientation="left">Неврологическое состояние</Divider>
+        <Divider orientation="left">Неврологический статус</Divider>
         <Button onClick={showModal}>Редактировать</Button>
       </div>
       <Descriptions bordered>

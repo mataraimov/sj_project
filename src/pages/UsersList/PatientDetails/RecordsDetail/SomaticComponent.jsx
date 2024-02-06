@@ -8,9 +8,9 @@ const fieldDescriptions = {
   ad: 'Артериальное давление',
   apparatus: 'Аппарат',
   availability: 'Наличие шрамов',
-  bh: 'БХ',
+  bh: 'ЧД',
   breath: 'Дыхание',
-  category: 'Категория',
+  category: 'Контроль',
   condition: 'Состояние',
   diuresis: 'Диурез',
   edema: 'Отёки',
@@ -84,7 +84,7 @@ const SomaticComponent = ({ somaticData }) => {
           width: '1200px',
           alignItems: 'center',
         }}>
-        <Divider orientation="left">Соматическое состояние</Divider>
+        <Divider orientation="left">Соматический статус</Divider>
         <Button onClick={showModal}>Редактировать</Button>
       </div>
       <Descriptions bordered>

@@ -9,104 +9,122 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
   };
 
   return (
-    <Form form={form} onFinish={onFinish}  labelCol={{ span: 9 }} wrapperCol={{ span: 18 }} style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+    <Form
+      form={form}
+      onFinish={onFinish}
+      labelCol={{ span: 9 }}
+      wrapperCol={{ span: 18 }}
+      style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
       <h2>Анамнез жизни</h2>
       <Form.Item
         name={['anamnesis', 'receiving_something']}
         label="Последний приём алкоголя"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о последнем приёме алкоголя' }]}
-      >
+        rules={[
+          { required: true, message: 'Пожалуйста, введите информацию о последнем приёме алкоголя' },
+        ]}>
         <Input />
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'receiving_something_time']}
         label="Последнее время приёма"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о времени последнего приёма' }]}
-      >
+        rules={[
+          { required: true, message: 'Пожалуйста, введите информацию о времени последнего приёма' },
+        ]}>
         <DatePicker format="YYYY-MM-DD" />
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'somatic_disorders']}
         label="Соматические расстройства"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о соматических расстройствах' }]}
-      >
+        rules={[
+          {
+            required: true,
+            message: 'Пожалуйста, введите информацию о соматических расстройствах',
+          },
+        ]}>
         <Input />
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'mental_disorders']}
         label="Психические расстройства"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о психических расстройствах' }]}
-      >
+        rules={[
+          { required: true, message: 'Пожалуйста, введите информацию о психических расстройствах' },
+        ]}>
         <Input />
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'daily_tolerance']}
         label="Суточная переносимость"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о суточной переносимости' }]}
-      >
+        rules={[
+          { required: true, message: 'Пожалуйста, введите информацию о суточной переносимости' },
+        ]}>
         <InputNumber min={0} />
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'binge_drinking']}
         label="Похмелье"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о похмелье' }]}
-      >
+        rules={[{ required: true, message: 'Пожалуйста, введите информацию о похмелье' }]}>
         <Input />
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'light_gaps']}
-        label="Световые промежутки"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о световых промежутках' }]}
-      >
+        label="Светлые промежутки"
+        rules={[
+          { required: true, message: 'Пожалуйста, введите информацию о световых промежутках' },
+        ]}>
         <Input />
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'duration_last_binge']}
-        label="Продолжительность последнего похмелья"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о продолжительности последнего похмелья' }]}
-      >
+        label="Продолжительность последнего запоя"
+        rules={[
+          {
+            required: true,
+            message: 'Пожалуйста, введите информацию о продолжительности последнего похмелья',
+          },
+        ]}>
         <Input />
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'duration_last_remission']}
         label="Продолжительность последней ремиссии"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о продолжительности последней ремиссии' }]}
-      >
+        rules={[
+          {
+            required: true,
+            message: 'Пожалуйста, введите информацию о продолжительности последней ремиссии',
+          },
+        ]}>
         <Input />
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'last_treatment']}
         label="Последнее лечение"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о последнем лечении' }]}
-      >
+        rules={[{ required: true, message: 'Пожалуйста, введите информацию о последнем лечении' }]}>
         <Input />
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'last_alcohol_intake']}
         label="Последний прием алкоголя"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о последнем приеме алкоголя' }]}
-      >
+        rules={[
+          { required: true, message: 'Пожалуйста, введите информацию о последнем приеме алкоголя' },
+        ]}>
         <Input />
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'dose']}
         label="Дозировка"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о дозировке' }]}
-      >
+        rules={[{ required: true, message: 'Пожалуйста, введите информацию о дозировке' }]}>
         <Input />
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'addition']}
         label="Дополнение"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о дополнении' }]}
-      >
+        rules={[{ required: true, message: 'Пожалуйста, введите информацию о дополнении' }]}>
         <Input />
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'type_tolerance']}
         label="Тип толерантности"
-        rules={[{ required: true, message: 'Пожалуйста, выберите тип толерантности' }]}
-      >
+        rules={[{ required: true, message: 'Пожалуйста, выберите тип толерантности' }]}>
         <Select placeholder="Выберите тип толерантности">
           <Option value="Стабильный">Стабильный</Option>
           <Option value="Увеличивается">Увеличивается</Option>
@@ -116,8 +134,7 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
       <Form.Item
         name={['anamnesis', 'type_palimpsests']}
         label="Тип палимпсестов"
-        rules={[{ required: true, message: 'Пожалуйста, выберите тип палимпсестов' }]}
-      >
+        rules={[{ required: true, message: 'Пожалуйста, выберите тип палимпсестов' }]}>
         <Select placeholder="Выберите тип палимпсестов">
           <Option value="Есть">Есть</Option>
           <Option value="Нет">Нет</Option>
@@ -127,10 +144,9 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'type_intoxication']}
-        label="Тип отравления"
-        rules={[{ required: true, message: 'Пожалуйста, выберите тип отравления' }]}
-      >
-        <Select placeholder="Выберите тип отравления">
+        label="Тип опьянения"
+        rules={[{ required: true, message: 'Пожалуйста, выберите тип опьянения' }]}>
+        <Select placeholder="Выберите тип опьянения">
           <Option value="Эксплозивный">Эксплозивный</Option>
           <Option value="Дисфорический">Дисфорический</Option>
           <Option value="Истерический">Истерический</Option>
@@ -142,9 +158,8 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'category']}
-        label="Категории"
-        rules={[{ required: true, message: 'Пожалуйста, выберите категорию' }]}
-      >
+        label="Контроль"
+        rules={[{ required: true, message: 'Пожалуйста, выберите категорию' }]}>
         <Select placeholder="Выберите категорию">
           <Option value="Количественный контроль">Количественный контроль</Option>
           <Option value="Ситуационный контроль">Ситуационный контроль</Option>
@@ -152,10 +167,10 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
           <Option value="Контроль не утрачен">Контроль не утрачен</Option>
         </Select>
       </Form.Item>
-      <Button key="back" onClick={prevStep} style={{width: '140px'}}>
+      <Button key="back" onClick={prevStep} style={{ width: '140px' }}>
         Назад
       </Button>
-      <Button type="primary" htmlType="submit" style={{width: '140px'}}>
+      <Button type="primary" htmlType="submit" style={{ width: '140px' }}>
         Продолжить
       </Button>
     </Form>

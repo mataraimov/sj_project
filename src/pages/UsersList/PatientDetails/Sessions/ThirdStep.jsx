@@ -9,8 +9,13 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
   };
 
   return (
-    <Form form={form} onFinish={onFinish} labelCol={{ span: 7 }} wrapperCol={{ span: 23 }}  style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-      <h2>Соматическое состояние</h2>
+    <Form
+      form={form}
+      onFinish={onFinish}
+      labelCol={{ span: 7 }}
+      wrapperCol={{ span: 23 }}
+      style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <h2>Соматический статус</h2>
       <Form.Item
         name={['somatic', 'condition']}
         label="Состояние"
@@ -52,7 +57,7 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['somatic', 'availability']}
-        label="Доступность"
+        label="Телесное повреждение"
         rules={[{ required: true, message: 'Пожалуйста, выберите доступность' }]}>
         <Select placeholder="Доступность">
           {statusOptions['availability_list'] &&
@@ -66,15 +71,8 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       <Form.Item
         name={['somatic', 'traces']}
         label="Следы"
-        rules={[{ required: true, message: 'Пожалуйста, выберите следы' }]}>
-        <Select placeholder="Следы">
-          {statusOptions['traces_list'] &&
-            statusOptions['traces_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
-        </Select>
+        rules={[{ required: true, message: 'Пожалуйста, введите информацию о следы' }]}>
+        <Input />
       </Form.Item>
       <Form.Item
         name={['somatic', 'state_conjunctiva']}
@@ -97,8 +95,8 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['somatic', 'wheezing']}
-        label="Свист"
-        rules={[{ required: true, message: 'Пожалуйста, выберите свист' }]}>
+        label="Хрипы"
+        rules={[{ required: true, message: 'Пожалуйста, выберите хрипы' }]}>
         <Select placeholder="Свист">
           {statusOptions['wheezing_list'] &&
             statusOptions['wheezing_list'].map((option, index) => (
@@ -110,8 +108,8 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['somatic', 'bh']}
-        label="BH"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о BH' }]}>
+        label="ЧД"
+        rules={[{ required: true, message: 'Пожалуйста, введите информацию о ЧД' }]}>
         <Input />
       </Form.Item>
       <Form.Item
@@ -208,8 +206,8 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['somatic', 'apparatus']}
-        label="Приборы"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о приборах' }]}>
+        label="Костно-суставной аппарат"
+        rules={[{ required: true, message: 'Пожалуйста, введите информацию о Костно-суставной аппарат' }]}>
         <Input />
       </Form.Item>
       <Form.Item
@@ -222,14 +220,14 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['somatic', 'supplements']}
-        label="Добавки"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о добавках' }]}>
+        label="Дополнения"
+        rules={[{ required: true, message: 'Пожалуйста, введите информацию о Дополнениях' }]}>
         <Input />
       </Form.Item>
-      <Button key="back" onClick={prevStep} style={{width: '140px'}}>
+      <Button key="back" onClick={prevStep} style={{ width: '140px' }}>
         Назад
       </Button>
-      <Button type="primary" htmlType="submit" style={{width: '140px'}}>
+      <Button type="primary" htmlType="submit" style={{ width: '140px' }}>
         Продолжить
       </Button>
     </Form>
