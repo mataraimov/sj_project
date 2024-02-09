@@ -30,6 +30,7 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
       };
 
       await refreshAccessToken();
+      console.log(finalValues);
       await axios.post(`${API_URL}/api/v1/records/${patientId}/record/`, finalValues, {
         headers: {
           accept: 'application/json',
@@ -140,7 +141,8 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
         <Button key="cancel" onClick={onCancel}>
           Отмена
         </Button>,
-      ]}>
+      ]}
+    >
       {steps[currentStep - 1]}
     </Modal>
   );

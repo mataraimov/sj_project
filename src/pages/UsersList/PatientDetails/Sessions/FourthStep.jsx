@@ -20,7 +20,7 @@ const FourthStep = ({ form, statusOptions, nextStep, prevStep }) => {
       <h2>Неврологический статус</h2>
       <Form.Item
         name={['neurological', 'pupils']}
-        label="D=S"
+        label="Зрачки"
         rules={[{ required: true, message: 'Пожалуйста, выберите состояние зрачков' }]}
       >
         <Select placeholder="Выберите состояние зрачков">
@@ -41,7 +41,7 @@ const FourthStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['neurological', 'meningeal_signs']}
-        label="Фотореакция"
+        label="Менингеальные признаки"
         rules={[{ required: true, message: 'Пожалуйста, введите информацию' }]}
       >
         <Input />

@@ -192,7 +192,6 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       >
         <Input />
       </Form.Item>
-      ``
       <Form.Item
         name={['somatic', 'vomiting']}
         label="Рвота"

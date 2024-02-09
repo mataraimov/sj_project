@@ -21,12 +21,14 @@ const FifthStep = ({ form, statusOptions, nextStep, prevStep, handleOk }) => {
       onFinish={onFinishAndSubmit}
       labelCol={{ span: 7 }}
       wrapperCol={{ span: 23 }}
-      style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
+    >
       <h2>Психический статус</h2>
       <Form.Item
         name={['mental', 'view']}
         label="Вид"
-        rules={[{ required: true, message: 'Пожалуйста, выберите вид' }]}>
+        rules={[{ required: true, message: 'Пожалуйста, выберите вид' }]}
+      >
         <Select placeholder="Выберите вид">
           {statusOptions['views_list'] &&
             statusOptions['views_list'].map((option, index) => (
@@ -39,33 +41,31 @@ const FifthStep = ({ form, statusOptions, nextStep, prevStep, handleOk }) => {
       <Form.Item
         name={['mental', 'smell_of_alcohol']}
         label="Запах алкоголя"
-        valuePropName="checked"
-        initialValue={false}
         rules={[
           { required: true, message: 'Пожалуйста, укажите наличие/отсутствие запаха алкоголя' },
-        ]}>
+        ]}
+      >
         <Input />
       </Form.Item>
       <Form.Item
         name={['mental', 'behavior']}
         label="Поведение"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о поведении' }]}>
+        rules={[{ required: true, message: 'Пожалуйста, введите информацию о поведении' }]}
+      >
         <Input />
       </Form.Item>
       <Form.Item
         name={['mental', 'consciousness']}
         label="Сознание"
-        rules={[
-          { required: true, message: 'Пожалуйста, введите информацию о состоянии сознания' },
-        ]}>
+        rules={[{ required: true, message: 'Пожалуйста, введите информацию о состоянии сознания' }]}
+      >
         <Input />
       </Form.Item>
       <Form.Item
         name={['mental', 'orientation']}
         label="Ориентированность"
-        rules={[
-          { required: true, message: 'Пожалуйста, введите информацию об ориентированности' },
-        ]}>
+        rules={[{ required: true, message: 'Пожалуйста, введите информацию об ориентированности' }]}
+      >
         <Input />
       </Form.Item>
       <Form.Item
@@ -73,7 +73,8 @@ const FifthStep = ({ form, statusOptions, nextStep, prevStep, handleOk }) => {
         label="Расстройства восприятия"
         rules={[
           { required: true, message: 'Пожалуйста, введите информацию о расстройствах восприятия' },
-        ]}>
+        ]}
+      >
         <Input />
       </Form.Item>
       <Form.Item
@@ -81,19 +82,22 @@ const FifthStep = ({ form, statusOptions, nextStep, prevStep, handleOk }) => {
         label="Эмоциональный фон"
         rules={[
           { required: true, message: 'Пожалуйста, введите информацию об эмоциональном фоне' },
-        ]}>
+        ]}
+      >
         <Input />
       </Form.Item>
       <Form.Item
         name={['mental', 'night_sleep']}
         label="Ночной сон"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о ночном сне' }]}>
+        rules={[{ required: true, message: 'Пожалуйста, введите информацию о ночном сне' }]}
+      >
         <Input />
       </Form.Item>
       <Form.Item
         name={['mental', 'suicide_attempt']}
         label="Попытка суицида"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о попытке суицида' }]}>
+        rules={[{ required: true, message: 'Пожалуйста, введите информацию о попытке суицида' }]}
+      >
         <Input />
       </Form.Item>
       <Form.Item
@@ -104,7 +108,8 @@ const FifthStep = ({ form, statusOptions, nextStep, prevStep, handleOk }) => {
             required: true,
             message: 'Пожалуйста, введите информацию о причинах употребления алкоголя',
           },
-        ]}>
+        ]}
+      >
         <Input />
       </Form.Item>
       <Form.Item
@@ -112,7 +117,8 @@ const FifthStep = ({ form, statusOptions, nextStep, prevStep, handleOk }) => {
         label="Цель госпитализации"
         rules={[
           { required: true, message: 'Пожалуйста, введите информацию о цели госпитализации' },
-        ]}>
+        ]}
+      >
         <Input />
       </Form.Item>
       <Form.Item>

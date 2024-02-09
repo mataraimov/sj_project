@@ -7,12 +7,12 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
   const [lossOfControl, setLossOfControl] = useState('');
 
   const onFinish = (values) => {
-    const control = `${controlType} - ${lossOfControl}`;
+    const category = `${controlType} - ${lossOfControl}`;
     const updatedValues = {
       ...values,
       anamnesis: {
         ...values.anamnesis,
-        control,
+        category,
       },
     };
 
