@@ -3,6 +3,9 @@ import { Form, DatePicker, Input, InputNumber, Select, Button } from 'antd';
 const { Option } = Select;
 
 const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
+  const [controlType, setControlType] = useState('');
+  const [lossOfControl, setLossOfControl] = useState('');
+
   const onFinish = (values) => {
     const control = `${controlType} - ${lossOfControl}`;
     const updatedValues = {
@@ -186,7 +189,7 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
         name={['anamnesis', 'controlType']}
         rules={[{ required: true, message: 'Пожалуйста, выберите тип контроля' }]}
       >
-        <Select placeholder="Выберите тип контроля">
+        <Select placeholder="Выберите тип контроля" onChange={(value) => setControlType(value)}>
           <Option value="Количественный контроль">Количественный контроль</Option>
           <Option value="Ситуационный контроль">Ситуационный контроль</Option>
         </Select>
@@ -197,7 +200,10 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
         name={['anamnesis', 'lossOfControl']}
         rules={[{ required: true, message: 'Пожалуйста, выберите утрату контроля' }]}
       >
-        <Select placeholder="Выберите утрату контроля">
+        <Select
+          placeholder="Выберите утрату контроля"
+          onChange={(value) => setLossOfControl(value)}
+        >
           <Option value="Утрачен контроль">Утрачен контроль</Option>
           <Option value="Контроль не утрачен">Контроль не утрачен</Option>
         </Select>
