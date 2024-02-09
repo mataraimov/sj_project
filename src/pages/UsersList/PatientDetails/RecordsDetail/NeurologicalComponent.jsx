@@ -63,7 +63,8 @@ const NeurologicalComponent = ({ neurologicalData }) => {
           justifyContent: 'space-between',
           width: '1200px',
           alignItems: 'center',
-        }}>
+        }}
+      >
         <Divider orientation="left">Неврологический статус</Divider>
         <Button onClick={showModal}>Редактировать</Button>
       </div>
@@ -89,7 +90,8 @@ const NeurologicalComponent = ({ neurologicalData }) => {
           <Button key="submit" type="primary" onClick={updateData}>
             Обновить
           </Button>,
-        ]}>
+        ]}
+      >
         <Form>
           {Object.entries(formData).map(
             ([key, value]) =>
