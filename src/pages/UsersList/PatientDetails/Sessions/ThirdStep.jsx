@@ -33,10 +33,10 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['somatic', 'category']}
-        label="Тип категории"
-        rules={[{ required: true, message: 'Пожалуйста, выберите тип категории' }]}
+        label="Телосложения"
+        rules={[{ required: true, message: 'Пожалуйста, выберите телосложения' }]}
       >
-        <Select placeholder="Тип категории">
+        <Select placeholder="Телосложения">
           {statusOptions['nutrition_list'] &&
             statusOptions['nutrition_list'].map((option, index) => (
               <Option key={index} value={option.id}>
@@ -47,17 +47,10 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['somatic', 'skin_type']}
-        label="Тип кожи"
-        rules={[{ required: true, message: 'Пожалуйста, выберите тип кожи' }]}
+        label="Кожные покровы"
+        rules={[{ required: true, message: 'Пожалуйста, выберите кожные покровы' }]}
       >
-        <Select placeholder="Тип кожи">
-          {statusOptions['skin_list'] &&
-            statusOptions['skin_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
-        </Select>
+        <Input />
       </Form.Item>
       <Form.Item
         name={['somatic', 'availability']}
@@ -75,8 +68,8 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['somatic', 'traces']}
-        label="Следы"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о следы' }]}
+        label="Следы от инъекции"
+        rules={[{ required: true, message: 'Пожалуйста, введите информацию о следах от инъекции' }]}
       >
         <Input />
       </Form.Item>

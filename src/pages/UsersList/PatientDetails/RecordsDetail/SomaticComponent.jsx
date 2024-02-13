@@ -27,7 +27,7 @@ const fieldDescriptions = {
   stool: 'Стул',
   supplements: 'Приём добавок',
   tongue: 'Язык',
-  traces: 'Следы',
+  traces: 'Следы от инъекции',
   vascular_system: 'Сосудистая система',
   vomiting: 'Рвота',
   wheezing: 'Хрипы',
