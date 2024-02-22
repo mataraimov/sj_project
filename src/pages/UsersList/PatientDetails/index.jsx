@@ -3,15 +3,13 @@ import axios from 'axios';
 import moment from 'moment';
 import 'moment/locale/ru';
 import { Descriptions, Button, Modal, Form, Input, Select, Table } from 'antd';
-import { EditOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { API_URL } from '../../../components/utils/config';
-// import CreateSessionModal from './CreateSession';
 import { useAuth } from '../../../components/utils/context';
 import { refreshAccessToken } from '../../../components/utils/refreshToken';
 import CreateSessionModal from './Sessions/CreateSession';
-import CreateEpicrisisModal from './Epicrisis';
-const { confirm } = Modal;
+
 const { Option } = Select;
 
 const PatientDetails = () => {
@@ -20,7 +18,6 @@ const PatientDetails = () => {
   const [recordsData, setRecordsData] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [session, setSessionVisible] = useState(false);
-  const [epicris, setEpicrisVisible] = useState(false);
   const [form] = Form.useForm();
   const [educationOptions, setEducationOptions] = useState([]);
   const [familyOptions, setFamilyOptions] = useState([]);
@@ -204,14 +201,10 @@ const PatientDetails = () => {
   const showSessionModal = () => {
     setSessionVisible(true);
   };
-  const showEpicrisModal = () => {
-    setEpicrisVisible(true);
-  };
 
   const handleCancel = () => {
     setModalVisible(false);
     setSessionVisible(false);
-    setEpicrisVisible(false);
     form.resetFields();
   };
 

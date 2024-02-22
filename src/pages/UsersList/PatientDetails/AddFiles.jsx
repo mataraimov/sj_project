@@ -11,7 +11,13 @@ const { confirm } = Modal;
 const Files = () => {
   const { id } = useParams();
   const [fileList, setFileList] = useState([]);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewVisible, setPreviewVisible] = useState(false);
 
+  const handlePreview = (url) => {
+    setPreviewImage(url);
+    setPreviewVisible(true);
+  };
   const fetchFilesData = async () => {
     try {
       await refreshAccessToken();
@@ -86,12 +92,7 @@ const Files = () => {
     };
 
     return (
-      <Upload
-        name="file"
-         
-        showUploadList={false}
-        
-        onChange={onChange}>
+      <Upload name="file" showUploadList={false} onChange={onChange}>
         <Button icon={<UploadOutlined />}>Изменить файл</Button>
       </Upload>
     );
@@ -134,13 +135,20 @@ const Files = () => {
       title: 'Имя файла',
       dataIndex: 'file',
       key: 'file',
-      render: (file) => <img src={`http://${file}`} alt="file" style={{ width: '150px' }} />,
+      render: (file) => (
+        <img
+          src={`http://${file}`}
+          alt="file"
+          style={{ width: '150px', cursor: 'pointer' }}
+          onClick={() => handlePreview(`http://${file}`)}
+        />
+      ),
     },
     {
       title: 'Действия',
       key: 'action',
       render: (text, record) => (
-        <Space> 
+        <Space>
           {handleEdit(record)}
           <Button icon={<DeleteOutlined />} onClick={() => showDeleteConfirm(record)}>
             Удалить
@@ -168,6 +176,19 @@ const Files = () => {
         </Upload>
       </Space>
       <Table dataSource={fileList} columns={columns} rowKey="id" />
+      <Modal
+        visible={previewVisible}
+        footer={null}
+        centered
+        style={{ minWidth: '50vw' }}
+        onCancel={() => setPreviewVisible(false)}
+      >
+        <img
+          alt="Увеличенное изображение"
+          style={{ width: '100%', minWidth: '45vw', height: 'auto', objectFit: 'contain' }}
+          src={previewImage}
+        />
+      </Modal>
     </div>
   );
 };
