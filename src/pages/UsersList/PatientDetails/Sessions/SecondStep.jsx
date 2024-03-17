@@ -76,13 +76,7 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
       >
         <InputNumber min={0} />
       </Form.Item>
-      <Form.Item
-        name={['anamnesis', 'binge_drinking']}
-        label="Похмелье"
-        rules={[{ required: true, message: 'Пожалуйста, введите информацию о похмелье' }]}
-      >
-        <Input />
-      </Form.Item>
+
       <Form.Item
         name={['anamnesis', 'light_gaps']}
         label="Светлые промежутки"
@@ -123,15 +117,7 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
       >
         <Input />
       </Form.Item>
-      <Form.Item
-        name={['anamnesis', 'last_alcohol_intake']}
-        label="Последний прием алкоголя"
-        rules={[
-          { required: true, message: 'Пожалуйста, введите информацию о последнем приеме алкоголя' },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+
       <Form.Item
         name={['anamnesis', 'dose']}
         label="Дозировка"

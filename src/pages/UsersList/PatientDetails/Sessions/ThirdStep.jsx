@@ -97,16 +97,9 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       <Form.Item
         name={['somatic', 'wheezing']}
         label="Хрипы"
-        rules={[{ required: true, message: 'Пожалуйста, выберите хрипы' }]}
+        rules={[{ required: true, message: 'Пожалуйста, опишите хрипы' }]}
       >
-        <Select placeholder="Свист">
-          {statusOptions['wheezing_list'] &&
-            statusOptions['wheezing_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
-        </Select>
+        <Input />
       </Form.Item>
       <Form.Item
         name={['somatic', 'bh']}
