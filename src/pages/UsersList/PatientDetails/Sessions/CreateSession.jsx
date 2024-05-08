@@ -23,13 +23,11 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
         ...values,
         anamnesis: {
           ...values.anamnesis,
-          receiving_something_time: moment(values.anamnesis.receiving_something_time).format(
-            'YYYY-MM-DD',
-          ),
         },
       };
 
       await refreshAccessToken();
+      console.log(finalValues);
       await axios.post(`${API_URL}/api/v1/records/${patientId}/record/`, finalValues, {
         headers: {
           accept: 'application/json',
@@ -99,11 +97,12 @@ const CreateSessionModal = ({ visible, onCancel, patientId, fetchData }) => {
         'education_list',
         'family_list',
         'heart_list',
-        'nutrition_list',
+        'filling_list',
         'pupils_list',
         'situation_list',
         'skin_list',
         'views_list',
+        'nutrition_list',
         'wheezing_list',
       ];
 

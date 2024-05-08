@@ -39,6 +39,7 @@ const SomaticComponent = ({ somaticData }) => {
   const [updatedSomaticData, setUpdatedSomaticData] = useState(null);
 
   useEffect(() => {
+    console.log(somaticData);
     setFormData(somaticData);
     setUpdatedSomaticData(somaticData);
   }, [somaticData]);

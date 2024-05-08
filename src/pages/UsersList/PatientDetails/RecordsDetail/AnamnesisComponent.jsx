@@ -17,10 +17,9 @@ const fieldDescriptions = {
   light_gaps: 'Легкие зазоры',
   mental_disorders: 'Ментальные расстройства',
   receiving_something: 'Принимает что-то',
-  receiving_something_time: 'Время приёма',
   somatic_disorders: 'Соматические расстройства',
   type_intoxication: 'Тип интоксикации',
-  type_palimpsests: 'Тип палимпсестов',
+  type_palimpsests: 'Палимпсесты',
   type_tolerance: 'Тип переносимости',
 };
 

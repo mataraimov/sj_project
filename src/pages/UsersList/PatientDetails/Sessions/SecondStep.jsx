@@ -3,11 +3,27 @@ import { Form, DatePicker, Input, InputNumber, Select, Button } from 'antd';
 const { Option } = Select;
 
 const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
-  const [controlType, setControlType] = useState('');
-  const [lossOfControl, setLossOfControl] = useState('');
+  const [controlTypes, setControlTypes] = useState([]);
+  const [lossOfControlQuantity, setLossOfControlQuantity] = useState([]);
+  const [lossOfControlSituation, setLossOfControlSituation] = useState([]);
 
   const onFinish = (values) => {
-    const category = `${controlType} - ${lossOfControl}`;
+    const category = `${
+      controlTypes.includes('Количественный контроль')
+        ? 'Количественный - ' +
+          (lossOfControlQuantity.includes('Утрачен количественный контроль')
+            ? 'утрачен'
+            : 'не утрачен')
+        : ''
+    }, ${
+      controlTypes.includes('Ситуационный контроль')
+        ? 'Ситуационный контроль - ' +
+          (lossOfControlSituation.includes('Утрачен ситуационный контроль')
+            ? 'утрачен'
+            : 'не утрачен')
+        : ''
+    }`;
+
     const updatedValues = {
       ...values,
       anamnesis: {
@@ -18,7 +34,6 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
 
     nextStep(updatedValues);
   };
-
   return (
     <Form
       form={form}
@@ -37,15 +52,7 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
       >
         <Input />
       </Form.Item>
-      <Form.Item
-        name={['anamnesis', 'receiving_something_time']}
-        label="Последнее время приёма"
-        rules={[
-          { required: true, message: 'Пожалуйста, введите информацию о времени последнего приёма' },
-        ]}
-      >
-        <DatePicker format="YYYY-MM-DD" />
-      </Form.Item>
+
       <Form.Item
         name={['anamnesis', 'somatic_disorders']}
         label="Соматические расстройства"
@@ -69,9 +76,12 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'daily_tolerance']}
-        label="Суточная переносимость"
+        label="Максимальная суточная толерантность"
         rules={[
-          { required: true, message: 'Пожалуйста, введите информацию о суточной переносимости' },
+          {
+            required: true,
+            message: 'Пожалуйста, введите информацию о максимальной суточной переносимости',
+          },
         ]}
       >
         <InputNumber min={0} />
@@ -145,10 +155,10 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'type_palimpsests']}
-        label="Тип палимпсестов"
-        rules={[{ required: true, message: 'Пожалуйста, выберите тип палимпсестов' }]}
+        label="Палимпсесты"
+        rules={[{ required: true, message: 'Пожалуйста, выберите палимпсесты' }]}
       >
-        <Select placeholder="Выберите тип палимпсестов">
+        <Select placeholder="Выберите палимпсесты">
           <Option value="Есть">Есть</Option>
           <Option value="Нет">Нет</Option>
           <Option value="Тотальная амнезия есть">Тотальная амнезия есть</Option>
@@ -175,25 +185,47 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
         name={['anamnesis', 'controlType']}
         rules={[{ required: true, message: 'Пожалуйста, выберите тип контроля' }]}
       >
-        <Select placeholder="Выберите тип контроля" onChange={(value) => setControlType(value)}>
+        <Select
+          mode="multiple"
+          placeholder="Выберите тип контроля"
+          onChange={(value) => setControlTypes(value)}
+        >
           <Option value="Количественный контроль">Количественный контроль</Option>
           <Option value="Ситуационный контроль">Ситуационный контроль</Option>
         </Select>
       </Form.Item>
 
-      <Form.Item
-        label="Утрата контроля"
-        name={['anamnesis', 'lossOfControl']}
-        rules={[{ required: true, message: 'Пожалуйста, выберите утрату контроля' }]}
-      >
-        <Select
-          placeholder="Выберите утрату контроля"
-          onChange={(value) => setLossOfControl(value)}
+      {controlTypes.includes('Количественный контроль') && (
+        <Form.Item
+          label="Утрата контроля количественного"
+          name={['anamnesis', 'lossOfControlQuantity']}
+          rules={[{ required: true, message: 'Пожалуйста, выберите утрату контроля' }]}
         >
-          <Option value="Утрачен контроль">Утрачен контроль</Option>
-          <Option value="Контроль не утрачен">Контроль не утрачен</Option>
-        </Select>
-      </Form.Item>
+          <Select
+            placeholder="Выберите утрату контроля"
+            onChange={(value) => setLossOfControlQuantity(value)}
+          >
+            <Option value="Утрачен количественный контроль">Утрачен количественный контроль</Option>
+            <Option value="Контроль не утрачен">Контроль не утрачен</Option>
+          </Select>
+        </Form.Item>
+      )}
+
+      {controlTypes.includes('Ситуационный контроль') && (
+        <Form.Item
+          label="Утрата контроля ситуационного"
+          name={['anamnesis', 'lossOfControlSituation']}
+          rules={[{ required: true, message: 'Пожалуйста, выберите утрату контроля' }]}
+        >
+          <Select
+            placeholder="Выберите утрату контроля"
+            onChange={(value) => setLossOfControlSituation(value)}
+          >
+            <Option value="Утрачен ситуационный контроль">Утрачен ситуационный контроль</Option>
+            <Option value="Контроль не утрачен">Контроль не утрачен</Option>
+          </Select>
+        </Form.Item>
+      )}
 
       <Button key="back" onClick={prevStep} style={{ width: '140px' }}>
         Назад

@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Form, Input, InputNumber, Select } from 'antd';
 const { Option } = Select;
 
 const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
+  const [customAvailability, setCustomAvailability] = useState('');
+
   const onFinish = (values) => {
+    // Преобразование массива в строку
+    const availability = values.somatic.availability.join(', ');
+
     // Передаем значения обратно в родительский компонент
-    nextStep(values);
+    nextStep({ ...values, somatic: { ...values.somatic, availability } });
   };
 
   return (
@@ -23,8 +28,8 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
         rules={[{ required: true, message: 'Пожалуйста, выберите состояние' }]}
       >
         <Select placeholder="состояние">
-          {statusOptions['conditions_list'] &&
-            statusOptions['conditions_list'].map((option, index) => (
+          {statusOptions['situation_list'] &&
+            statusOptions['situation_list'].map((option, index) => (
               <Option key={index} value={option.id}>
                 {option.title}
               </Option>
@@ -54,16 +59,27 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['somatic', 'availability']}
-        label="Телесное повреждение"
+        label="Телесное повреждение "
         rules={[{ required: true, message: 'Пожалуйста, выберите доступность' }]}
       >
-        <Select placeholder="Доступность">
-          {statusOptions['availability_list'] &&
-            statusOptions['availability_list'].map((option, index) => (
-              <Option key={index} value={option.id}>
-                {option.title}
-              </Option>
-            ))}
+        <Select
+          placeholder="Доступность"
+          showSearch
+          optionFilterProp="children"
+          filterOption={(input, option) =>
+            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+          }
+          mode="tags" // Включение режима тегов
+          onChange={(value) => setCustomAvailability(value)} // Обработчик изменения выбранного значения
+        >
+          <Option key="Удовлетворительное">Удовлетворительное</Option>
+          <Option key="Слабое">Слабое</Option>
+          <Option key="Сильное">Сильное</Option>
+          <Option key="Ритмичное">Ритмичное</Option>
+          <Option key="Аритмичное">Аритмичное</Option>
+          <Option key="Нитевидное">Нитевидное</Option>
+          <Option key="Дефицит есть">Дефицит есть</Option>
+          <Option key="Дефицита нет">Дефицита нет</Option>
         </Select>
       </Form.Item>
       <Form.Item
@@ -149,8 +165,8 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
         rules={[{ required: true, message: 'Пожалуйста, выберите полноту' }]}
       >
         <Select placeholder="Наполнение пульса">
-          {statusOptions['nutrition_list'] &&
-            statusOptions['nutrition_list'].map((option, index) => (
+          {statusOptions['filling_list'] &&
+            statusOptions['filling_list'].map((option, index) => (
               <Option key={index} value={option.id}>
                 {option.title}
               </Option>
