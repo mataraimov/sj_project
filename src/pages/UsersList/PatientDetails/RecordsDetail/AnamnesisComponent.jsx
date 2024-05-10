@@ -16,7 +16,7 @@ const fieldDescriptions = {
   last_treatment: 'Последнее лечение',
   light_gaps: 'Легкие зазоры',
   mental_disorders: 'Ментальные расстройства',
-  receiving_something: 'Принимает что-то',
+  receiving_something: 'Последний приём алкоголя',
   somatic_disorders: 'Соматические расстройства',
   type_intoxication: 'Тип интоксикации',
   type_palimpsests: 'Палимпсесты',

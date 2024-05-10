@@ -19,7 +19,7 @@ const FirstStep = ({ form, statusOptions, nextStep, prevStep }) => {
       <h2>Общие данные</h2>
       <Form.Item
         name={['arrives']}
-        label="Поступление на стационарное лечение"
+        label="Поступление на лечение"
         rules={[
           { required: true, message: 'Пожалуйста, укажите поступление на стационарное лечение ' },
         ]}
@@ -116,13 +116,7 @@ const FirstStep = ({ form, statusOptions, nextStep, prevStep }) => {
       >
         <InputNumber min={0} />
       </Form.Item>
-      <Form.Item
-        name={['blood_type']}
-        label="Группа крови"
-        rules={[{ required: true, message: 'Пожалуйста, укажите группу крови' }]}
-      >
-        <Input />
-      </Form.Item>
+
       <Button type="primary" htmlType="submit" style={{ width: '140px' }}>
         Продолжить
       </Button>

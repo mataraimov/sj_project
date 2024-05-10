@@ -84,7 +84,6 @@ const GeneralState = ({ recordData }) => {
           )}
         </Descriptions.Item>
         <Descriptions.Item label="Прибывает">{recordData.arrives}</Descriptions.Item>
-        <Descriptions.Item label="Тип крови">{recordData.blood_type}</Descriptions.Item>
         <Descriptions.Item label="Общее состояние">{recordData.conditions}</Descriptions.Item>
         <Descriptions.Item label="Жалобы">{recordData.complaints}</Descriptions.Item>
         <Descriptions.Item label="Отдел">{recordData.departament}</Descriptions.Item>
