@@ -12,7 +12,7 @@ const fieldDescriptions = {
   night_sleep: 'Ночной сон',
   orientation: 'Ориентированность',
   perception_disorders: 'Расстройства восприятия',
-  purpose_of_hospitalization: 'зации',
+  purpose_of_hospitalization: 'Цель госпитализации',
   smell_of_alcohol: 'Запах алкоголя',
   suicide_attempt: 'Попытка суицида',
   view: 'Вид',
@@ -68,7 +68,8 @@ const MentalComponent = ({ mentalData }) => {
           justifyContent: 'space-between',
           width: '1200px',
           alignItems: 'center',
-        }}>
+        }}
+      >
         <Divider orientation="left">Психический статус</Divider>
         <Button onClick={showModal}>Редактировать</Button>
       </div>
@@ -93,7 +94,8 @@ const MentalComponent = ({ mentalData }) => {
           <Button key="submit" type="primary" onClick={updateData}>
             Обновить
           </Button>,
-        ]}>
+        ]}
+      >
         <Form>
           {Object.entries(formData).map(
             ([key, value]) =>
