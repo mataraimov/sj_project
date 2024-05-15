@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Form, Input, DatePicker, Select } from 'antd';
 import axios from 'axios';
 import i from './CreatePatient.module.css';
@@ -57,7 +57,7 @@ const CreatePatient = () => {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       };
       values.date_of_birth = anamnesisLife.date_of_birth;
-      const response = await axios.post(
+      await axios.post(
         `${API_URL}/api/v1/patients/`,
         {
           ...values,
@@ -95,7 +95,8 @@ const CreatePatient = () => {
       }}
       onFinish={onFinish}
       autoComplete="off"
-      className={i.form}>
+      className={i.form}
+    >
       {showSuccessNotification && (
         <CustomNotification
           message="Регистрация прошла успешно!"
@@ -121,7 +122,8 @@ const CreatePatient = () => {
               message: 'Пожалуйста, введите имя!',
             },
           ]}
-          className={i.input}>
+          className={i.input}
+        >
           <Input />
         </Form.Item>
       </div>
@@ -136,7 +138,8 @@ const CreatePatient = () => {
               message: 'Пожалуйста, введите фамилию!',
             },
           ]}
-          className={i.input}>
+          className={i.input}
+        >
           <Input />
         </Form.Item>
       </div>
@@ -158,7 +161,8 @@ const CreatePatient = () => {
               message: 'Пожалуйста, выберите дату рождения!',
             },
           ]}
-          className={i.input}>
+          className={i.input}
+        >
           <DatePicker
             format="YYYY-MM-DD"
             onChange={(date, dateString) => {
@@ -175,7 +179,8 @@ const CreatePatient = () => {
         <Form.Item name="education" className={i.input}>
           <Select
             value={anamnesisLife.education}
-            onChange={(value) => handleAnamnesisLifeChange('education', value)}>
+            onChange={(value) => handleAnamnesisLifeChange('education', value)}
+          >
             {educationOptions.map((option) => (
               <Option key={option.id} value={option.id}>
                 {option.title}
@@ -190,7 +195,8 @@ const CreatePatient = () => {
         <Form.Item name="martial_status" className={i.input}>
           <Select
             value={anamnesisLife.martial_status}
-            onChange={(value) => handleAnamnesisLifeChange('martial_status', value)}>
+            onChange={(value) => handleAnamnesisLifeChange('martial_status', value)}
+          >
             {familyOptions.map((option) => (
               <Option key={option.id} value={option.id}>
                 {option.title}
@@ -206,7 +212,8 @@ const CreatePatient = () => {
           name="place_work"
           className={i.input}
           value={anamnesisLife.place_work}
-          onChange={(e) => handleAnamnesisLifeChange('place_work', e.target.value)}>
+          onChange={(e) => handleAnamnesisLifeChange('place_work', e.target.value)}
+        >
           <Input />
         </Form.Item>
       </div>
@@ -217,7 +224,8 @@ const CreatePatient = () => {
           name="criminal_record"
           className={i.input}
           value={anamnesisLife.criminal_record}
-          onChange={(e) => handleAnamnesisLifeChange('criminal_record', e.target.value)}>
+          onChange={(e) => handleAnamnesisLifeChange('criminal_record', e.target.value)}
+        >
           <Input />
         </Form.Item>
       </div>
@@ -228,7 +236,8 @@ const CreatePatient = () => {
           name="previous_illnesses"
           className={i.input}
           value={anamnesisLife.previous_illnesses}
-          onChange={(e) => handleAnamnesisLifeChange('previous_illnesses', e.target.value)}>
+          onChange={(e) => handleAnamnesisLifeChange('previous_illnesses', e.target.value)}
+        >
           <Input />
         </Form.Item>
       </div>
@@ -239,7 +248,8 @@ const CreatePatient = () => {
           name="medications"
           className={i.input}
           value={anamnesisLife.medications}
-          onChange={(e) => handleAnamnesisLifeChange('medications', e.target.value)}>
+          onChange={(e) => handleAnamnesisLifeChange('medications', e.target.value)}
+        >
           <Input />
         </Form.Item>
       </div>
@@ -250,7 +260,8 @@ const CreatePatient = () => {
           name="allergic_history"
           className={i.input}
           value={anamnesisLife.allergic_history}
-          onChange={(e) => handleAnamnesisLifeChange('allergic_history', e.target.value)}>
+          onChange={(e) => handleAnamnesisLifeChange('allergic_history', e.target.value)}
+        >
           <Input />
         </Form.Item>
       </div>

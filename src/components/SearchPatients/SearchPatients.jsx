@@ -1,6 +1,6 @@
-import { Input, AutoComplete } from 'antd';
+import { AutoComplete } from 'antd';
 import axios from 'axios';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { API_URL } from '../utils/config';
 import debounce from 'lodash/debounce';
 import { useNavigate } from 'react-router-dom';
@@ -53,12 +53,13 @@ const SearchPatients = () => {
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}
-          onClick={() => showDetails(user)}>
-          <a style={{ color: '#000' }} onClick={() => showDetails(user)}>
+          onClick={() => showDetails(user)}
+        >
+          <a href="#" style={{ color: '#000' }} onClick={() => showDetails(user)}>
             {user.name}
           </a>
 
-          <a style={{ color: '#1890ff' }} onClick={() => showDetails(user)}>
+          <a href="#" style={{ color: '#1890ff' }} onClick={() => showDetails(user)}>
             Детали
           </a>
         </div>

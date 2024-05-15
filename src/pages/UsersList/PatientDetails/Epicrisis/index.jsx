@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Modal, Form, Button, message, Table, Descriptions, Typography } from 'antd';
 import moment from 'moment';
@@ -49,7 +49,8 @@ const EpicrisisDetails = ({ epicrisisId, onCancel }) => {
         <Button key="cancel" onClick={onCancel}>
           Закрыть
         </Button>,
-      ]}>
+      ]}
+    >
       {loading ? (
         <p>Загрузка...</p>
       ) : (
@@ -114,13 +115,11 @@ const Epicrisis = () => {
   const { id } = useParams();
   const [form] = Form.useForm();
   const [epicrisisData, setEpicrisisData] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
   const [epicrisisIdForDetails, setEpicrisisIdForDetails] = useState(null);
   const [epicris, setEpicrisVisible] = useState(false);
   const { authData } = useAuth();
   const { role } = authData;
   const handleCancel = () => {
-    setModalVisible(false);
     setEpicrisVisible(false);
     form.resetFields();
   };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Button, Modal, Form, Input, Table, message } from 'antd';
 import { useParams } from 'react-router-dom';
@@ -186,12 +186,14 @@ const Diaries = () => {
         title="Добавить запись в дневник"
         visible={modalVisible}
         onOk={handleAddDiaryEntry}
-        onCancel={() => setModalVisible(false)}>
+        onCancel={() => setModalVisible(false)}
+      >
         <Form form={form}>
           <Form.Item
             name="content"
             label="Содержание"
-            rules={[{ required: true, message: 'Введите содержание' }]}>
+            rules={[{ required: true, message: 'Введите содержание' }]}
+          >
             <TextArea rows={4} />
           </Form.Item>
         </Form>
@@ -203,13 +205,15 @@ const Diaries = () => {
         onCancel={() => {
           setEditModalVisible(false);
           setEditingDiary('');
-        }}>
+        }}
+      >
         <Form form={form} onFinish={handleEditDiaryEntry}>
           <Form.Item
             name="content"
             label="Содержание"
             rules={[{ required: true, message: 'Введите содержание' }]}
-            initialValue={editingDiary ? editingDiary.content : ''}>
+            initialValue={editingDiary ? editingDiary.content : ''}
+          >
             <TextArea rows={4} />
           </Form.Item>
         </Form>
@@ -222,7 +226,8 @@ const Diaries = () => {
           <Button key="close" onClick={() => toggleShowFullContentModal('')}>
             Закрыть
           </Button>,
-        ]}>
+        ]}
+      >
         <div style={{ maxHeight: '300px', overflow: 'auto' }}>{fullContent}</div>
       </Modal>
     </Card>

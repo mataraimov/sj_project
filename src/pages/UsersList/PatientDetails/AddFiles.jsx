@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Table, Space, Button, Upload, message, Modal } from 'antd';
 import { UploadOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';

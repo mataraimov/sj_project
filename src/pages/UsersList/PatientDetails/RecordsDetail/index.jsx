@@ -1,16 +1,14 @@
 import { useLocation } from 'react-router-dom';
-import { Descriptions, Tag, Divider } from 'antd';
+import { Divider } from 'antd';
 import AnamnesisComponent from './AnamnesisComponent';
 import SomaticComponent from './SomaticComponent';
 import MentalComponent from './MentalComponent';
 import NeurologicalComponent from './NeurologicalComponent';
-import { useEffect } from 'react';
 import GeneralState from './GeneralState';
 
 const RecordsDetail = () => {
   const location = useLocation();
   const { recordData } = location.state;
-  const { patientData } = location.state;
 
   return (
     <div>

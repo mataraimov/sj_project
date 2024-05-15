@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { Form, Select, InputNumber, Input, DatePicker, Button } from 'antd';
 import moment from 'moment';
 const { Option } = Select;

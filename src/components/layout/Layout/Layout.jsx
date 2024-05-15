@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Layout, theme } from 'antd';
 import HeaderComponent from '../Header/Header';
 import SiderBarComponent from '../Sidebar/Sidebar';

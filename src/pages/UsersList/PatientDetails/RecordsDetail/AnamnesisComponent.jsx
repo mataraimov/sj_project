@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Descriptions, Divider, Button, Modal, Form, Input } from 'antd';
 import { refreshAccessToken } from '../../../../components/utils/refreshToken';
 import axios from 'axios';

@@ -1,5 +1,5 @@
 // NeurologicalComponent.jsx
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Descriptions, Divider, Form, Input, Modal } from 'antd';
 import { refreshAccessToken } from '../../../../components/utils/refreshToken';
 import axios from 'axios';

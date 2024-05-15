@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Space, Table, Modal, Form, Input, Button } from 'antd';
 import axios from 'axios';
 import { refreshAccessToken } from '../../../components/utils/refreshToken';
@@ -6,7 +6,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { API_URL } from '../../../components/utils/config';
 import { PlusOutlined } from '@ant-design/icons';
 import { useAuth } from '../../../components/utils/context';
-import SearchPatients from '../../../components/SearchPatients/SearchPatients';
 const PatientList = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -190,11 +189,13 @@ const PatientList = () => {
         okText="Save"
         cancelText="Cancel"
         onCancel={() => setEditingId(null)}
-        onOk={() => editForm.submit()}>
+        onOk={() => editForm.submit()}
+      >
         <Form
           form={editForm}
           onFinish={(values) => handleUpdate(editingId, values)}
-          initialValues={data.find((patient) => patient.id === editingId)}>
+          initialValues={data.find((patient) => patient.id === editingId)}
+        >
           <Form.Item label="Name" name="name">
             <Input />
           </Form.Item>

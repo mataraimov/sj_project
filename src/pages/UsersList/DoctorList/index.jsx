@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Button, Table, Modal, Form, Input, Select } from "antd";
+import { useState, useEffect } from 'react';
+import { Button, Table, Modal, Form, Input, Select } from 'antd';
 
-import axios from "axios";
-import { API_URL } from "../../../components/utils/config";
-import { refreshAccessToken } from "../../../components/utils/refreshToken";
+import axios from 'axios';
+import { API_URL } from '../../../components/utils/config';
+import { refreshAccessToken } from '../../../components/utils/refreshToken';
 
 const { Option } = Select;
 
@@ -25,13 +25,13 @@ const Doctors = () => {
       await refreshAccessToken();
       const response = await axios.get(`${API_URL}/api/v1/staffs/`, {
         headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          accept: 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
       });
       setData(response.data);
     } catch (error) {
-      console.error("Ошибка при получении данных:", error);
+      console.error('Ошибка при получении данных:', error);
     }
   };
 
@@ -40,14 +40,14 @@ const Doctors = () => {
       await refreshAccessToken();
       await axios.patch(`${API_URL}/api/v1/staffs/${id}/`, updatedData, {
         headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          accept: 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
       });
       fetchData();
       setEditModalVisible(false);
     } catch (error) {
-      console.error("Ошибка обновления данных:", error);
+      console.error('Ошибка обновления данных:', error);
     }
   };
 
@@ -61,14 +61,14 @@ const Doctors = () => {
       await refreshAccessToken();
       await axios.delete(`${API_URL}/api/v1/staffs/${deletingDoctorId}/`, {
         headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          accept: 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
       });
       setDeleteModalVisible(false);
       fetchData();
     } catch (error) {
-      console.error("Ошибка удаления данных:", error);
+      console.error('Ошибка удаления данных:', error);
     }
   };
 
@@ -80,25 +80,21 @@ const Doctors = () => {
     form.resetFields();
   };
 
-  const handleEdit = async () => {
-    try {
-      await refreshAccessToken();
-      await axios.patch(
-        `${API_URL}/api/v1/staffs/${editingDoctor.id}/`,
-        editingDoctor,
-        {
-          headers: {
-            accept: "application/json",
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
-      setEditModalVisible(false);
-      fetchData();
-    } catch (error) {
-      console.error("Ошибка обновления данных:", error);
-    }
-  };
+  // const handleEdit = async () => {
+  //   try {
+  //     await refreshAccessToken();
+  //     await axios.patch(`${API_URL}/api/v1/staffs/${editingDoctor.id}/`, editingDoctor, {
+  //       headers: {
+  //         accept: 'application/json',
+  //         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+  //       },
+  //     });
+  //     setEditModalVisible(false);
+  //     fetchData();
+  //   } catch (error) {
+  //     console.error('Ошибка обновления данных:', error);
+  //   }
+  // };
 
   const handleEditInputChange = (value, field) => {
     setEditingDoctor({
@@ -133,34 +129,34 @@ const Doctors = () => {
         updateData(editingDoctor.id, values);
       })
       .catch((errorInfo) => {
-        console.log("Проверка не удалась:", errorInfo);
+        console.log('Проверка не удалась:', errorInfo);
       });
   };
 
   const columns = [
     {
-      title: "Имя",
-      dataIndex: "name",
-      key: "name",
+      title: 'Имя',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
-      title: "Фамилия",
-      dataIndex: "surname",
-      key: "surname",
+      title: 'Фамилия',
+      dataIndex: 'surname',
+      key: 'surname',
     },
     {
-      title: "Номер телефона",
-      dataIndex: "phone",
-      key: "phone",
+      title: 'Номер телефона',
+      dataIndex: 'phone',
+      key: 'phone',
     },
     {
-      title: "Роль",
-      dataIndex: "role",
-      key: "role",
+      title: 'Роль',
+      dataIndex: 'role',
+      key: 'role',
     },
     {
-      title: "Действия",
-      key: "action",
+      title: 'Действия',
+      key: 'action',
       render: (text, record) => (
         <span>
           <Button type="primary" onClick={() => showEditModal(record)}>
@@ -175,19 +171,14 @@ const Doctors = () => {
   ];
 
   const d = {
-    form: "custom-form-class",
-    form_span: "custom-span-class",
-    input: "custom-input-class",
+    form: 'custom-form-class',
+    form_span: 'custom-span-class',
+    input: 'custom-input-class',
   };
 
   return (
     <>
-      <Table
-        columns={columns}
-        dataSource={data}
-        loading={loading}
-        rowKey="phone"
-      />
+      <Table columns={columns} dataSource={data} loading={loading} rowKey="phone" />
       <Modal
         title="Подтверждение удаления"
         visible={deleteModalVisible}
@@ -216,14 +207,12 @@ const Doctors = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your phone!",
+                  message: 'Please input your phone!',
                 },
               ]}
               className={d.input}
             >
-              <Input
-                onChange={(e) => handleEditInputChange(e.target.value, "phone")}
-              />
+              <Input onChange={(e) => handleEditInputChange(e.target.value, 'phone')} />
             </Form.Item>
           </div>
           <div className={d.form_input}>
@@ -233,14 +222,12 @@ const Doctors = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your name!",
+                  message: 'Please input your name!',
                 },
               ]}
               className={d.input}
             >
-              <Input
-                onChange={(e) => handleEditInputChange(e.target.value, "name")}
-              />
+              <Input onChange={(e) => handleEditInputChange(e.target.value, 'name')} />
             </Form.Item>
           </div>
 
@@ -251,14 +238,14 @@ const Doctors = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please select a role!",
+                  message: 'Please select a role!',
                 },
               ]}
               className={d.input}
             >
               <Select
                 placeholder="Select a role"
-                onChange={(value) => handleEditInputChange(value, "role")}
+                onChange={(value) => handleEditInputChange(value, 'role')}
               >
                 <Option value="1">Админ</Option>
                 <Option value="2">Доктор</Option>

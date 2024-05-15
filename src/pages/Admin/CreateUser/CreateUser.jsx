@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Form, Input, Select } from 'antd';
 import axios from 'axios';
 import d from './CreateUser.module.css';

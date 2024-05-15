@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Form, DatePicker, Input, InputNumber, Select, Button } from 'antd';
+import { useState } from 'react';
+import { Form, Input, InputNumber, Select, Button } from 'antd';
 const { Option } = Select;
 
 const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {

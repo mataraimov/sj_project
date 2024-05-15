@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   LineChart,
   Line,
@@ -25,8 +25,8 @@ const IncomeTraffic = () => {
       await refreshAccessToken();
       const response = await axios.get(`${API_URL}/api/v1/income/`, {
         headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          accept: 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
       });
       const incomeData = Object.entries(response.data).map(([month, income]) => ({
@@ -35,19 +35,19 @@ const IncomeTraffic = () => {
       }));
       setData(incomeData);
     } catch (error) {
-      console.error("Ошибка при получении данных:", error);
+      console.error('Ошибка при получении данных:', error);
     }
   };
 
-  const uniqueMonths = [...new Set(data.map(item => moment(item.month).format("MMMM YYYY")))];
+  const uniqueMonths = [...new Set(data.map((item) => moment(item.month).format('MMMM YYYY')))];
 
-  const formattedData = uniqueMonths.map(month => {
-    const incomeForMonth = data.find(item => moment(item.month).format("MMMM YYYY") === month);
+  const formattedData = uniqueMonths.map((month) => {
+    const incomeForMonth = data.find((item) => moment(item.month).format('MMMM YYYY') === month);
     return {
       name: month,
       зп: incomeForMonth ? incomeForMonth.income : 0,
     };
-  });     
+  });
   return (
     <ResponsiveContainer width="100%" height={450}>
       <LineChart
@@ -59,7 +59,8 @@ const IncomeTraffic = () => {
           right: 30,
           left: 0,
           bottom: 0,
-        }}>
+        }}
+      >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />

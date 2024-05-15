@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Modal, Form, Button, message } from 'antd';
-import moment from 'moment';
-
 import { refreshAccessToken } from '../../../../components/utils/refreshToken';
 import FirstStep from './FirstStep';
 import SecondStep from './SecondStep';
