@@ -59,11 +59,11 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['somatic', 'availability']}
-        label="Телесное повреждение "
-        rules={[{ required: true, message: 'Пожалуйста, выберите доступность' }]}
+        label="Телесное повреждение"
+        rules={[{ required: true, message: 'Пожалуйста, выберите телесное повреждение' }]}
       >
         <Select
-          placeholder="Доступность"
+          placeholder="Телесное повреждение"
           showSearch
           optionFilterProp="children"
           filterOption={(input, option) =>
@@ -72,14 +72,12 @@ const ThirdStep = ({ form, statusOptions, nextStep, prevStep }) => {
           mode="tags" // Включение режима тегов
           onChange={(value) => setCustomAvailability(value)} // Обработчик изменения выбранного значения
         >
-          <Option key="Удовлетворительное">Удовлетворительное</Option>
-          <Option key="Слабое">Слабое</Option>
-          <Option key="Сильное">Сильное</Option>
-          <Option key="Ритмичное">Ритмичное</Option>
-          <Option key="Аритмичное">Аритмичное</Option>
-          <Option key="Нитевидное">Нитевидное</Option>
-          <Option key="Дефицит есть">Дефицит есть</Option>
-          <Option key="Дефицита нет">Дефицита нет</Option>
+          <Option key="Наличие шрамов">Наличие шрамов</Option>
+          <Option key="Ссадин">Ссадин</Option>
+          <Option key="Ушибов">Ушибов</Option>
+          <Option key="Гематом">Гематом</Option>
+          <Option key="Парезов">Парезов</Option>
+          <Option key="Воспаления">Воспаления</Option>
         </Select>
       </Form.Item>
       <Form.Item
