@@ -18,9 +18,9 @@ const fieldDescriptions = {
   mental_disorders: 'Ментальные расстройства',
   receiving_something: 'Последний приём алкоголя',
   somatic_disorders: 'Соматические расстройства',
-  type_intoxication: 'Тип интоксикации',
+  type_intoxication: 'Интоксикация',
   type_palimpsests: 'Палимпсесты',
-  type_tolerance: 'Тип переносимости',
+  type_tolerance: 'Переносимость',
 };
 
 const AnamnesisComponent = ({ anamnesisData }) => {

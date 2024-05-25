@@ -133,7 +133,7 @@ const PatientDetails = () => {
   const showConfirm = (record) => {
     Modal.confirm({
       title: 'Подтверждение удаления',
-      content: 'Вы уверены что хотите удалить пациента?',
+      content: 'Вы уверены что хотите удалить сессию?',
       okText: 'Да',
       okType: 'danger',
       cancelText: 'Нет',

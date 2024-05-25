@@ -3,26 +3,22 @@ import { Form, Input, InputNumber, Select, Button } from 'antd';
 const { Option } = Select;
 
 const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
-  const [controlTypes, setControlTypes] = useState([]);
-  const [lossOfControlQuantity, setLossOfControlQuantity] = useState([]);
-  const [lossOfControlSituation, setLossOfControlSituation] = useState([]);
+  const [lossOfControlQuantity, setLossOfControlQuantity] = useState('');
+  const [lossOfControlSituation, setLossOfControlSituation] = useState('');
+
+  const onValuesChange = (changedValues, allValues) => {
+    if (changedValues.anamnesis) {
+      if (changedValues.anamnesis.lossOfControlQuantity !== undefined) {
+        setLossOfControlQuantity(changedValues.anamnesis.lossOfControlQuantity);
+      }
+      if (changedValues.anamnesis.lossOfControlSituation !== undefined) {
+        setLossOfControlSituation(changedValues.anamnesis.lossOfControlSituation);
+      }
+    }
+  };
 
   const onFinish = (values) => {
-    const category = `${
-      controlTypes.includes('Количественный контроль')
-        ? 'Количественный - ' +
-          (lossOfControlQuantity.includes('Утрачен количественный контроль')
-            ? 'утрачен'
-            : 'не утрачен')
-        : ''
-    }, ${
-      controlTypes.includes('Ситуационный контроль')
-        ? 'Ситуационный контроль - ' +
-          (lossOfControlSituation.includes('Утрачен ситуационный контроль')
-            ? 'утрачен'
-            : 'не утрачен')
-        : ''
-    }`;
+    const category = `Количественный контроль: ${lossOfControlQuantity}; Ситуационный контроль: ${lossOfControlSituation}`;
 
     const updatedValues = {
       ...values,
@@ -31,12 +27,14 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
         category,
       },
     };
-
+    console.log(updatedValues);
     nextStep(updatedValues);
   };
+
   return (
     <Form
       form={form}
+      onValuesChange={onValuesChange}
       onFinish={onFinish}
       labelCol={{ span: 9 }}
       wrapperCol={{ span: 18 }}
@@ -144,10 +142,10 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'type_tolerance']}
-        label="Тип толерантности"
-        rules={[{ required: true, message: 'Пожалуйста, выберите тип толерантности' }]}
+        label="Толерантность"
+        rules={[{ required: true, message: 'Пожалуйста, выберите толерантность' }]}
       >
-        <Select placeholder="Выберите тип толерантности">
+        <Select placeholder="Выберите толерантность">
           <Option value="Стабильный">Стабильный</Option>
           <Option value="Увеличивается">Увеличивается</Option>
           <Option value="Уменьшается">Уменьшается</Option>
@@ -167,10 +165,10 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
       </Form.Item>
       <Form.Item
         name={['anamnesis', 'type_intoxication']}
-        label="Тип опьянения"
-        rules={[{ required: true, message: 'Пожалуйста, выберите тип опьянения' }]}
+        label="Опьянение"
+        rules={[{ required: true, message: 'Пожалуйста, выберите опьянение' }]}
       >
-        <Select placeholder="Выберите тип опьянения">
+        <Select placeholder="Выберите опьянение">
           <Option value="Эксплозивный">Эксплозивный</Option>
           <Option value="Дисфорический">Дисфорический</Option>
           <Option value="Истерический">Истерический</Option>
@@ -180,52 +178,34 @@ const SecondStep = ({ form, statusOptions, nextStep, prevStep }) => {
           <Option value="Сомнолентный">Сомнолентный</Option>
         </Select>
       </Form.Item>
+
       <Form.Item
-        label="Тип контроля"
-        name={['anamnesis', 'controlType']}
-        rules={[{ required: true, message: 'Пожалуйста, выберите тип контроля' }]}
+        label="Количественный контроль"
+        name={['anamnesis', 'lossOfControlQuantity']}
+        rules={[{ required: true, message: 'Пожалуйста, выберите утрату контроля' }]}
       >
         <Select
-          mode="multiple"
-          placeholder="Выберите тип контроля"
-          onChange={(value) => setControlTypes(value)}
+          placeholder="Выберите утрату контроля"
+          onChange={(value) => setLossOfControlQuantity(value)}
         >
-          <Option value="Количественный контроль">Количественный контроль</Option>
-          <Option value="Ситуационный контроль">Ситуационный контроль</Option>
+          <Option value="утрачен">Утрачен</Option>
+          <Option value="не утрачен">Не утрачен</Option>
         </Select>
       </Form.Item>
 
-      {controlTypes.includes('Количественный контроль') && (
-        <Form.Item
-          label="Утрата контроля количественного"
-          name={['anamnesis', 'lossOfControlQuantity']}
-          rules={[{ required: true, message: 'Пожалуйста, выберите утрату контроля' }]}
+      <Form.Item
+        label="Ситуационный контроль"
+        name={['anamnesis', 'lossOfControlSituation']}
+        rules={[{ required: true, message: 'Пожалуйста, выберите утрату контроля' }]}
+      >
+        <Select
+          placeholder="Выберите утрату контроля"
+          onChange={(value) => setLossOfControlSituation(value)}
         >
-          <Select
-            placeholder="Выберите утрату контроля"
-            onChange={(value) => setLossOfControlQuantity(value)}
-          >
-            <Option value="Утрачен количественный контроль">Утрачен количественный контроль</Option>
-            <Option value="Контроль не утрачен">Контроль не утрачен</Option>
-          </Select>
-        </Form.Item>
-      )}
-
-      {controlTypes.includes('Ситуационный контроль') && (
-        <Form.Item
-          label="Утрата контроля ситуационного"
-          name={['anamnesis', 'lossOfControlSituation']}
-          rules={[{ required: true, message: 'Пожалуйста, выберите утрату контроля' }]}
-        >
-          <Select
-            placeholder="Выберите утрату контроля"
-            onChange={(value) => setLossOfControlSituation(value)}
-          >
-            <Option value="Утрачен ситуационный контроль">Утрачен ситуационный контроль</Option>
-            <Option value="Контроль не утрачен">Контроль не утрачен</Option>
-          </Select>
-        </Form.Item>
-      )}
+          <Option value="утрачен">Утрачен</Option>
+          <Option value="не утрачен">Не утрачен</Option>
+        </Select>
+      </Form.Item>
 
       <Button key="back" onClick={prevStep} style={{ width: '140px' }}>
         Назад
